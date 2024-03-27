@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Private">
+    </Filter>
+    <Filter Include="Public">
+    </Filter>
+    <Filter Include="AutomaticGeneration">
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../Source/Engine/dllmain.cpp">
+    </ClCompile>
+    <ClCompile Include="../../Source/Engine/Private/Engine.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="../../Source/Engine/Private/Timer.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="../Includes\Engine\Enginepch.cpp">
+      <Filter>AutomaticGeneration</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../../Source/Engine/Public/Engine.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="../../Source/Engine/Public/Timer.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="../Includes\Engine\Enginepch.h">
+      <Filter>AutomaticGeneration</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,10 @@
+{
+	"BuildOutput": "Library",
+	"LinkModuleName" : [
+	
+	],
+	"ExternalDllNames":[
+		],
+	"ExternalDllPaths":[
+		]
+}

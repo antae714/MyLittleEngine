@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="AutomaticGeneration">
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="../../Source/Contents/dllmain.cpp">
+    </ClCompile>
+    <ClCompile Include="../Includes\Contents\Contentspch.cpp">
+      <Filter>AutomaticGeneration</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="../Includes\Contents\Contentspch.h">
+      <Filter>AutomaticGeneration</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

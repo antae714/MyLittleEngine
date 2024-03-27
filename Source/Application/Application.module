@@ -1,0 +1,7 @@
+{
+	"BuildOutput": "Application",
+	"LinkModuleName":[
+		"Core",
+		"Engine"
+		]
+}
