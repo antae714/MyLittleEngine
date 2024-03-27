@@ -1,4 +1,3 @@
-#include "Rendererpch.h"
 #include "ConsoleRendererExample.h"
 #include <stdio.h>
 

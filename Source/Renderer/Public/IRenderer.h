@@ -20,7 +20,6 @@ public:
 
 	virtual void processWindowSizeChange() = 0;
 private:
-
 };
 
 
