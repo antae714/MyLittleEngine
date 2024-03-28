@@ -9,6 +9,7 @@ public:
 	ConsoleRenderer();
 
 public:
+	// Begin IRenderer Interface
 	virtual void Init();
 	virtual void EndPlay();
 
@@ -17,6 +18,7 @@ public:
 
 	virtual int GetWidth();
 	virtual int GetHeight();
+	// ~End IRenderer Interface
 
 	virtual void processWindowSizeChange();
 

@@ -23,6 +23,17 @@ public:
 	{
 	}
 
+	DynamicArray(std::initializer_list<ElementType>&& list) : data(nullptr), count(0), capacity(0)
+	{
+		for (auto& i : list)
+		{
+			Add(i);
+		}
+	}
+	//void operator=(std::initializer_list list)
+	//{
+
+	//}
 	~DynamicArray()
 	{
 		if (data == nullptr) return;
@@ -42,7 +53,7 @@ public:
 public:
 	/** 요소의 크기 (바이트) */
 	//static constexpr int ElementSize = sizeof(ElementType);
-	/** 
+	/**
 	 * @brief 요소의 크기를 반환 합니다.
 	 * @return 요소의 크기 (바이트)
 	 */
@@ -69,36 +80,138 @@ public:
 	ElementType& Insert(int index, VarType&&... value) { return _Insert(index, std::forward<VarType>(value)...); }
 
 	/**
+	 * @brief 배열에서 특정 요소를 제거합니다.
+	 * @param element 제거할 요소의 포인터입니다.
+	 * @throw std::out_of_range 요소의 위치가 배열의 유효한 범위를 벗어날 때 발생합니다.
+	 */
+	void Remove(ElementType* element)
+	{
+		if (element < begin() || end() < element) throw std::out_of_range("Index out of range");
+		element->~ElementType();
+
+		memcpy(element, element + 1, (end() - 1 - element) * GetTypeSize());
+		--count;
+	}
+
+	/**
+	 * @brief 배열에서 특정 범위의 요소를 제거합니다.
+	 * @param first 제거할 범위의 시작점을 가리키는 이터레이터입니다.
+	 * @param last 제거할 범위의 끝점을 가리키는 이터레이터입니다.
+	 */
+	void RemoveRange(Iterator first, Iterator last)
+	{
+		if (first < begin() || end() < last) throw std::out_of_range("Index out of range");
+
+		for (Iterator i = first; i != last; i++)
+		{
+			i->~ElementType();
+		}
+
+		memcpy(first, last, (end() - last) * GetTypeSize());
+		count -= (last - first);
+	}
+
+	/**
 	 * @brief 배열에서 특정 인덱스의 요소를 제거합니다.
 	 * @param index 제거할 요소의 인덱스입니다.
 	 */
 	void Remove(int index)
 	{
-		if (index >= count) throw std::out_of_range("Index out of range");
-
-		(data + index)->~ElementType();
-		memcpy(data + index, data + index + 1, (GetLastIndex() - index) * GetTypeSize());
-		--count;
-
-		//std::memcpy(data + index, data + index + 1, (count - index - 1) * ElementSize);
+		Remove(data + index);
 	}
 
 	/**
-	 * @brief 배열의 용량을 새로운 크기로 조정합니다.
-	 * @param newCapacity 새로운 용량입니다.
-	 * @return 용량 조정이 발생했는지 여부
+	 * @brief 배열에서 특정 조건을 만족하는 요소를 제거합니다.
+	 * @tparam Function 조건을 판별할 함수 객체 타입입니다.
+	 * @param function 조건을 판별하는 함수 객체입니다.
 	 */
-	bool ResizeCapacityIfNecessary(unsigned int newCapacit)
+	template<class Function>
+	void Remove(Function function)
 	{
-		if (data == nullptr || newCapacit > capacity)
+		ElementType* removeObj = Find(function);
+		if (removeObj)
 		{
-			ReSizeCapacity();
-			return true;
+			Remove(Find(function));
 		}
-		else
+	}
+
+	/**
+	 * @brief 배열에서 특정 조건을 만족하는 모든 요소를 제거합니다.
+	 * @tparam Function 조건을 판별할 함수 객체 타입입니다.
+	 * @param function 조건을 판별하는 함수 객체입니다.
+	 */
+	template<class Function>
+	void RemoveAll(Function function)
+	{
+		DynamicArray<ElementType*> deleteArray = FindAll(function);
+		for (size_t i = 0; i < deleteArray.GetCount(); i++)
 		{
-			return false;
+			Remove(deleteArray[i] - i);
 		}
+
+	}
+
+	/**
+	 * @brief 배열에서 특정 요소를 제거합니다.
+	 * @param element 제거할 요소의 레퍼런스입니다.
+	 */
+	void Remove(ElementType& element)
+	{
+		Remove([element](ElementType& _element) { return element == _element; });
+	}
+
+
+	Iterator Find(ElementType& element)
+	{
+		return Find([element](ElementType& _element) { return element == _element; });
+	}
+
+
+	/**
+	 * @brief 배열에서 특정 조건을 만족하는 첫 번째 요소를 찾습니다.
+	 * @tparam Function 조건을 판별할 함수 객체 타입입니다.
+	 * @param predicate 조건을 판별하는 함수 객체입니다.
+	 * @return 조건을 만족하는 첫 번째 요소를 가리키는 반복자입니다.
+	 */
+	template<class Function>
+	Iterator Find(Function predicate)
+	{
+		static_assert(std::is_invocable<Function, ElementType&>::value);
+		static_assert(!std::is_void<std::invoke_result<Function, ElementType&>::type>::value);
+
+		for (Iterator i = begin(); i != end(); i++)
+		{
+			if (predicate(*i))
+			{
+				return i;
+			}
+		}
+		return nullptr;
+	}
+
+	/**
+	 * @brief 배열에서 특정 조건을 만족하는 모든 요소를 찾아 동적 배열로 반환합니다.
+	 * @tparam Function 조건을 판별할 함수 객체 타입입니다.
+	 * @param predicate 조건을 판별하는 함수 객체입니다.
+	 * @return 조건을 만족하는 모든 요소를 담은 동적 배열입니다.
+	 */
+	template<class Function>
+	DynamicArray<ElementType*> FindAll(Function predicate)
+	{
+		static_assert(std::is_invocable<Function, ElementType&>::value);
+		static_assert(!std::is_void<std::invoke_result<Function, ElementType&>::type>::value);
+
+		DynamicArray<ElementType*> deleteArray;
+
+		for (Iterator i = begin(); i != end(); i++)
+		{
+			if (predicate(*i))
+			{
+				deleteArray.Add(i);
+			}
+		}
+
+		return deleteArray;
 	}
 
 	/**
@@ -106,13 +219,13 @@ public:
 	 * @param newCapacity 새로운 용량입니다.
 	 * @throw std::exception 메모리 할당 실패 시 예외를 던집니다.
 	 */
-	void ReSizeCapacity(unsigned int newCapacit = 0)
+	void ReSizeCapacity(unsigned int newCapacit, bool fitToCapacit = true)
 	{
-		PreResizeCapacity(newCapacit);
+		PreResizeCapacity(newCapacit, fitToCapacit);
 
 		ElementType* tempdata = data;
 		tempdata = (ElementType*)realloc(data, capacity * GetTypeSize());
-		if (tempdata == nullptr)
+		if (tempdata == nullptr && capacity)
 		{
 			tempdata = (ElementType*)malloc(capacity * GetTypeSize());
 			if (tempdata == nullptr) throw std::bad_alloc();
@@ -136,6 +249,38 @@ public:
 		//}
 		//delete data;
 		//data = tempdata;
+	}
+
+	/**
+	 * @brief 배열을 초기화 합니다.
+	 */
+	void Clear()
+	{
+		ReSizeCapacity(0);
+	}
+
+
+	bool IsContains(ElementType* element)
+	{
+
+	}
+
+	/**
+	 * @brief 배열의 용량을 새로운 크기로 조정합니다.
+	 * @param newCapacity 새로운 용량입니다.
+	 * @return 용량 조정이 발생했는지 여부
+	 */
+	bool ResizeCapacityIfNecessary(unsigned int newCapacit)
+	{
+		if (data == nullptr || newCapacit > capacity)
+		{
+			ReSizeCapacity(newCapacit);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 private:
@@ -190,20 +335,16 @@ private:
 			return *(data + index);
 		}
 	}
+
+
 	/**
 	 * @brief 배열의 용량을 조정하기 전에 필요한 작업을 수행합니다.
 	 * @param newCapacity 새로운 용량입니다.
 	 *                    지정된 경우 해당 용량으로 용량을 조정하고, 그렇지 않으면 현재 용량의 2배를 사용합니다.
 	 */
-	void PreResizeCapacity(unsigned int newCapacit)
+	void PreResizeCapacity(unsigned int newCapacit, bool fitToCapacit = true)
 	{
-		if (data == nullptr)
-		{
-			capacity = newCapacit ? newCapacit : 1;
-			return;
-		}
-
-		if (newCapacit && capacity > newCapacit)
+		if (capacity > (int)newCapacit)
 		{
 			count = newCapacit;
 			for (size_t i = newCapacit; i < capacity - 1; i++)
@@ -212,7 +353,10 @@ private:
 			}
 		}
 
-		capacity = newCapacit ? newCapacit : capacity << 1;
+		do
+		{
+			capacity = fitToCapacit ? newCapacit : capacity << 1;
+		} while (capacity < newCapacit);
 	}
 
 public:
@@ -260,3 +404,5 @@ private:
 	unsigned int capacity;
 
 };
+
+

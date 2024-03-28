@@ -21,7 +21,7 @@ Vector g_Player = { 0,0 };
 COORD g_Player_MoveVec = { 0,0 };
 float g_Speed = 0.25f;
 
-Engine::Engine() : timer(nullptr), mainWorld(nullptr), bIsEngineRun(false), fixedTimeStep(0.0), accumulatedFixedTime(0.0)
+Engine::Engine() : timer(nullptr), mainWorld(nullptr), isEngineRun(false), fixedTimeStep(0.0), accumulatedFixedTime(0.0)
 {
 
 }
@@ -43,13 +43,13 @@ Engine::~Engine()
 void Engine::Run()
 {
 	Initialize();
-	bIsEngineRun = true;
+	isEngineRun = true;
 	EngineLoop();
 }
 
 bool Engine::IsEngineRun()
 {
-	return bIsEngineRun;
+	return isEngineRun;
 }
 
 void Engine::Initialize()
@@ -123,7 +123,7 @@ void Engine::ProcessInput()
 	}
 	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 	{ //Á¾·á
-		bIsEngineRun = false;
+		isEngineRun = false;
 	}
 }
 

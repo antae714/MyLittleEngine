@@ -1,6 +1,19 @@
-
 #pragma once
 
-class GameObject
+#include "Containers/String.h"
+
+class COREMODULEAPI GameObject
 {
+public:
+	GameObject()
+	{
+	}
+
+	~GameObject()
+	{
+	}
+
+
+private:
+	String name;
 };

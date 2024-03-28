@@ -32,7 +32,7 @@ private:
 
 private:
 	/** 엔진이 실행중인지 여부 입니다. */
-	bool bIsEngineRun;
+	bool isEngineRun;
 
 	/** 게임을 위한 시간측정 클래스 입니다. */
 	class Timer* timer;
