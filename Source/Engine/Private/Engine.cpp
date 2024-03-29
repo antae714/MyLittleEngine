@@ -21,7 +21,7 @@ Vector g_Player = { 0,0 };
 COORD g_Player_MoveVec = { 0,0 };
 float g_Speed = 0.25f;
 
-Engine::Engine() : timer(nullptr), mainWorld(nullptr), isEngineRun(false), fixedTimeStep(0.0), accumulatedFixedTime(0.0)
+Engine::Engine() : timer(nullptr), mainWorld(nullptr), isEngineRunning(false), fixedTimeStep(0.0), accumulatedFixedTime(0.0)
 {
 
 }
@@ -43,28 +43,20 @@ Engine::~Engine()
 void Engine::Run()
 {
 	Initialize();
-	isEngineRun = true;
+	isEngineRunning = true;
 	EngineLoop();
 }
 
 bool Engine::IsEngineRun()
 {
-	return isEngineRun;
+	return isEngineRunning;
 }
 
 void Engine::Initialize()
 {
-
-
-
-
-
-
 	timer = new Timer();
 	mainWorld = new World();
 	renderer = new ConsoleRenderer();
-	renderer->Init();
-	ConsoleRendererExample::ScreenInit();
 
 	engineStartTime = timer->_GetCurrentTime();
 	fixedTimeStep = 1.0 / 60.0 * 1000.0;
@@ -94,6 +86,8 @@ void Engine::EngineLoop()
 
 void Engine::BeginPlay()
 {
+	renderer->Init();
+	ConsoleRendererExample::ScreenInit();
 	timer->Init();
 }
 
@@ -104,6 +98,8 @@ void Engine::UpdateTime()
 
 void Engine::ProcessInput()
 {
+	mainWorld->ProcessInput();
+
 	g_Player_MoveVec = { 0,0 };
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{ //왼쪽
@@ -123,21 +119,21 @@ void Engine::ProcessInput()
 	}
 	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
 	{ //종료
-		isEngineRun = false;
+		isEngineRunning = false;
 	}
 }
 
 void Engine::FixedUpdate()
 {
+
 	double deltaTime = timer->GetDeltaTime();
 	deltaTime += accumulatedFixedTime;
 
 	while (deltaTime > 0.0)
 	{
+		mainWorld->FixedUpdate(fixedTimeStep);
+
 		++fixedUpdateCount;
-		/*
-		픽스드 업데이트 하는 내용
-		*/
 		deltaTime -= fixedTimeStep;
 
 
@@ -157,15 +153,7 @@ void Engine::FixedUpdate()
 void Engine::Update()
 {
 	updateCount++;
-
-	//g_Player.x += g_Player_MoveVec.X * timer->GetDeltaTime() * g_Speed;
-	//g_Player.y += g_Player_MoveVec.Y * timer->GetDeltaTime() * g_Speed;
-
-	//if (g_Player.x < 0) g_Player.x = 0;
-	//if (g_Player.x >= ConsoleRenderer::ScreenWidth()) g_Player.x = ConsoleRenderer::ScreenWidth() - 1;
-	//if (g_Player.y < 0) g_Player.y = 0;
-	//if (g_Player.y >= ConsoleRenderer::ScreenHeight()) g_Player.y = ConsoleRenderer::ScreenHeight() - 1;
-
+	mainWorld->UpdateWorld(timer->GetDeltaTime());
 }
 
 void Engine::Render()
@@ -183,12 +171,6 @@ void Engine::Render()
 	consoleRenderer->BufferClear();
 	consoleRenderer->SetChar(g_Player.x, g_Player.y, 'P', FG_WHITE);
 	consoleRenderer->BufferChange();
-
-	return;
-	ConsoleRendererExample::ScreenClear();
-	ConsoleRendererExample::ScreenSetString(0, 0, "Hello 안녕", FG_PINK_DARK);
-	ConsoleRendererExample::ScreenSetChar(g_Player.x, g_Player.y, 'P', FG_WHITE);
-	ConsoleRendererExample::ScreenFlipping();
 }
 
 void Engine::EndPlay()
