@@ -10,7 +10,7 @@
  * @tparam ElementType 배열에 저장되는 요소의 타입입니다.
  */
 template <class ElementType>
-class DynamicArray
+class COREMODULEAPI DynamicArray
 {
 public:
 	using Iterator = ElementType*;

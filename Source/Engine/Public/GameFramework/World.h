@@ -35,3 +35,7 @@ private:
 	String name;
 };
 
+//World* WorldFactory()
+//{
+//
+//}

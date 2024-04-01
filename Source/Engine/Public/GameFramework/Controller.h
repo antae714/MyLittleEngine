@@ -1,25 +1,29 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Containers/DynamicArray.h"
+#include "functional"
 
-#ifdef IF_USE_STL...
-class InputData
+
+template <class T>
+class InputDelegate;
+template <class Ret, class... Arg>
+class InputDelegate <Ret(Arg...)>
 {
 public:
-	template<class ClASS, class Function>
-	void bind(ClASS* obj, Function _fn)
+	template <class _FunctionType>
+	InputDelegate(_FunctionType&& function) : delegatefn(std::forward<_FunctionType>(function))
 	{
-		fn = [obj, _fn]() { invoke(_fn, obj); };
+
 	}
-	template<class ClASS, class Function>
-	void bind(shared_ptr<ClASS> obj, Function _fn)
+	virtual void Call(Arg... arg)
 	{
-		fn = [obj, _fn]() { invoke(_fn, obj); };
+		delegatefn(std::forward<Arg>(arg)...);
 	}
-	function<void()> fn;
+	int keyCode = 0;
+	std::function<Ret(Arg...)> delegatefn;
 };
 
-#endif // IF_USE_STL...
 
 class Pawn;
 
@@ -38,15 +42,32 @@ public:
 
 
 	template<class T>
-	T* getPawn();
+	T* getPawn() { return (T*)getPawn(); }
+
+	template <class Function, class... Arg>
+	void bind(int inputid, Function _fuction, Arg&&... args)
+	{
+		auto temp = [_fuction, args...]() { invoke(_fuction, args...); };
+		input.Add(InputDelegate<void()>(temp));
+		input.Back()->keyCode = inputid;
+	}
+
+	template <class Function, class... Arg>
+	void bindAxis(int inputid, Function _fuction, Arg&&... args)
+	{
+		auto temp = [_fuction, args...](float axis) { invoke(_fuction, args..., axis); };
+		Axisinput.Add(InputDelegate<void(float)>(temp));
+		Axisinput.Back()->keyCode = inputid;
+	}
+
+	void Exec(int execKeyCode, float value);
+
 
 
 private:
 	Pawn* pawn;
+	DynamicArray<InputDelegate<void()>> input;
+	DynamicArray<InputDelegate<void(float)>> Axisinput;
 };
 
-template<class T>
-inline T* Controller::getPawn()
-{
-	return (T*)getPawn();
-}
+
