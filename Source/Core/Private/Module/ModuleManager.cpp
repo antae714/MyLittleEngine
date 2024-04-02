@@ -17,6 +17,7 @@ ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 		{
 			ModuleBase* RetunModule = MyFunct();
 			RetunModule->ModuleHandle = DllHandle;
+			RetunModule->StartUpModule();
 			return RetunModule;
 		}
 
@@ -28,6 +29,8 @@ void ModuleManager::UnLoadModule(ModuleBase*& Module)
 {
 	if constexpr (!_DEBUG) return;
 	if (!Module) return;
+	Module->ShotDownModule();
+
 	FreeLibrary(Module->ModuleHandle);
 	if (Module)
 	{

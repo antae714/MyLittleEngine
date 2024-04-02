@@ -10,7 +10,7 @@
  * @tparam ElementType 배열에 저장되는 요소의 타입입니다.
  */
 template <class ElementType>
-class COREMODULEAPI DynamicArray
+class __declspec(dllexport) DynamicArray
 {
 public:
 	using Iterator = ElementType*;
@@ -126,13 +126,15 @@ public:
 	 * @param function 조건을 판별하는 함수 객체입니다.
 	 */
 	template<class Function>
-	void Remove(Function function)
+	bool Remove(Function function)
 	{
 		ElementType* removeObj = Find(function);
 		if (removeObj)
 		{
-			Remove(Find(function));
+			Remove(removeObj);
 		}
+		return !!removeObj;
+
 	}
 
 	/**
@@ -176,8 +178,8 @@ public:
 	template<class Function>
 	Iterator Find(Function predicate)
 	{
-		static_assert(std::is_invocable<Function, ElementType&>::value);
-		static_assert(!std::is_void<std::invoke_result<Function, ElementType&>::type>::value);
+		static_assert(std::is_invocable<Function, ElementType&>::value, "함수 시그니처가 다릅니다.");
+		static_assert(!std::is_void<std::invoke_result<Function, ElementType&>::type>::value, "반환값이 없습니다.");
 
 		for (Iterator i = begin(); i != end(); i++)
 		{
@@ -198,8 +200,8 @@ public:
 	template<class Function>
 	DynamicArray<ElementType*> FindAll(Function predicate)
 	{
-		static_assert(std::is_invocable<Function, ElementType&>::value);
-		static_assert(!std::is_void<std::invoke_result<Function, ElementType&>::type>::value);
+		static_assert(std::is_invocable<Function, ElementType&>::value, "함수 시그니처가 다릅니다.");
+		static_assert(!std::is_void<std::invoke_result<Function, ElementType&>::type>::value, "반환값이 없습니다.");
 
 		DynamicArray<ElementType*> deleteArray;
 

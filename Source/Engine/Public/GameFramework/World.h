@@ -34,8 +34,3 @@ private:
 	DynamicArray<Level*> subLevels;
 	String name;
 };
-
-//World* WorldFactory()
-//{
-//
-//}

@@ -2,7 +2,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Containers/DynamicArray.h"
-#include "functional"
+#include "Template/Function.h"
 
 
 template <class T>
@@ -21,7 +21,7 @@ public:
 		delegatefn(std::forward<Arg>(arg)...);
 	}
 	int keyCode = 0;
-	std::function<Ret(Arg...)> delegatefn;
+	Function<Ret(Arg...)> delegatefn;
 };
 
 
@@ -48,7 +48,7 @@ public:
 	void bind(int inputid, Function _fuction, Arg&&... args)
 	{
 		auto temp = [_fuction, args...]() { invoke(_fuction, args...); };
-		input.Add(InputDelegate<void()>(temp));
+		input.Add(temp);
 		input.Back()->keyCode = inputid;
 	}
 
@@ -56,7 +56,7 @@ public:
 	void bindAxis(int inputid, Function _fuction, Arg&&... args)
 	{
 		auto temp = [_fuction, args...](float axis) { invoke(_fuction, args..., axis); };
-		Axisinput.Add(InputDelegate<void(float)>(temp));
+		Axisinput.Add(temp);
 		Axisinput.Back()->keyCode = inputid;
 	}
 

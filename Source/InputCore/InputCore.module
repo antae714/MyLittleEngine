@@ -1,8 +1,6 @@
 {
 	"BuildOutput": "Library",
 	"LinkModuleName" : [
-		"Core",
-		"Renderer",
-		"InputCore"
+		"Core"
 	]
 }

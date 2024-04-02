@@ -21,7 +21,7 @@ void World::BeginPlay()
 
 void World::ProcessInput()
 {
-	WorldSettings*  worldSetting = mainLevel->getWorldSettings();
+	WorldSettings* worldSetting = mainLevel->getWorldSettings();
 	worldSetting->playerController->processInput();
 }
 
@@ -68,7 +68,7 @@ void World::RemoveLevel(Level* level)
 
 void World::AddLevelByName(String LevelName)
 {
-	//리소스 매니저 추가후 구현
+
 }
 
 void World::RemoveLevelByName(String LevelName)

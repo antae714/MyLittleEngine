@@ -64,7 +64,7 @@ private:
 	/** 메인 월드 */
 	class World* mainWorld;
 	// 툴이 만들어질때 월드를 늘립니다.
-	class InputProcessor* inputProcessor;
+	class IInputProcessor* inputProcessor;
 
 	/** 렌더러 */
 	class IRenderer* renderer;

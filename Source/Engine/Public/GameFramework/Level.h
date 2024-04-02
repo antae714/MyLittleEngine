@@ -3,7 +3,7 @@
 #include "Containers/DynamicArray.h"
 #include "Containers/String.h"
 #include "GameFramework/WorldSettings.h"
-
+#include "Template/Factory.h"
 
 class ENGINEMODULEAPI Level
 {
@@ -27,3 +27,4 @@ private:
 	String name;
 };
 
+class ENGINEMODULEAPI LevelFactory : public Factory<Level, String> {};

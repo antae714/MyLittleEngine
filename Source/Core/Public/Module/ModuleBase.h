@@ -10,8 +10,8 @@ class COREMODULEAPI ModuleBase
 public:
 	HMODULE ModuleHandle;
 
-
-
+	virtual void StartUpModule();
+	virtual void ShotDownModule();
 };
 
 
@@ -28,3 +28,12 @@ extern "C"												\
 }														\
 
 
+#define DEFINE_MODULE(Name)								\
+class Name##Module;										\
+extern "C"												\
+{														\
+	__declspec(dllexport) ModuleBase* getModule()		\
+	{													\
+		return new Name##Module();						\
+	}													\
+}														\

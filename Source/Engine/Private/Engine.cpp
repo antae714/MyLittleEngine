@@ -5,6 +5,7 @@
 #include "Module/ModuleBase.h"
 #include "ConsoleRendererExample.h"
 #include "ConsoleRenderer.h"
+#include "IInputProcessor.h"
 
 
 #include "iostream"
@@ -57,6 +58,7 @@ void Engine::Initialize()
 	timer = new Timer();
 	mainWorld = new World();
 	renderer = new ConsoleRenderer();
+	inputProcessor = InputProcessorFactory::Get("window");
 
 	engineStartTime = timer->_GetCurrentTime();
 	fixedTimeStep = 1.0 / 60.0 * 1000.0;
@@ -98,6 +100,7 @@ void Engine::UpdateTime()
 
 void Engine::ProcessInput()
 {
+	inputProcessor->ProcessInput();
 	mainWorld->ProcessInput();
 
 	g_Player_MoveVec = { 0,0 };
