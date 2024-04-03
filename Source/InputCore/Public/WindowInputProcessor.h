@@ -1,10 +1,13 @@
 #pragma once
 #include "IInputProcessor.h"
 
+/**
+ * @brief Window OS에서 인풋을 처리하는 객체입니다.
+ */
 class INPUTCOREMODULEAPI WindowInputProcessor : public IInputProcessor
 {
 public:
-	// 윈도우로부터 입력을 처리하는 구조체
+	/** 윈도우로부터 입력을 처리하는 구조체 */
 	struct WindowInput
 	{
 		// Window VKKeycode
@@ -19,10 +22,10 @@ public:
 	// ~End IInputProcessor Interface
 
 private:
-	// 등록된 키코드만 입력 처리하는 배열
+	/** 등록된 키코드만 입력 처리하는 배열 */
 	DynamicArray<WindowInput> windowInputArray;
 
-	// 엔진에서 사용할 데이터 배열
+	/** 엔진에서 사용할 데이터 배열 */
 	DynamicArray<EngineInput> engineInputArray;
 };
 

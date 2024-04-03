@@ -1,5 +1,14 @@
 #pragma once
-class ENGINEMODULEAPI Character
+
+#include "GameFramework/Pawn.h"
+
+class ENGINEMODULEAPI Character : public Pawn
 {
+public:
+	Character();
+	virtual ~Character();
+
+private:
+
 };
 

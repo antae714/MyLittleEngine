@@ -13,7 +13,7 @@ void main()
 	ModuleBase* CoreModule = ModuleManager::LoadModule((L"Core.dll"));
 	ModuleBase* InputCoreModule = ModuleManager::LoadModule((L"InputCore.dll"));
 	ModuleBase* RendererModule = ModuleManager::LoadModule((L"Renderer.dll"));
-	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"Contents.dll"));
+	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"ConsoleGame.dll"));
 	
 	Engine engine;
 	engine.Run();

@@ -31,7 +31,7 @@ class ENGINEMODULEAPI Controller : public Actor
 {
 public:
 	Controller();
-	~Controller();
+	virtual ~Controller();
 
 public:
 	//void BindInput();

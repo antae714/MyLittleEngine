@@ -2,6 +2,7 @@
 
 void WindowInputProcessor::ProcessInput()
 {
+	// 윈도우 인풋을 모두 엔진에맞는 입력으로 바꿉니다.
 	for (auto& item : windowInputArray)
 	{
 		String& KeyName = item.KeyName;

@@ -5,7 +5,7 @@ class ENGINEMODULEAPI Engine
 {
 public:
 	Engine();
-	~Engine();
+	virtual ~Engine();
 
 public:
 	/** 엔진 시작 */
