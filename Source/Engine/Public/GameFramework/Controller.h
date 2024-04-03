@@ -35,7 +35,7 @@ public:
 
 public:
 	//void BindInput();
-	void processInput();
+	void processInput(DynamicArray<struct EngineInput>* inputs);
 
 	Pawn* getPawn();
 	void setPawn(Pawn* _pawn);

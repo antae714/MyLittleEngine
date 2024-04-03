@@ -14,13 +14,13 @@ public:
 public:
 
 	void BeginPlay();
-	void ProcessInput();
 	void FixedUpdate(float fixedTickTime);
 	void UpdateWorld(float tickTime);
 	void EndPlay();
 
 	void SetMainLevel(Level* mainLevel);
 	Level* GetMainLevel();
+	class WorldSettings* getWorldSettings();
 
 	void AddLevel(Level* level);
 	void RemoveLevel(Level* level);

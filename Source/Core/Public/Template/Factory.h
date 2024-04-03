@@ -14,6 +14,9 @@ template <class Type, class Key>
 class Factory
 {
 public:
+	Factory() = delete;
+
+public:
 	struct TypeElement
 	{
 		Type* value;

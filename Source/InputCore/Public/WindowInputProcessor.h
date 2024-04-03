@@ -15,7 +15,7 @@ public:
 
 	// Begin IInputProcessor Interface
 	virtual void ProcessInput() override;
-	virtual const DynamicArray<EngineInput>& getEngineInputArray() override;
+	virtual DynamicArray<EngineInput>* getEngineInputArray() override;
 	// ~End IInputProcessor Interface
 
 private:

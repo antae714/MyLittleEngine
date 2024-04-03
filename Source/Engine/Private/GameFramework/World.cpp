@@ -2,12 +2,13 @@
 #include "GameFramework/Level.h"
 #include "GameFramework/Actor.h"
 
-World::World()
+World::World() : mainLevel(nullptr)
 {
 }
 
 World::~World()
 {
+	if (mainLevel) delete mainLevel;
 	for (auto& i : subLevels)
 	{
 		delete i;
@@ -17,12 +18,11 @@ World::~World()
 
 void World::BeginPlay()
 {
-}
-
-void World::ProcessInput()
-{
-	WorldSettings* worldSetting = mainLevel->getWorldSettings();
-	worldSetting->playerController->processInput();
+	if (!mainLevel)
+	{
+		mainLevel = LevelFactory::Get("Deafault");
+		mainLevel->BeginPlay();
+	}
 }
 
 void World::FixedUpdate(float fixedTickTime)
@@ -51,6 +51,11 @@ void World::SetMainLevel(Level* _mainLevel)
 Level* World::GetMainLevel()
 {
 	return mainLevel;
+}
+
+WorldSettings* World::getWorldSettings()
+{
+	return mainLevel->getWorldSettings();
 }
 
 void World::AddLevel(Level* level)

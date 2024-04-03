@@ -1,5 +1,6 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/Pawn.h"
+#include "EngineInput.h"
 
 
 Controller::Controller()
@@ -10,13 +11,14 @@ Controller::~Controller()
 {
 }
 
-void Controller::processInput()
+void Controller::processInput(DynamicArray<EngineInput>* inputs)
 {
+
 }
 
 Pawn* Controller::getPawn()
 {
-    return pawn;
+	return pawn;
 }
 
 void Controller::setPawn(Pawn* _pawn)

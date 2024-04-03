@@ -6,7 +6,7 @@
 
 ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 {
-	if constexpr (!_DEBUG) return nullptr;
+
 
 	using GetModuleFN = ModuleBase*(*)();
 	HMODULE DllHandle = LoadLibrary(ModuleName);
@@ -27,9 +27,9 @@ ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 
 void ModuleManager::UnLoadModule(ModuleBase*& Module)
 {
-	if constexpr (!_DEBUG) return;
 	if (!Module) return;
 	Module->ShotDownModule();
+	
 
 	FreeLibrary(Module->ModuleHandle);
 	if (Module)

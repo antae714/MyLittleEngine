@@ -6,6 +6,7 @@
 #include "ConsoleRendererExample.h"
 #include "ConsoleRenderer.h"
 #include "IInputProcessor.h"
+#include "GameFramework/WorldSettings.h"
 
 
 #include "iostream"
@@ -91,6 +92,8 @@ void Engine::BeginPlay()
 	renderer->Init();
 	ConsoleRendererExample::ScreenInit();
 	timer->Init();
+
+	mainWorld->BeginPlay();
 }
 
 void Engine::UpdateTime()
@@ -101,7 +104,8 @@ void Engine::UpdateTime()
 void Engine::ProcessInput()
 {
 	inputProcessor->ProcessInput();
-	mainWorld->ProcessInput();
+	WorldSettings* worldSetting = mainWorld->getWorldSettings();
+	worldSetting->playerController->processInput(inputProcessor->getEngineInputArray());
 
 	g_Player_MoveVec = { 0,0 };
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)

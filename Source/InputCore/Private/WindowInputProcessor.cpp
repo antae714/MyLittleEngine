@@ -10,7 +10,7 @@ void WindowInputProcessor::ProcessInput()
 	}
 }
 
-const DynamicArray<EngineInput>& WindowInputProcessor::getEngineInputArray()
+DynamicArray<EngineInput>* WindowInputProcessor::getEngineInputArray()
 {
-	return engineInputArray;
+	return &engineInputArray;
 }

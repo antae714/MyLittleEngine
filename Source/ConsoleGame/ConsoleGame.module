@@ -1,6 +1,7 @@
 {
 	"BuildOutput": "Library",
 	"LinkModuleName":[
-		"Core"
+		"Core",
+		"Engine"
 		]
 }

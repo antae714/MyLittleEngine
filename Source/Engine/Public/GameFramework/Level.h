@@ -2,7 +2,6 @@
 
 #include "Containers/DynamicArray.h"
 #include "Containers/String.h"
-#include "GameFramework/WorldSettings.h"
 #include "Template/Factory.h"
 
 class ENGINEMODULEAPI Level
@@ -10,11 +9,13 @@ class ENGINEMODULEAPI Level
 public:
 	Level();
 	~Level();
-public:
+public:	
+	void BeginPlay();
 	void UpdateLevel(float TickTime);
-
+	void EndPlay();
+	
 	String GetName() { return name; }
-	WorldSettings* getWorldSettings();
+	class WorldSettings* getWorldSettings();
 
 	void AddGameObject(class Actor* actor);
 	void RemoveGameObject(class Actor* actor);
