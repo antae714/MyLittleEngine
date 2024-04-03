@@ -1,6 +1,5 @@
 #include "GameFramework/World.h"
 #include "GameFramework/Level.h"
-#include "GameFramework/Actor.h"
 
 World::World() : mainLevel(nullptr)
 {
@@ -21,15 +20,15 @@ void World::BeginPlay()
 	if (!mainLevel)
 	{
 		mainLevel = LevelFactory::Get("Deafault");
-		mainLevel->BeginPlay();
 	}
+	mainLevel->BeginPlay();
 }
 
 void World::FixedUpdate(float fixedTickTime)
 {
 }
 
-void World::UpdateWorld(float TickTime)
+void World::Update(float TickTime)
 {
 	mainLevel->UpdateLevel(TickTime);
 

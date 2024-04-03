@@ -1,7 +1,6 @@
 #include "Engine.h"
 #include "timer.h"
 #include "GameFramework/World.h"
-#include "GameFramework/Level.h"
 #include "Module/ModuleBase.h"
 #include "ConsoleRendererExample.h"
 #include "ConsoleRenderer.h"
@@ -160,7 +159,7 @@ void Engine::FixedUpdate()
 void Engine::Update()
 {
 	updateCount++;
-	mainWorld->UpdateWorld(timer->GetDeltaTime());
+	mainWorld->Update(timer->GetDeltaTime());
 }
 
 void Engine::Render()

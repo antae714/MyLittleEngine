@@ -1,5 +1,6 @@
 ﻿#include "Module/ModuleBase.h"
 #include "GameFramework/Level.h"
+#include "ConsoleGameLevel.h"
 
 class ConsoleGameModule : public ModuleBase
 {
@@ -18,7 +19,7 @@ void ConsoleGameModule::StartUpModule()
 	if (LevelFactory::Get(swapLevelName))
 	{
 		LevelFactory::Remove(swapLevelName);
-		LevelFactory::Add(swapLevelName, new Level());
+		LevelFactory::Add(swapLevelName, new ConsoleGameLevel());
 	}
 }
 

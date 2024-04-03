@@ -25,7 +25,10 @@ void Level::BeginPlay()
 	{
 		worldSettings = new WorldSettings();
 	}
-
+	for (auto& item : actors)
+	{
+		item->BeginPlay();
+	}
 }
 
 void Level::UpdateLevel(float TickTime)
@@ -38,6 +41,10 @@ void Level::UpdateLevel(float TickTime)
 
 void Level::EndPlay()
 {
+	for (auto& item : actors)
+	{
+		item->EndPlay();
+	}
 }
 
 WorldSettings* Level::getWorldSettings()
@@ -45,12 +52,12 @@ WorldSettings* Level::getWorldSettings()
 	return worldSettings;
 }
 
-void Level::AddGameObject(Actor* gameObject)
+void Level::AddActor(Actor* gameObject)
 {
 	actors.Add(gameObject);
 }
 
-void Level::RemoveGameObject(Actor* gameobject)
+void Level::RemoveActor(Actor* gameobject)
 {
 	DynamicArray<class Actor*>::Iterator foundIter = actors.Find(gameobject);
 	Actor* foundGameObject = *foundIter;
