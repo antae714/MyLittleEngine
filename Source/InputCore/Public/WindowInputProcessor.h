@@ -10,15 +10,16 @@ public:
 	/** 윈도우로부터 입력을 처리하는 구조체 */
 	struct WindowInput
 	{
-		// Window VKKeycode
-		int KeyCode;
+		// Window VKeycode
+		int VKeyCode;
 		// VKKeycode에 해당하는 이름
 		String KeyName;
 	};
 
 	// Begin IInputProcessor Interface
+	virtual void Init() override;
 	virtual void ProcessInput() override;
-	virtual DynamicArray<EngineInput>* getEngineInputArray() override;
+	virtual class InputSettings* getEngineInputArray() override;
 	// ~End IInputProcessor Interface
 
 private:
@@ -26,6 +27,6 @@ private:
 	DynamicArray<WindowInput> windowInputArray;
 
 	/** 엔진에서 사용할 데이터 배열 */
-	DynamicArray<EngineInput> engineInputArray;
+	class InputSettings* inputSettings;
 };
 

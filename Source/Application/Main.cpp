@@ -4,11 +4,13 @@
 
 #include <process.h>
 
+#include <stdio.h>
 
 
 
 void main() 
 {
+	
 	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 	ModuleBase* CoreModule = ModuleManager::LoadModule((L"Core.dll"));
 	ModuleBase* InputCoreModule = ModuleManager::LoadModule((L"InputCore.dll"));

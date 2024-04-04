@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Containers/String.h"
-#include "Containers/DynamicArray.h"
 #include "Template/Factory.h"
-#include "EngineInput.h"
 
 
 /**
@@ -14,6 +12,7 @@
 class INPUTCOREMODULEAPI IInputProcessor
 {
 public:
+	virtual void Init() = 0;
 	/** os의 인풋을 처리합니다. */
 	virtual void ProcessInput() = 0;
 
@@ -21,7 +20,7 @@ public:
      * @brief 처리된 인풋을 반환합니다.
      * @return 처리된 인풋을 담고 있는 동적 배열
      */
-	virtual DynamicArray<EngineInput>* getEngineInputArray() = 0;
+	virtual class InputSettings* getEngineInputArray() = 0;
 };
 
 class INPUTCOREMODULEAPI InputProcessorFactory : public Factory<IInputProcessor, String> { };

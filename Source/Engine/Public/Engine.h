@@ -20,6 +20,8 @@ public:
 	/** 엔진 초기화 */
 	void Initialize();
 
+	class InputSettings* GetInputSetting();
+
 private:
 	/** 엔진 메인 루프 */
 	void EngineLoop();
@@ -77,3 +79,4 @@ private:
 	int fixedUpdateCount;
 };
 
+class Engine* GEngine;

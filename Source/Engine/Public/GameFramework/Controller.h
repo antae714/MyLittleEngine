@@ -2,7 +2,9 @@
 
 #include "GameFramework/Actor.h"
 #include "Containers/DynamicArray.h"
+#include "Containers/String.h"
 #include "Template/Function.h"
+#include "InputSettings.h"
 
 
 template <class T>
@@ -35,39 +37,54 @@ public:
 
 public:
 	//void BindInput();
-	void processInput(DynamicArray<struct EngineInput>* inputs);
+	void processInput(class InputSettings* inputs);
 
-	Pawn* getPawn();
-	void setPawn(Pawn* _pawn);
+	void Possess(Pawn* _pawn);
+	void UnPossess();
 
 
 	template<class T>
 	T* getPawn() { return (T*)getPawn(); }
+	Pawn* getPawn();
+
 
 	template <class Function, class... Arg>
-	void bind(int inputid, Function _fuction, Arg&&... args)
+	void bind(String inputName, Function _fuction, Arg&&... args)
 	{
 		auto temp = [_fuction, args...]() { invoke(_fuction, args...); };
 		input.Add(temp);
-		input.Back()->keyCode = inputid;
+		DynamicArray<InputData>* inputs = GEngine->GetInputSetting()->getInputData();
+		InputData* iter = inputs->Find([inputName](InputData& data) { data.KeyName == inputName; });
+
+		int index = iter - inputs->begin();
+
+
+		Axisinput.Back()->keyCode = index;
 	}
 
 	template <class Function, class... Arg>
-	void bindAxis(int inputid, Function _fuction, Arg&&... args)
+	void bindAxis(String inputName, Function _fuction, Arg&&... args)
 	{
 		auto temp = [_fuction, args...](float axis) { invoke(_fuction, args..., axis); };
 		Axisinput.Add(temp);
-		Axisinput.Back()->keyCode = inputid;
+		DynamicArray<InputData>* inputs = GEngine->GetInputSetting()->getInputData();
+		InputData* iter = inputs->Find([inputName](InputData& data) { data.KeyName == inputName; });
+		
+		int index = iter - inputs->begin();
+
+
+		Axisinput.Back()->keyCode = index;
 	}
 
 	void Exec(int execKeyCode, float value);
 
 
 
-private:
+protected:
 	Pawn* pawn;
 	DynamicArray<InputDelegate<void()>> input;
 	DynamicArray<InputDelegate<void(float)>> Axisinput;
+
 };
 
 

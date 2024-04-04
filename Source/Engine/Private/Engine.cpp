@@ -22,23 +22,27 @@ Vector g_Player = { 0,0 };
 COORD g_Player_MoveVec = { 0,0 };
 float g_Speed = 0.25f;
 
-Engine::Engine() : timer(nullptr), mainWorld(nullptr), isEngineRunning(false), fixedTimeStep(0.0), accumulatedFixedTime(0.0)
+Engine::Engine() : 
+	timer(nullptr), 
+	mainWorld(nullptr),
+	renderer(nullptr), 
+	inputProcessor(nullptr),
+	isEngineRunning(false),
+	fixedTimeStep(0.0), 
+	accumulatedFixedTime(0.0)
 {
-
+	_ASSERT(!GEngine);
+	GEngine = this;
 }
 
 Engine::~Engine()
 {
-	if (timer)
-	{
-		delete timer;
-		timer = nullptr;
-	}
-	if (mainWorld)
-	{
-		delete mainWorld;
-		mainWorld = nullptr;
-	}
+	if (timer) delete timer;
+	if (mainWorld) delete mainWorld;
+	if (renderer) delete renderer;
+	if (inputProcessor) delete inputProcessor;
+
+
 }
 
 void Engine::Run()
@@ -60,6 +64,7 @@ void Engine::Initialize()
 	renderer = new ConsoleRenderer();
 	inputProcessor = InputProcessorFactory::Get("window");
 
+
 	engineStartTime = timer->_GetCurrentTime();
 	fixedTimeStep = 1.0 / 60.0 * 1000.0;
 	testTime = 0;
@@ -67,6 +72,11 @@ void Engine::Initialize()
 	updateCount = 0;
 	//ModuleBase* CoreModule = ModuleManager::LoadModule((L"Core.dll"));
 	//ModuleBase* ContentsModule = ModuleManager::LoadModule((L"Contents.dll"));
+}
+
+InputSettings* Engine::GetInputSetting()
+{
+	return inputProcessor->getEngineInputArray();
 }
 
 void Engine::EngineLoop()
@@ -91,6 +101,8 @@ void Engine::BeginPlay()
 	renderer->Init();
 	ConsoleRendererExample::ScreenInit();
 	timer->Init();
+	inputProcessor->Init();
+
 
 	mainWorld->BeginPlay();
 }

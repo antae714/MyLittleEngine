@@ -2,6 +2,7 @@
 	"BuildOutput": "Library",
 	"LinkModuleName":[
 		"Core",
-		"Engine"
+		"Engine",
+		"InputCore"
 		]
 }

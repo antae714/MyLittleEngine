@@ -1,32 +1,33 @@
 #pragma once
 
-#ifdef StringImplement
+#include <type_traits>
 
-class String
+template <class T>
+class COREMODULEAPI StringBase
 {
-};
+    friend StringBase<char>;
+    friend StringBase<wchar_t>;
 
-#else
-
-
-
-class COREMODULEAPI String
-{
 public:
-    String();
-    String(const char* _string);
-    static bool Compare(const String& first, const String& second);
-    bool operator==(const String& other) const { return Compare(*this, other); }
+    StringBase();
+    StringBase(const T* _string);
+    template <class T2>
+    StringBase(const T2& _string);
 
+public:
+    static void Concat(StringBase<T>& dest, const StringBase<T>& source);
+    static bool Compare(const StringBase<T>& first, const StringBase<T>& second);
+    bool operator==(const StringBase<T>& other) const { return Compare(*this, other); }
+    StringBase<T>& operator+=(const StringBase<T>& other) { Concat(*this, other); return *this; }
+    StringBase<T> operator+(const StringBase<T>& other) const { StringBase<T> dest; Concat(dest, *this); Concat(dest, other); return std::move(dest); }
+
+    //unsigned int Length();
 private:
-    char string[32];
+    T string[32];
     unsigned int strSize = 32;
 };
 
 
-
-
-#endif // StringImplement
-
-
+using String = StringBase<char>;
+using WString = StringBase<wchar_t>;
 

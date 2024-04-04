@@ -1,4 +1,4 @@
-#include "WorldSettings.h"
+#include "GameFramework/WorldSettings.h"
 
 WorldSettings::WorldSettings()
 {
