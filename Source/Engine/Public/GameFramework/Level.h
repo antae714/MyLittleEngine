@@ -38,6 +38,7 @@ public:
 	  */
 	class WorldSettings* getWorldSettings();
 
+	DynamicArray<class Actor*>& GetActorArray();
 	/**
 	 * 액터를 추가합니다.
 	 * @param actor 추가할 액터 객체

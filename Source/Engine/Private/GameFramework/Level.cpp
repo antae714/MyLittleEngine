@@ -52,6 +52,11 @@ WorldSettings* Level::getWorldSettings()
 	return worldSettings;
 }
 
+DynamicArray<class Actor*>& Level::GetActorArray()
+{
+	return actors;
+}
+
 void Level::AddActor(Actor* gameObject)
 {
 	actors.Add(gameObject);

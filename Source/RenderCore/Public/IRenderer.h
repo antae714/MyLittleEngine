@@ -1,9 +1,10 @@
 #pragma once
 
-#include <Windows.h>
-#include "ConsoleConfig.h"
+#include "Containers/String.h"
+#include "Template/Factory.h"
 
-class RENDERERMODULEAPI IRenderer
+
+class RENDERCOREMODULEAPI IRenderer
 {
 public:
 	IRenderer() {}
@@ -11,6 +12,8 @@ public:
 
 	virtual void Init() = 0;
 	virtual void EndPlay() = 0;
+	virtual void Render(class World*) = 0;
+
 
 	virtual void BufferChange() = 0;
 	virtual void BufferClear() = 0;
@@ -23,3 +26,5 @@ private:
 };
 
 
+
+class RENDERCOREMODULEAPI RendererFactory : public Factory<IRenderer, String> {};

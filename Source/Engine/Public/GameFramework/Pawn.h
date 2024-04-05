@@ -12,6 +12,9 @@ public:
 	Pawn();
 	virtual ~Pawn();
 
+
+	virtual void BindInput(class Controller* controller);
+
 private:
 
 };

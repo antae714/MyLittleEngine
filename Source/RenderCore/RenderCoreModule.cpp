@@ -3,4 +3,4 @@
 #include "Module/ModuleBase.h"
 
 
-IMPLEMENT_MODULE(Renderer)
+IMPLEMENT_MODULE(RenderCore)

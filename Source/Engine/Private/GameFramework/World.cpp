@@ -52,6 +52,11 @@ Level* World::GetMainLevel()
 	return mainLevel;
 }
 
+DynamicArray<Level*>& World::GetSubLevel()
+{
+	return subLevels;
+}
+
 WorldSettings* World::getWorldSettings()
 {
 	return mainLevel->getWorldSettings();

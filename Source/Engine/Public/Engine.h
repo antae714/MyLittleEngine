@@ -7,6 +7,7 @@ public:
 	Engine();
 	virtual ~Engine();
 
+	static Engine* GEngine;
 public:
 	/** 엔진 시작 */
 	void Run();
@@ -78,5 +79,3 @@ private:
 	int updateCount;
 	int fixedUpdateCount;
 };
-
-class Engine* GEngine;

@@ -1,5 +1,9 @@
 #include "ConsoleRenderer.h"
 #include <stdio.h>
+#include "GameFramework/World.h"
+#include "GameFramework/Level.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/ConsoleRenderComponent.h"
 
 ConsoleRenderer::ConsoleRenderer() : buffer{ 0,0 }, currentBufferIndex(0), ScreenSize{ 0,0 }
 {
@@ -36,6 +40,22 @@ void ConsoleRenderer::EndPlay()
 {
 	CloseHandle(buffer[0]);
 	CloseHandle(buffer[1]);
+}
+
+
+
+void ConsoleRenderer::Render(World* world)
+{
+	BufferClear();
+
+	for (auto& item : world->GetMainLevel()->GetActorArray())
+	{
+		if (item->GetComponent<ConsoleRenderComponent>());
+	}
+	
+
+	
+	BufferChange();
 }
 
 void ConsoleRenderer::BufferChange()

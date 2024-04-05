@@ -5,12 +5,14 @@
 
 void ConsoleGameLevel::BeginPlay()
 {
-	Base::BeginPlay();
 	Character* PCharater = new ConsoleGamePlayerCharacter();
 	PlayerController* playerController = new PlayerController();
 
 	AddActor(PCharater);
 	AddActor(playerController);
+
+	Base::BeginPlay();
+
 	worldSettings->playerController = playerController;
 	playerController->Possess(PCharater);
 }

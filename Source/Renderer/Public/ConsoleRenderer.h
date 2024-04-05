@@ -10,14 +10,15 @@ public:
 
 public:
 	// Begin IRenderer Interface
-	virtual void Init();
-	virtual void EndPlay();
+	virtual void Init() override;
+	virtual void EndPlay() override;
+	virtual void Render(class World* world) override;
 
-	virtual void BufferChange();
-	virtual void BufferClear();
+	virtual void BufferChange() override;
+	virtual void BufferClear() override;
 
-	virtual int GetWidth();
-	virtual int GetHeight();
+	virtual int GetWidth() override;
+	virtual int GetHeight() override;
 	// ~End IRenderer Interface
 
 	virtual void processWindowSizeChange();

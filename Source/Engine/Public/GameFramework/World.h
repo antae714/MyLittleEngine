@@ -45,7 +45,9 @@ public:
 	 * @return 메인 레벨 객체 포인터
 	 */
 	Level* GetMainLevel();
-	
+
+	DynamicArray<Level*>& GetSubLevel();
+
 	/**
 	 * 월드 설정 객체를 가져옵니다.
 	 * @return 월드 설정 객체 포인터

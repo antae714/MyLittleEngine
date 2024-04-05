@@ -11,8 +11,10 @@
 void main() 
 {
 	
-	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 	ModuleBase* CoreModule = ModuleManager::LoadModule((L"Core.dll"));
+	ModuleBase* RenderCorerModule = ModuleManager::LoadModule((L"RenderCore.dll"));
+	ModuleBase* InputCorerModule = ModuleManager::LoadModule((L"InputCore.dll"));
+	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 	ModuleBase* InputCoreModule = ModuleManager::LoadModule((L"InputCore.dll"));
 	ModuleBase* RendererModule = ModuleManager::LoadModule((L"Renderer.dll"));
 	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"ConsoleGame.dll"));
@@ -23,8 +25,10 @@ void main()
 	ModuleManager::UnLoadModule(ContentsModule);
 	ModuleManager::UnLoadModule(RendererModule);
 	ModuleManager::UnLoadModule(InputCoreModule);
-	ModuleManager::UnLoadModule(CoreModule);
 	ModuleManager::UnLoadModule(EngineModule);
+	ModuleManager::UnLoadModule(InputCorerModule);
+	ModuleManager::UnLoadModule(RenderCorerModule);
+	ModuleManager::UnLoadModule(CoreModule);
 
 
 	system("pause");

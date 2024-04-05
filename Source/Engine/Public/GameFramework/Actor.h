@@ -3,6 +3,8 @@
 #include "Containers/String.h"
 #include "Containers/DynamicArray.h"
 
+class Component;
+
 class ENGINEMODULEAPI Actor
 {
 public:
@@ -14,10 +16,19 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void EndPlay();
 
-	void AddComponent(class Component* component);
-	void RemoveComponent(class Component* component);
+	template<class T>
+	Component* GetComponent();
+	void AddComponent(Component* component);
+	void RemoveComponent(Component* component);
 
 protected:
-	DynamicArray<class Component*> components;
+	DynamicArray<Component*> components;
 	String name;
 };
+
+template<class T>
+inline Component* Actor::GetComponent()
+{
+	return *components.Find([](Component*& element) { return !!dynamic_cast<T*>(element); });
+
+}

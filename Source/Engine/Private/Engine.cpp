@@ -2,9 +2,8 @@
 #include "timer.h"
 #include "GameFramework/World.h"
 #include "Module/ModuleBase.h"
-#include "ConsoleRendererExample.h"
-#include "ConsoleRenderer.h"
 #include "IInputProcessor.h"
+#include "IRenderer.h"
 #include "GameFramework/WorldSettings.h"
 
 
@@ -21,6 +20,8 @@ struct Vector
 Vector g_Player = { 0,0 };
 COORD g_Player_MoveVec = { 0,0 };
 float g_Speed = 0.25f;
+
+Engine* Engine::GEngine = nullptr;
 
 Engine::Engine() : 
 	timer(nullptr), 
@@ -61,7 +62,7 @@ void Engine::Initialize()
 {
 	timer = new Timer();
 	mainWorld = new World();
-	renderer = new ConsoleRenderer();
+	renderer = RendererFactory::Get("Console");
 	inputProcessor = InputProcessorFactory::Get("window");
 
 
@@ -99,7 +100,7 @@ void Engine::EngineLoop()
 void Engine::BeginPlay()
 {
 	renderer->Init();
-	ConsoleRendererExample::ScreenInit();
+	//ConsoleRendererExample::ScreenInit();
 	timer->Init();
 	inputProcessor->Init();
 
@@ -116,7 +117,7 @@ void Engine::ProcessInput()
 {
 	inputProcessor->ProcessInput();
 	WorldSettings* worldSetting = mainWorld->getWorldSettings();
-	worldSetting->playerController->processInput(inputProcessor->getEngineInputArray());
+	worldSetting->playerController->ProcessInput(inputProcessor->getEngineInputArray());
 
 	g_Player_MoveVec = { 0,0 };
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
@@ -158,10 +159,10 @@ void Engine::FixedUpdate()
 		g_Player.x += g_Player_MoveVec.X * fixedTimeStep * g_Speed;
 		g_Player.y += g_Player_MoveVec.Y * fixedTimeStep * g_Speed;
 
-		if (g_Player.x < 0) g_Player.x = 0;
-		if (g_Player.x >= ConsoleRendererExample::ScreenWidth()) g_Player.x = ConsoleRendererExample::ScreenWidth() - 1;
-		if (g_Player.y < 0) g_Player.y = 0;
-		if (g_Player.y >= ConsoleRendererExample::ScreenHeight()) g_Player.y = ConsoleRendererExample::ScreenHeight() - 1;
+		//if (g_Player.x < 0) g_Player.x = 0;
+		//if (g_Player.x >= ConsoleRendererExample::ScreenWidth()) g_Player.x = ConsoleRendererExample::ScreenWidth() - 1;
+		//if (g_Player.y < 0) g_Player.y = 0;
+		//if (g_Player.y >= ConsoleRendererExample::ScreenHeight()) g_Player.y = ConsoleRendererExample::ScreenHeight() - 1;
 	}
 
 	accumulatedFixedTime = deltaTime;
@@ -184,15 +185,16 @@ void Engine::Render()
 		updateCount = 0;
 		testTime = 0;
 	}
-	ConsoleRenderer* consoleRenderer = dynamic_cast<ConsoleRenderer*>(renderer);
+	renderer->Render(mainWorld);
+	//ConsoleRenderer* consoleRenderer = dynamic_cast<ConsoleRenderer*>(renderer);
 
-	consoleRenderer->BufferClear();
-	consoleRenderer->SetChar(g_Player.x, g_Player.y, 'P', FG_WHITE);
-	consoleRenderer->BufferChange();
+	//consoleRenderer->BufferClear();
+	//consoleRenderer->SetChar(g_Player.x, g_Player.y, 'P', FG_WHITE);
+	//consoleRenderer->BufferChange();
 }
 
 void Engine::EndPlay()
 {
 	renderer->EndPlay();
-	ConsoleRendererExample::ScreenRelease();
+	//ConsoleRendererExample::ScreenRelease();
 }

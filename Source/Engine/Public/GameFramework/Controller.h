@@ -5,6 +5,7 @@
 #include "Containers/String.h"
 #include "Template/Function.h"
 #include "InputSettings.h"
+#include "Engine.h"
 
 
 template <class T>
@@ -37,40 +38,40 @@ public:
 
 public:
 	//void BindInput();
-	void processInput(class InputSettings* inputs);
+	void ProcessInput(class InputSettings* inputs);
 
 	void Possess(Pawn* _pawn);
 	void UnPossess();
 
 
 	template<class T>
-	T* getPawn() { return (T*)getPawn(); }
-	Pawn* getPawn();
+	T* GetPawn() { return (T*)GetPawn(); }
+	Pawn* GetPawn();
 
 
 	template <class Function, class... Arg>
-	void bind(String inputName, Function _fuction, Arg&&... args)
+	void BindInput(String inputName, Function _fuction, Arg&&... args)
 	{
-		auto temp = [_fuction, args...]() { invoke(_fuction, args...); };
+		auto temp = [_fuction, args...]() { std::invoke(_fuction, args...); };
 		input.Add(temp);
-		DynamicArray<InputData>* inputs = GEngine->GetInputSetting()->getInputData();
-		InputData* iter = inputs->Find([inputName](InputData& data) { data.KeyName == inputName; });
+		DynamicArray<InputData>& inputs = Engine::GEngine->GetInputSetting()->getInputData();
+		InputData* iter = inputs.Find([inputName](InputData& data) { return data.KeyName == inputName; });
 
-		int index = iter - inputs->begin();
+		int index = iter - inputs.begin();
 
 
-		Axisinput.Back()->keyCode = index;
+		input.Back()->keyCode = index;
 	}
 
 	template <class Function, class... Arg>
-	void bindAxis(String inputName, Function _fuction, Arg&&... args)
+	void BindAxisInput(String inputName, Function _fuction, Arg&&... args)
 	{
-		auto temp = [_fuction, args...](float axis) { invoke(_fuction, args..., axis); };
+		auto temp = [_fuction, args...](float axis) { std::invoke(_fuction, args..., axis); };
 		Axisinput.Add(temp);
-		DynamicArray<InputData>* inputs = GEngine->GetInputSetting()->getInputData();
-		InputData* iter = inputs->Find([inputName](InputData& data) { data.KeyName == inputName; });
+		DynamicArray<InputData>& inputs = Engine::GEngine->GetInputSetting()->getInputData();
+		InputData* iter = inputs.Find([inputName](InputData& data) { return data.KeyName == inputName; });
 		
-		int index = iter - inputs->begin();
+		int index = iter - inputs.begin();
 
 
 		Axisinput.Back()->keyCode = index;

@@ -10,7 +10,7 @@ Controller::~Controller()
 {
 }
 
-void Controller::processInput(InputSettings* inputs)
+void Controller::ProcessInput(InputSettings* inputs)
 {
 	DynamicArray<InputData>& inputDataArray = inputs->getInputData();
 	for (size_t i = 0; i < inputDataArray.GetCount(); i++)
@@ -25,6 +25,7 @@ void Controller::processInput(InputSettings* inputs)
 void Controller::Possess(Pawn* _pawn)
 {
 	pawn = _pawn;
+	pawn->BindInput(this);
 }
 
 void Controller::UnPossess()
@@ -32,7 +33,7 @@ void Controller::UnPossess()
 	pawn = nullptr;
 }
 
-Pawn* Controller::getPawn()
+Pawn* Controller::GetPawn()
 {
 	return pawn;
 }
