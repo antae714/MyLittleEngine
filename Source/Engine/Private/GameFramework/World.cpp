@@ -19,7 +19,7 @@ void World::BeginPlay()
 {
 	if (!mainLevel)
 	{
-		mainLevel = LevelFactory::Get("Deafault");
+		mainLevel = LevelFactory::Get("Default");
 	}
 	mainLevel->BeginPlay();
 }
@@ -59,7 +59,7 @@ DynamicArray<Level*>& World::GetSubLevel()
 
 WorldSettings* World::getWorldSettings()
 {
-	return mainLevel->getWorldSettings();
+	return mainLevel->GetWorldSettings();
 }
 
 void World::AddLevel(Level* level)

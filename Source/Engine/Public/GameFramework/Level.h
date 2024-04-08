@@ -36,7 +36,8 @@ public:
 	  * 월드 설정을 반환합니다.
 	  * @return 월드 설정 객체 포인터
 	  */
-	class WorldSettings* getWorldSettings();
+	class WorldSettings* GetWorldSettings();
+	void SetWorldSettings(class WorldSettings* _worldSetting);
 
 	DynamicArray<class Actor*>& GetActorArray();
 	/**

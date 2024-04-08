@@ -11,10 +11,10 @@ DEFINE_MODULE(Engine);
 
 void EngineModule::StartUpModule()
 {
-	LevelFactory::Add("Deafault", new Level());
+	LevelFactory::Add("Default", new Level());
 }
 
 void EngineModule::ShotDownModule()
 {
-	LevelFactory::Remove("Deafault");
+	LevelFactory::Remove("Default");
 }

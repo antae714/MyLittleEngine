@@ -2,13 +2,14 @@
 #include "ConsoleMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "ConsoleRenderComponent.h"
+#include "ConsoleConfig.h"
 
 void ConsoleGamePlayerCharacter::BeginPlay()
 {
 	Base::BeginPlay();	
 	AddComponent(new ConsoleMovementComponent());
 	ConsoleRenderComponent* renderComponent = new ConsoleRenderComponent();
-	renderComponent->renderData = RenderData{ 10,7,'P' };
+	renderComponent->renderData = RenderData{ 10,7, BG_WHITE };
 	AddComponent(renderComponent);
 	speed = 0.05f;
 }

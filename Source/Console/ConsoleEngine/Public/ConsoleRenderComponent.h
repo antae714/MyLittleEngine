@@ -7,7 +7,7 @@ struct CONSOLEENGINEMODULEAPI RenderData
 	int row;
 	int colum;
 
-	char renderCharacter;
+	WORD attribute;
 };
 
 

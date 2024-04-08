@@ -47,9 +47,14 @@ void Level::EndPlay()
 	}
 }
 
-WorldSettings* Level::getWorldSettings()
+WorldSettings* Level::GetWorldSettings()
 {
 	return worldSettings;
+}
+
+void Level::SetWorldSettings(WorldSettings* _worldSetting)
+{
+	worldSettings = _worldSetting;
 }
 
 DynamicArray<class Actor*>& Level::GetActorArray()

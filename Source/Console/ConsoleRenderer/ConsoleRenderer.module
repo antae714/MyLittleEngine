@@ -4,6 +4,7 @@
 		"Core",
 		"Engine",
 		"ConsoleEngine",
-		"RenderCore"
+		"RenderCore",
+		"InputCore"
 	]
 }

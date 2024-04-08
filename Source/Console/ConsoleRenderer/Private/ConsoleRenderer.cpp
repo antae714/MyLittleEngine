@@ -5,7 +5,8 @@
 #include "GameFramework/Level.h"
 #include "GameFramework/Actor.h"
 
-#include "ConsoleRenderComponent.h"
+#include "ConsoleWorldSetting.h"
+
 
 ConsoleRenderer::ConsoleRenderer() : buffer{ 0,0 }, currentBufferIndex(0), ScreenSize{ 0,0 }
 {
@@ -20,7 +21,7 @@ void ConsoleRenderer::Init()
 	fontInfoEX.cbSize = sizeof(fontInfoEX);
 	GetCurrentConsoleFontEx(Console, false, &fontInfoEX);
 	fontInfoEX.dwFontSize.X = 8;
-	fontInfoEX.dwFontSize.Y = 16;
+	fontInfoEX.dwFontSize.Y = 8;
 	lstrcpyW(fontInfoEX.FaceName, L"Consolas");
 	
 	SetCurrentConsoleFontEx(Console, false, &fontInfoEX);
@@ -51,20 +52,46 @@ void ConsoleRenderer::Render(World* world)
 {
 	BufferClear();
 
+	ConsoleWorldSetting* worldSetting = dynamic_cast<ConsoleWorldSetting*>(world->getWorldSettings());
+	
+	for (size_t i = 0; i < 10; i++)
+	{
+		for (size_t j = 0; j < 10; j++)
+		{
+			RenderData renderdata{ 10, 7, BG_BLACK };
+			Vector pos;
+			pos.x = j * 12;
+			pos.y = i * 7;
+
+			switch ((EObject)worldSetting->Map[i * 10 + j])
+			{
+			case EObject::Empty:
+				renderdata.attribute = BG_GRAY;
+				break;
+			case EObject::Wall:
+				renderdata.attribute = BG_RED;
+				break;
+			case EObject::Start:
+				break;
+			case EObject::Goal:
+				break;
+
+			default:
+				break;
+			}
+			RenderObject(pos, renderdata);
+		}
+	}
+
 	for (Actor* item : world->GetMainLevel()->GetActorArray())
 	{
 		ConsoleRenderComponent* renderComponent = item->GetComponent<ConsoleRenderComponent>();
 		if (renderComponent)
 		{
-			RenderData& renderdata = renderComponent->renderData; 
+			RenderData& renderdata = renderComponent->renderData;
 			Vector pos = item->GetPosition();
-			for (size_t i = pos.x; i < pos.x + renderdata.row; i++)
-			{
-				for (size_t j = pos.y; j < pos.y + renderdata.colum; j++)
-				{
-					SetChar(i, j, ' ', BG_WHITE);
-				}
-			}
+
+			RenderObject(pos, renderdata);
 		}
 	}
 	
@@ -98,6 +125,18 @@ int ConsoleRenderer::GetHeight()
 
 void ConsoleRenderer::processWindowSizeChange()
 {
+}
+
+void ConsoleRenderer::RenderObject(Vector position, RenderData data)
+{
+	for (size_t i = position.x; i < position.x + data.row; i++)
+	{
+		for (size_t j = position.y; j < position.y + data.colum; j++)
+		{
+			SetChar(i, j, ' ', data.attribute);
+		}
+	}
+
 }
 
 bool ConsoleRenderer::SetChar(int x, int y, char ch, WORD attr)
