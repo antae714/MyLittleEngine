@@ -8,16 +8,13 @@
 
 
 #include "iostream"
+
+
 using namespace std;
 
 
-struct Vector
-{
-	float x;
-	float y;
-};
 
-Vector g_Player = { 0,0 };
+//Vector g_Player = { 0,0 };
 COORD g_Player_MoveVec = { 0,0 };
 float g_Speed = 0.25f;
 
@@ -71,8 +68,6 @@ void Engine::Initialize()
 	testTime = 0;
 	fixedUpdateCount = 0;
 	updateCount = 0;
-	//ModuleBase* CoreModule = ModuleManager::LoadModule((L"Core.dll"));
-	//ModuleBase* ContentsModule = ModuleManager::LoadModule((L"Contents.dll"));
 }
 
 InputSettings* Engine::GetInputSetting()
@@ -100,7 +95,6 @@ void Engine::EngineLoop()
 void Engine::BeginPlay()
 {
 	renderer->Init();
-	//ConsoleRendererExample::ScreenInit();
 	timer->Init();
 	inputProcessor->Init();
 
@@ -119,32 +113,14 @@ void Engine::ProcessInput()
 	WorldSettings* worldSetting = mainWorld->getWorldSettings();
 	worldSetting->playerController->ProcessInput(inputProcessor->getEngineInputArray());
 
-	g_Player_MoveVec = { 0,0 };
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	{ //왼쪽
-		g_Player_MoveVec.X = -1;
-	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	{ //오른쪽
-		g_Player_MoveVec.X = +1;
-	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	{ //위
-		g_Player_MoveVec.Y = -1;
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	{ //아래
-		g_Player_MoveVec.Y = +1;
-	}
 	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-	{ //종료
+	{
 		isEngineRunning = false;
 	}
 }
 
 void Engine::FixedUpdate()
 {
-
 	double deltaTime = timer->GetDeltaTime();
 	deltaTime += accumulatedFixedTime;
 
@@ -154,19 +130,9 @@ void Engine::FixedUpdate()
 
 		++fixedUpdateCount;
 		deltaTime -= fixedTimeStep;
-
-
-		g_Player.x += g_Player_MoveVec.X * fixedTimeStep * g_Speed;
-		g_Player.y += g_Player_MoveVec.Y * fixedTimeStep * g_Speed;
-
-		//if (g_Player.x < 0) g_Player.x = 0;
-		//if (g_Player.x >= ConsoleRendererExample::ScreenWidth()) g_Player.x = ConsoleRendererExample::ScreenWidth() - 1;
-		//if (g_Player.y < 0) g_Player.y = 0;
-		//if (g_Player.y >= ConsoleRendererExample::ScreenHeight()) g_Player.y = ConsoleRendererExample::ScreenHeight() - 1;
 	}
 
 	accumulatedFixedTime = deltaTime;
-
 }
 
 void Engine::Update()
@@ -186,15 +152,9 @@ void Engine::Render()
 		testTime = 0;
 	}
 	renderer->Render(mainWorld);
-	//ConsoleRenderer* consoleRenderer = dynamic_cast<ConsoleRenderer*>(renderer);
-
-	//consoleRenderer->BufferClear();
-	//consoleRenderer->SetChar(g_Player.x, g_Player.y, 'P', FG_WHITE);
-	//consoleRenderer->BufferChange();
 }
 
 void Engine::EndPlay()
 {
 	renderer->EndPlay();
-	//ConsoleRendererExample::ScreenRelease();
 }

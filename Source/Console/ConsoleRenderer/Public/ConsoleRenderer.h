@@ -3,7 +3,8 @@
 
 #include "IRenderer.h"
 
-class RENDERERMODULEAPI ConsoleRenderer : public IRenderer
+
+class CONSOLERENDERERMODULEAPI ConsoleRenderer : public IRenderer
 {
 public:
 	ConsoleRenderer();

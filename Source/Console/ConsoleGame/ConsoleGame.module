@@ -3,6 +3,7 @@
 	"LinkModuleName":[
 		"Core",
 		"Engine",
-		"InputCore"
+		"InputCore",
+		"ConsoleEngine"
 		]
 }

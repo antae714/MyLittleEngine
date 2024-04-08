@@ -1,9 +1,11 @@
 #include "ConsoleRenderer.h"
+#include "ConsoleConfig.h"
 #include <stdio.h>
 #include "GameFramework/World.h"
 #include "GameFramework/Level.h"
 #include "GameFramework/Actor.h"
-#include "GameFramework/ConsoleRenderComponent.h"
+
+#include "ConsoleRenderComponent.h"
 
 ConsoleRenderer::ConsoleRenderer() : buffer{ 0,0 }, currentBufferIndex(0), ScreenSize{ 0,0 }
 {
@@ -17,13 +19,14 @@ void ConsoleRenderer::Init()
 	CONSOLE_FONT_INFOEX fontInfoEX;
 	fontInfoEX.cbSize = sizeof(fontInfoEX);
 	GetCurrentConsoleFontEx(Console, false, &fontInfoEX);
-	fontInfoEX.dwFontSize.X = 2;
-	fontInfoEX.dwFontSize.Y = 2;
+	fontInfoEX.dwFontSize.X = 8;
+	fontInfoEX.dwFontSize.Y = 16;
 	lstrcpyW(fontInfoEX.FaceName, L"Consolas");
 	
 	SetCurrentConsoleFontEx(Console, false, &fontInfoEX);
-	
+
 	SetConsoleCursorInfo(Console, &CONSOLE_CURSOR_INFO{ 1, false });
+	//MoveWindow(consoleWindow, 0, 0, 960, 860, true);
 	MoveWindow(consoleWindow, 0, 0, 1936, 1120, true);
 	ShowScrollBar(consoleWindow, SB_BOTH, false);
 	
@@ -48,9 +51,21 @@ void ConsoleRenderer::Render(World* world)
 {
 	BufferClear();
 
-	for (auto& item : world->GetMainLevel()->GetActorArray())
+	for (Actor* item : world->GetMainLevel()->GetActorArray())
 	{
-		if (item->GetComponent<ConsoleRenderComponent>());
+		ConsoleRenderComponent* renderComponent = item->GetComponent<ConsoleRenderComponent>();
+		if (renderComponent)
+		{
+			RenderData& renderdata = renderComponent->renderData; 
+			Vector pos = item->GetPosition();
+			for (size_t i = pos.x; i < pos.x + renderdata.row; i++)
+			{
+				for (size_t j = pos.y; j < pos.y + renderdata.colum; j++)
+				{
+					SetChar(i, j, ' ', BG_WHITE);
+				}
+			}
+		}
 	}
 	
 
@@ -67,6 +82,7 @@ void ConsoleRenderer::BufferChange()
 void ConsoleRenderer::BufferClear()
 {
 	DWORD NumberOfCharsWritten;
+	SetAttribute(BG_BLACK);
 	FillConsoleOutputCharacter(buffer[currentBufferIndex], ' ', ScreenSize.X * ScreenSize.Y, { 0,0 }, &NumberOfCharsWritten);
 }
 
@@ -97,5 +113,23 @@ bool ConsoleRenderer::SetChar(int x, int y, char ch, WORD attr)
 
 	bRval = FillConsoleOutputAttribute(buffer[currentBufferIndex], attr, 3, cdPos, &dwCharsWritten);
 	if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
+	return bRval;
+}
+bool ConsoleRenderer::SetAttribute(WORD attr)
+{
+	COORD	cdPos;
+	bool	bRval = FALSE;
+	DWORD	dwCharsWritten;
+	//	int x,y;	
+
+	cdPos.X = 0;
+	cdPos.Y = 0;
+	bRval = FillConsoleOutputAttribute(buffer[currentBufferIndex], attr, ScreenSize.X * ScreenSize.Y, cdPos, &dwCharsWritten);
+	if (bRval == false)
+	{
+		printf("Error, FillConsoleOutputCharacter()\n");
+		return bRval;
+	}
+
 	return bRval;
 }

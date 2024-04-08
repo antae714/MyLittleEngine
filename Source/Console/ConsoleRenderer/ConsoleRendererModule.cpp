@@ -4,23 +4,23 @@
 #include "IRenderer.h"
 #include "ConsoleRenderer.h"
 
-class RendererModule : public ModuleBase
+class ConsoleRendererModule : public ModuleBase
 {
 	virtual void StartUpModule() override;
 	virtual void ShotDownModule() override;
 };
 
 //IMPLEMENT_MODULE(Renderer)
-DEFINE_MODULE(Renderer);
+DEFINE_MODULE(ConsoleRenderer);
 
 
 
-void RendererModule::StartUpModule()
+void ConsoleRendererModule::StartUpModule()
 {
 	RendererFactory::Add("Console", new ConsoleRenderer());
 }
 
-void RendererModule::ShotDownModule()
+void ConsoleRendererModule::ShotDownModule()
 {
 	RendererFactory::Remove("Console");
 }

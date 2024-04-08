@@ -16,11 +16,14 @@ void main()
 	ModuleBase* InputCorerModule = ModuleManager::LoadModule((L"InputCore.dll"));
 	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 	ModuleBase* InputCoreModule = ModuleManager::LoadModule((L"InputCore.dll"));
-	ModuleBase* RendererModule = ModuleManager::LoadModule((L"Renderer.dll"));
+
+	ModuleBase* RendererModule = ModuleManager::LoadModule((L"ConsoleRenderer.dll"));
 	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"ConsoleGame.dll"));
 	
-	Engine engine;
-	engine.Run();
+	{
+		Engine engine;
+		engine.Run();
+	}
 
 	ModuleManager::UnLoadModule(ContentsModule);
 	ModuleManager::UnLoadModule(RendererModule);
