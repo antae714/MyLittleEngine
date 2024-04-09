@@ -3,6 +3,7 @@
 #include "Containers/String.h"
 #include "Containers/DynamicArray.h"
 #include "Math/Vector.h"
+#include <type_traits>
 
 class Component;
 
@@ -20,6 +21,10 @@ public:
 
 	template<class T>
 	T* GetComponent();
+
+	template<class T>
+	T* AddComponent();
+
 	void AddComponent(Component* component);
 	void RemoveComponent(Component* component);
 
@@ -44,4 +49,14 @@ inline T* Actor::GetComponent()
 		return nullptr;
 	}
 
+}
+
+template<class T>
+inline T* Actor::AddComponent()
+{
+	static_assert(std::is_base_of<Component, T>::value);
+	T* component = new T();
+	AddComponent(component);
+	component->SetOwner(this);
+	return component;
 }

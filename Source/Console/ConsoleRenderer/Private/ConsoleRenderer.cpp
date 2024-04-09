@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 
 #include "ConsoleWorldSetting.h"
-
+#include "ConsolePathFinder.h"
 
 ConsoleRenderer::ConsoleRenderer() : buffer{ 0,0 }, currentBufferIndex(0), ScreenSize{ 0,0 }
 {
@@ -20,9 +20,8 @@ void ConsoleRenderer::Init()
 	CONSOLE_FONT_INFOEX fontInfoEX;
 	fontInfoEX.cbSize = sizeof(fontInfoEX);
 	GetCurrentConsoleFontEx(Console, false, &fontInfoEX);
-	fontInfoEX.dwFontSize.X = 8;
+	fontInfoEX.dwFontSize.X = 4;
 	fontInfoEX.dwFontSize.Y = 8;
-	lstrcpyW(fontInfoEX.FaceName, L"Consolas");
 	
 	SetCurrentConsoleFontEx(Console, false, &fontInfoEX);
 
@@ -46,8 +45,6 @@ void ConsoleRenderer::EndPlay()
 	CloseHandle(buffer[1]);
 }
 
-
-
 void ConsoleRenderer::Render(World* world)
 {
 	BufferClear();
@@ -58,10 +55,10 @@ void ConsoleRenderer::Render(World* world)
 	{
 		for (size_t j = 0; j < 10; j++)
 		{
-			RenderData renderdata{ 10, 7, BG_BLACK };
+			RenderData renderdata{ 8, 4, BG_BLACK };
 			Vector pos;
-			pos.x = j * 12;
-			pos.y = i * 7;
+			pos.x = j * 8;
+			pos.y = i * 4;
 
 			switch ((EObject)worldSetting->Map[i * 10 + j])
 			{
@@ -90,11 +87,28 @@ void ConsoleRenderer::Render(World* world)
 		{
 			RenderData& renderdata = renderComponent->renderData;
 			Vector pos = item->GetPosition();
-
+			pos.x *= 8;
+			pos.y *= 4;
 			RenderObject(pos, renderdata);
 		}
+		ConsolePathFinder* pathfinder = item->GetComponent<ConsolePathFinder>();
+		if (pathfinder)
+		{
+			Vector prevPos;
+			for (Vector item : pathfinder->GetPath())
+			{
+				Vector pos{ item.y, item.x };
+				
+				pos.x = pos.x * 8 + 4;
+				pos.y = pos.y * 4 + 2;
+
+				RenderObject(pos, { 1,1,BG_PINK });
+				prevPos = pos;
+			}
+		}
 	}
-	
+
+
 
 	
 	BufferChange();
@@ -110,7 +124,7 @@ void ConsoleRenderer::BufferClear()
 {
 	DWORD NumberOfCharsWritten;
 	SetAttribute(BG_BLACK);
-	FillConsoleOutputCharacter(buffer[currentBufferIndex], ' ', ScreenSize.X * ScreenSize.Y, { 0,0 }, &NumberOfCharsWritten);
+	FillConsoleOutputCharacter(buffer[currentBufferIndex], 'P', ScreenSize.X * ScreenSize.Y, { 0,0 }, &NumberOfCharsWritten);
 }
 
 int ConsoleRenderer::GetWidth()
@@ -147,10 +161,10 @@ bool ConsoleRenderer::SetChar(int x, int y, char ch, WORD attr)
 	cdPos.X = x;
 	cdPos.Y = y;
 
-	bRval = FillConsoleOutputCharacter(buffer[currentBufferIndex], ch, 3, cdPos, &dwCharsWritten);
+	bRval = FillConsoleOutputCharacter(buffer[currentBufferIndex], ch, 1, cdPos, &dwCharsWritten);
 	if (bRval == false) printf("Error, FillConsoleOutputCharacter()\n");
 
-	bRval = FillConsoleOutputAttribute(buffer[currentBufferIndex], attr, 3, cdPos, &dwCharsWritten);
+	bRval = FillConsoleOutputAttribute(buffer[currentBufferIndex], attr, 1, cdPos, &dwCharsWritten);
 	if (bRval == false) printf("Error, FillConsoleOutputAttribute()\n");
 	return bRval;
 }

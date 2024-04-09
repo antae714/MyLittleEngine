@@ -5,7 +5,8 @@
 
 #define GENERATED_BODY(CLASS, BASECLASS)	\
 public:										\
-	CLASS() {}								\
-	~CLASS() {}								\
+	virtual ~CLASS() {}						\
 private:									\
-	using Base = BASECLASS;					
+	using Base = BASECLASS;
+
+

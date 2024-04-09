@@ -18,7 +18,7 @@ public:
 
 
 public:
-	TVector() : x(0), y(0), z(0) { } 
+	TVector(T _x = 0, T _y = 0, T _z = 0) : x(_x), y(_y), z(_z) {}
 	TVector(const TVector& other) : x(other.x), y(other.y), z(other.z) {}
 
 public:
@@ -38,6 +38,33 @@ public:
 		returnVec.y += other.y;
 		returnVec.z += other.z;
 		return returnVec;
+	}		
+	
+	TVector operator -(const TVector& other)
+	{
+		TVector returnVec = *this;
+		returnVec.x -= other.x;
+		returnVec.y -= other.y;
+		returnVec.z -= other.z;
+		return returnVec;
+	}
+	
+	void operator +=(const TVector& other)
+	{
+		
+		x += other.x;
+		y += other.y;
+		z += other.z;
+
+	}
+
+	bool operator ==(const TVector& other)
+	{
+		return x == other.x && y == other.y && z == other.z;
+	}
+	bool operator !=(const TVector& other)
+	{
+		return !(*this == other);
 	}
 };
 

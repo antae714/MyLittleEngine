@@ -19,14 +19,18 @@ public:
 	virtual void BindInput(class Controller* controller);
 	// ~End Actor Implement
 
+	void CheckWall(Vector& _pos, Vector _direction);
+
 	void MoveUP();
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
-
-
+	
+	
+	class ConsoleWorldSetting* consoleWorldSetting;
 private:
 	Vector direction;
-	float speed;
+
+	float speed;	
 };
 

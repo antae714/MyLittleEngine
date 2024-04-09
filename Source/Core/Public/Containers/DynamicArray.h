@@ -115,7 +115,7 @@ public:
 	 * @brief 배열에서 특정 인덱스의 요소를 제거합니다.
 	 * @param index 제거할 요소의 인덱스입니다.
 	 */
-	void Remove(int index)
+	void RemoveIndex(int index)
 	{
 		Remove(data + index);
 	}
@@ -134,7 +134,6 @@ public:
 			Remove(removeObj);
 		}
 		return !!removeObj;
-
 	}
 
 	/**
@@ -283,6 +282,11 @@ public:
 		{
 			return false;
 		}
+	}
+
+	bool IsEmpty()
+	{
+		return count == 0;
 	}
 
 private:
