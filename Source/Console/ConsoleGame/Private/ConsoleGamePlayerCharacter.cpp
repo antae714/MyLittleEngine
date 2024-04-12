@@ -24,14 +24,6 @@ void ConsoleGamePlayerCharacter::Update(float deltaTime)
 	Base::Update(deltaTime);
 	Vector targetPosition = position + direction * deltaTime * speed;
 
-	/*if ((consoleWorldSetting->GetMapElement(targetPosition + Vector(0.0f, 0.0f)) == (int)EObject::Wall ||
-		consoleWorldSetting->GetMapElement(targetPosition + Vector(0.8f, 0.0f)) == (int)EObject::Wall ||
-		consoleWorldSetting->GetMapElement(targetPosition + Vector(0.0f, 0.8f)) == (int)EObject::Wall ||
-		consoleWorldSetting->GetMapElement(targetPosition + Vector(0.8f, 0.8f)) == (int)EObject::Wall))
-	{
-		targetPosition = position;
-	}*/
-
 	CheckWall(targetPosition, Vector(0.01f, 0.01f));
 	CheckWall(targetPosition, Vector(0.99f, 0.01f));
 	CheckWall(targetPosition, Vector(0.01f, 0.99f));

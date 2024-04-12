@@ -9,8 +9,6 @@
 
 ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 {
-
-
 	using GetModuleFN = ModuleBase*(*)();
 	HMODULE DllHandle = LoadLibrary(ModuleName);
 	if (DllHandle)
@@ -34,7 +32,6 @@ void ModuleManager::UnLoadModule(ModuleBase*& Module)
 	if (!Module) return;
 	Module->ShotDownModule();
 	
-
 	FreeLibrary(Module->ModuleHandle);
 	if (Module)
 	{

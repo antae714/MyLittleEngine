@@ -1,21 +1,23 @@
 
 #include "Module/ModuleManager.h"
 #include "Engine.h"
+#include "Platform/Windows.h"
+#include <cstdlib>
 
-#include <process.h>
-
-#include <stdio.h>
-
-
-
-void main() 
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
-	
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+
+	WindowApplication windowApplication(hInstance);
+
 	ModuleBase* CoreModule = ModuleManager::LoadModule((L"Core.dll"));
 	ModuleBase* RenderCorerModule = ModuleManager::LoadModule((L"RenderCore.dll"));
-	ModuleBase* InputCorerModule = ModuleManager::LoadModule((L"InputCore.dll"));
-	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 	ModuleBase* InputCoreModule = ModuleManager::LoadModule((L"InputCore.dll"));
+	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 
 	ModuleBase* RendererModule = ModuleManager::LoadModule((L"ConsoleRenderer.dll"));
 	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"ConsoleGame.dll"));
@@ -27,14 +29,14 @@ void main()
 
 	ModuleManager::UnLoadModule(ContentsModule);
 	ModuleManager::UnLoadModule(RendererModule);
+
 	ModuleManager::UnLoadModule(InputCoreModule);
 	ModuleManager::UnLoadModule(EngineModule);
-	ModuleManager::UnLoadModule(InputCorerModule);
 	ModuleManager::UnLoadModule(RenderCorerModule);
 	ModuleManager::UnLoadModule(CoreModule);
+	
 
-
-	system("pause");
+	return EXIT_SUCCESS;
 }
 
 
