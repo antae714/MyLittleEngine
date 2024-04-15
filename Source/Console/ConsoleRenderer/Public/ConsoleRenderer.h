@@ -18,11 +18,11 @@ public:
 	virtual void EndPlay() override;
 	virtual void Render(class World* world) override;
 
-	virtual void BufferChange() override;
-	virtual void BufferClear() override;
+	virtual void BufferChange();
+	virtual void BufferClear();
 
-	virtual int GetWidth() override;
-	virtual int GetHeight() override;
+	virtual unsigned int GetWidth() override;
+	virtual unsigned int GetHeight() override;
 	// ~End IRenderer Interface
 
 	virtual void processWindowSizeChange();

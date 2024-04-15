@@ -158,3 +158,17 @@ public:
 		this->Set(std::forward<FunctionType>(_function));
 	}
 };
+
+
+template <class Ret, class... Params>
+class Binder
+{
+private:
+	Binder() = delete;
+public:
+	template<class FN, class Object>
+	static Function<Ret(Params...)> Bind(FN _function, Object* object)
+	{
+		return [_function, object](Params&&... args) { std::invoke(_function, object, std::forward<Params>(args)...); };
+	}
+};

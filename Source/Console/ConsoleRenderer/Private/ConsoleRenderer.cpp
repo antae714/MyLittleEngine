@@ -127,12 +127,12 @@ void ConsoleRenderer::BufferClear()
 	FillConsoleOutputCharacter(buffer[currentBufferIndex], 'P', ScreenSize.X * ScreenSize.Y, { 0,0 }, &NumberOfCharsWritten);
 }
 
-int ConsoleRenderer::GetWidth()
+unsigned int ConsoleRenderer::GetWidth()
 {
 	return ScreenSize.X;
 }
 
-int ConsoleRenderer::GetHeight()
+unsigned int ConsoleRenderer::GetHeight()
 {
 	return ScreenSize.Y;
 }

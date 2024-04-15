@@ -15,8 +15,12 @@ void WindowInputProcessor::Init()
 
 void WindowInputProcessor::ProcessInput()
 {
-	// 윈도우 인풋을 모두 엔진에맞는 입력으로 바꿉니다.
-	// 윈도우 메세지 구현시 변경
+	MSG msg;
+	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		DispatchMessage(&msg);
+	}
+
 	for (size_t i = 0; i < windowInputArray.GetCount(); i++)
 	{
 		inputSettings->getInputData()[i].IsKeyPressed = GetAsyncKeyState(windowInputArray[i].VKeyCode) & 0x8000;

@@ -14,15 +14,10 @@ public:
 	virtual void EndPlay() = 0;
 	virtual void Render(class World*) = 0;
 
-
-	virtual void BufferChange() = 0;
-	virtual void BufferClear() = 0;
-
-	virtual int GetWidth() = 0;
-	virtual int GetHeight() = 0;
-
-	virtual void processWindowSizeChange() = 0;
+	virtual unsigned int GetWidth() = 0;
+	virtual unsigned int GetHeight() = 0;
 private:
+
 };
 
 

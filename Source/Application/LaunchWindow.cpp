@@ -1,7 +1,7 @@
 
 #include "Module/ModuleManager.h"
 #include "Engine.h"
-#include "Platform/Windows.h"
+#include "Application/WindowApplication.h"
 #include <cstdlib>
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -13,21 +13,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	WindowApplication windowApplication(hInstance);
+	windowApplication.Launch();
 
 	ModuleBase* CoreModule = ModuleManager::LoadModule((L"Core.dll"));
 	ModuleBase* RenderCorerModule = ModuleManager::LoadModule((L"RenderCore.dll"));
 	ModuleBase* InputCoreModule = ModuleManager::LoadModule((L"InputCore.dll"));
 	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 
-	ModuleBase* RendererModule = ModuleManager::LoadModule((L"ConsoleRenderer.dll"));
-	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"ConsoleGame.dll"));
+	ModuleBase* RendererModule = ModuleManager::LoadModule((L"WinGDIRenderer.dll"));
+	//ModuleBase* ContentsModule = ModuleManager::LoadModule((L"ConsoleGame.dll"));
 	
 	{
 		Engine engine;
 		engine.Run();
 	}
 
-	ModuleManager::UnLoadModule(ContentsModule);
+	//ModuleManager::UnLoadModule(ContentsModule);
 	ModuleManager::UnLoadModule(RendererModule);
 
 	ModuleManager::UnLoadModule(InputCoreModule);

@@ -1,0 +1,8 @@
+{
+	"BuildOutput": "Library",
+	"LinkModuleName" : [
+		"Core",
+		"Engine",
+		"RenderCore"
+	]
+}

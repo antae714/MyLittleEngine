@@ -5,6 +5,7 @@
 #include "IInputProcessor.h"
 #include "IRenderer.h"
 #include "GameFramework/WorldSettings.h"
+#include "Application/Application.h"
 
 
 #include "iostream"
@@ -52,14 +53,14 @@ void Engine::Run()
 
 bool Engine::IsEngineRun()
 {
-	return isEngineRunning;
+	return isEngineRunning && !IApplication::GetSingletonInstance()->IsTerminated();
 }
 
 void Engine::Initialize()
 {
 	timer = new Timer();
 	mainWorld = new World();
-	renderer = RendererFactory::Get("Console");
+	renderer = RendererFactory::Get("WinGDIRenderer");
 	inputProcessor = InputProcessorFactory::Get("window");
 
 
@@ -73,6 +74,11 @@ void Engine::Initialize()
 InputSettings* Engine::GetInputSetting()
 {
 	return inputProcessor->getEngineInputArray();
+}
+
+void Engine::Terminate()
+{
+	isEngineRunning = false;
 }
 
 void Engine::EngineLoop()
@@ -112,11 +118,6 @@ void Engine::ProcessInput()
 	inputProcessor->ProcessInput();
 	WorldSettings* worldSetting = mainWorld->getWorldSettings();
 	worldSetting->playerController->ProcessInput(inputProcessor->getEngineInputArray());
-
-	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
-	{
-		isEngineRunning = false;
-	}
 }
 
 void Engine::FixedUpdate()

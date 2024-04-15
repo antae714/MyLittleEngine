@@ -9,11 +9,11 @@ class Delegate
 public:
 	using FunctionType = Function<void(Params...)>;
 
-	void Excute(Params&&... args)
+	void Excute(Params... args)
 	{
 		for (auto& item : functionArray)
 		{
-			item(std::forward<Params>(args)...);
+			item((args)...);
 		}
 	}
 

@@ -21,7 +21,7 @@ class Name##Module : public ModuleBase					\
 };														\
 extern "C"												\
 {														\
-	__declspec(dllexport) ModuleBase* getModule()		\
+	__declspec(dllexport) ModuleBase* GetModule()		\
 	{													\
 		return new Name##Module();						\
 	}													\
@@ -32,7 +32,7 @@ extern "C"												\
 class Name##Module;										\
 extern "C"												\
 {														\
-	__declspec(dllexport) ModuleBase* getModule()		\
+	__declspec(dllexport) ModuleBase* GetModule()		\
 	{													\
 		return new Name##Module();						\
 	}													\

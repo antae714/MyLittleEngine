@@ -2,10 +2,7 @@
 #include "Module/ModuleManager.h"
 #include "Module/ModuleBase.h"
 #include <Windows.h>
-
 #include <exception>
-
-
 
 ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 {
@@ -13,7 +10,7 @@ ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 	HMODULE DllHandle = LoadLibrary(ModuleName);
 	if (DllHandle)
 	{
-		GetModuleFN MyFunct = (GetModuleFN)GetProcAddress(DllHandle, "getModule");
+		GetModuleFN MyFunct = (GetModuleFN)GetProcAddress(DllHandle, "GetModule");
 		if (MyFunct)
 		{
 			ModuleBase* RetunModule = MyFunct();

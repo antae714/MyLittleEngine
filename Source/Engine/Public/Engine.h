@@ -22,7 +22,8 @@ public:
 	void Initialize();
 
 	class InputSettings* GetInputSetting();
-
+	
+	void Terminate();
 private:
 	/** 엔진 메인 루프 */
 	void EngineLoop();
