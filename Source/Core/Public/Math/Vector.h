@@ -1,6 +1,7 @@
 #pragma once
 
 
+
 template<typename T>
 class TVector
 {
@@ -22,53 +23,21 @@ public:
 	TVector(const TVector& other) : x(other.x), y(other.y), z(other.z) {}
 
 public:
-	TVector operator *(float scalar)
-	{
-		TVector returnVec;
-		returnVec.x = this->x * scalar;
-		returnVec.y = this->y * scalar;
-		returnVec.z = this->z * scalar;
-		return returnVec;
-	}
+	TVector operator *(float scalar);
 
-	TVector operator +(const TVector& other)
-	{
-		TVector returnVec = *this;
-		returnVec.x += other.x;
-		returnVec.y += other.y;
-		returnVec.z += other.z;
-		return returnVec;
-	}		
+	TVector operator +(const TVector& other);
 	
-	TVector operator -(const TVector& other)
-	{
-		TVector returnVec = *this;
-		returnVec.x -= other.x;
-		returnVec.y -= other.y;
-		returnVec.z -= other.z;
-		return returnVec;
-	}
+	TVector operator -(const TVector& other);
 	
-	void operator +=(const TVector& other)
-	{
-		
-		x += other.x;
-		y += other.y;
-		z += other.z;
+	void operator +=(const TVector& other);
 
-	}
+	bool operator ==(const TVector& other);
+	
+	bool operator !=(const TVector& other);
 
-	bool operator ==(const TVector& other)
-	{
-		return x == other.x && y == other.y && z == other.z;
-	}
-	bool operator !=(const TVector& other)
-	{
-		return !(*this == other);
-	}
 };
 
+
+
 using Vector = TVector<float>;
-
-
-
+template class COREMODULEAPI TVector<float>;

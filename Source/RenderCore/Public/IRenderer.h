@@ -7,8 +7,8 @@
 class RENDERCOREMODULEAPI IRenderer
 {
 public:
-	IRenderer() {}
-	~IRenderer() {}
+	IRenderer() = default;
+	virtual ~IRenderer() = default;
 
 	virtual void Init() = 0;
 	virtual void EndPlay() = 0;

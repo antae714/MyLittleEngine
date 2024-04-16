@@ -11,13 +11,13 @@ struct INPUTCOREMODULEAPI InputData
 	bool IsKeyPressed;
 };
 
-class INPUTCOREMODULEAPI InputSettings
+class InputSettings
 {
 public:
-	InputSettings();
+	INPUTCOREMODULEAPI InputSettings();
 
 public:
-	DynamicArray<InputData>& getInputData();
+	INPUTCOREMODULEAPI DynamicArray<InputData>& getInputData();
 
 private:
 	DynamicArray<InputData> inputArray;
