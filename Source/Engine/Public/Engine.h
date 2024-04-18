@@ -72,11 +72,4 @@ private:
 
 	/** 렌더러 */
 	class IRenderer* renderer;
-private:
-
-	//////////////////////// 
-	//시간 측정용 변수들
-	double testTime;
-	int updateCount;
-	int fixedUpdateCount;
 };

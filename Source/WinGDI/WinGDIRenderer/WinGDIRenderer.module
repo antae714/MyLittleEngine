@@ -3,6 +3,7 @@
 	"LinkModuleName" : [
 		"Core",
 		"Engine",
+		"WinGDIEngine",
 		"RenderCore"
 	]
 }

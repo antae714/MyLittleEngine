@@ -22,7 +22,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 
 	ModuleBase* RendererModule = ModuleManager::LoadModule((L"WinGDIRenderer.dll"));
-	//ModuleBase* ContentsModule = ModuleManager::LoadModule((L"ConsoleGame.dll"));
+	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"WinGDIGame.dll"));
 	
 	{
 		Engine engine;

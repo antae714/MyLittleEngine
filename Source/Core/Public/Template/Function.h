@@ -31,8 +31,9 @@ class FunctionImplement : public FunctionBase<Ret, Arg...>
 {
 public:
 	using THISCLASS = FunctionImplement<Function, Ret, Arg...>;
-	using CFunctionType = std::remove_reference<Function>::type;
-	using FunctionType = std::remove_const<CFunctionType >::type;
+	static_assert(!std::is_reference_v<Function>);
+	//using CFunctionType = std::remove_reference<Function>::type;
+	using FunctionType = std::remove_const<Function >::type;
 
 public:
 	/**

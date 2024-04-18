@@ -13,12 +13,6 @@
 
 using namespace std;
 
-
-
-//Vector g_Player = { 0,0 };
-COORD g_Player_MoveVec = { 0,0 };
-float g_Speed = 0.25f;
-
 Engine* Engine::GEngine = nullptr;
 
 Engine::Engine() : 
@@ -26,9 +20,7 @@ Engine::Engine() :
 	mainWorld(nullptr),
 	renderer(nullptr), 
 	inputProcessor(nullptr),
-	isEngineRunning(false),
-	fixedTimeStep(0.0), 
-	accumulatedFixedTime(0.0)
+	isEngineRunning(false)
 {
 	_ASSERT(!GEngine);
 	GEngine = this;
@@ -66,9 +58,6 @@ void Engine::Initialize()
 
 	engineStartTime = timer->_GetCurrentTime();
 	fixedTimeStep = 1.0 / 60.0 * 1000.0;
-	testTime = 0;
-	fixedUpdateCount = 0;
-	updateCount = 0;
 }
 
 InputSettings* Engine::GetInputSetting()
@@ -129,7 +118,7 @@ void Engine::FixedUpdate()
 	{
 		mainWorld->FixedUpdate(fixedTimeStep);
 
-		++fixedUpdateCount;
+
 		deltaTime -= fixedTimeStep;
 	}
 
@@ -138,20 +127,11 @@ void Engine::FixedUpdate()
 
 void Engine::Update()
 {
-	updateCount++;
 	mainWorld->Update(timer->GetDeltaTime());
 }
 
 void Engine::Render()
 {
-	testTime += timer->GetDeltaTime();
-	if (testTime >= 1000)
-	{
-		cout << "updateCount : " << updateCount << "\t fixedUpdateCount : " << fixedUpdateCount << endl;
-		fixedUpdateCount = 0;
-		updateCount = 0;
-		testTime = 0;
-	}
 	renderer->Render(mainWorld);
 }
 

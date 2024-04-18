@@ -1,9 +1,15 @@
-#include "Vector.h"
 #pragma once
-
+#include "Vector.h"
+#include <cmath>
 
 template<typename T>
-inline TVector<T> TVector<T>::operator*(float scalar)
+inline float TVector<T>::Length()
+{
+	return std::sqrt(LengthSquared());
+}
+
+template<typename T>
+inline TVector<T> TVector<T>::operator*(float scalar) const
 {
 	TVector returnVec;
 	returnVec.x = this->x * scalar;
@@ -13,7 +19,7 @@ inline TVector<T> TVector<T>::operator*(float scalar)
 }
 
 template<typename T>
-inline TVector<T> TVector<T>::operator+(const TVector& other)
+inline TVector<T> TVector<T>::operator+(const TVector& other) const
 {
 	TVector returnVec = *this;
 	returnVec.x += other.x;
@@ -23,7 +29,7 @@ inline TVector<T> TVector<T>::operator+(const TVector& other)
 }
 
 template<typename T>
-inline TVector<T> TVector<T>::operator-(const TVector& other)
+inline TVector<T> TVector<T>::operator-(const TVector& other) const
 {
 	TVector returnVec = *this;
 	returnVec.x -= other.x;
@@ -41,13 +47,13 @@ inline void TVector<T>::operator+=(const TVector& other)
 }
 
 template<typename T>
-inline bool TVector<T>::operator==(const TVector& other)
+inline bool TVector<T>::operator==(const TVector& other) const
 {
 	return x == other.x && y == other.y && z == other.z;
 }
 
 template<typename T>
-inline bool TVector<T>::operator!=(const TVector& other)
+inline bool TVector<T>::operator!=(const TVector& other) const
 {
 	return !(*this == other);
 }

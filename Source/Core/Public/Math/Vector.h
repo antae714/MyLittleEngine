@@ -23,18 +23,20 @@ public:
 	TVector(const TVector& other) : x(other.x), y(other.y), z(other.z) {}
 
 public:
-	TVector operator *(float scalar);
+	float LengthSquared() { return x * x + y * y + z * z; }
+	float Length();
 
-	TVector operator +(const TVector& other);
+	TVector operator *(float scalar) const;
+
+	TVector operator +(const TVector& other) const;
 	
-	TVector operator -(const TVector& other);
+	TVector operator -(const TVector& other) const;
 	
+	bool operator ==(const TVector& other) const;
+	
+	bool operator !=(const TVector& other) const;
+
 	void operator +=(const TVector& other);
-
-	bool operator ==(const TVector& other);
-	
-	bool operator !=(const TVector& other);
-
 };
 
 
