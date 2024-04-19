@@ -1,9 +1,9 @@
-#include "GameFramework/Collision.h"
-#include "Rect.h"
-#include "Circle.h"
+#include "Components/Collision.h"
+#include "Math/Rect.h"
+#include "Math/Circle.h"
 #include <algorithm>
-#include "GameFramework/BoxCollision.h"
-#include "GameFramework/SphereCollision.h"
+#include "Components/RectCollision.h"
+#include "Components/CircleCollision.h"
 
 
 Collision::CollisonIntersects Collision::InterSectsArray[ECollisonType::MAX][ECollisonType::MAX] =
@@ -35,8 +35,8 @@ bool Collision::CheckIntersects(Collision* other)
 
 bool Collision::checkBoxBoxIntersection(Collision* first, Collision* second)
 {
-	BoxCollision* fistCollision = dynamic_cast<BoxCollision*>(first);
-	BoxCollision* secondCollision = dynamic_cast<BoxCollision*>(second);
+	RectCollision* fistCollision = dynamic_cast<RectCollision*>(first);
+	RectCollision* secondCollision = dynamic_cast<RectCollision*>(second);
 
 	if (!(fistCollision && secondCollision)) throw std::exception();
 	
@@ -54,13 +54,13 @@ bool Collision::checkBoxBoxIntersection(Collision* first, Collision* second)
 
 bool Collision::checkBoxCircleIntersection(Collision* first, Collision* second)
 {
-	BoxCollision* fistCollision = dynamic_cast<BoxCollision*>(first);
-	SphereCollision* secondCollision = dynamic_cast<SphereCollision*>(second);
+	RectCollision* fistCollision = dynamic_cast<RectCollision*>(first);
+	CircleCollision* secondCollision = dynamic_cast<CircleCollision*>(second);
 
 	if (!(fistCollision && secondCollision))
 	{
-		fistCollision = dynamic_cast<BoxCollision*>(second);
-		secondCollision = dynamic_cast<SphereCollision*>(first);
+		fistCollision = dynamic_cast<RectCollision*>(second);
+		secondCollision = dynamic_cast<CircleCollision*>(first);
 
 		if (!(fistCollision && secondCollision)) throw std::exception();
 	}
@@ -79,8 +79,8 @@ bool Collision::checkBoxCircleIntersection(Collision* first, Collision* second)
 
 bool Collision::checkCircleCircleIntersection(Collision* first, Collision* second)
 {
-	SphereCollision* fistCollision = dynamic_cast<SphereCollision*>(first);
-	SphereCollision* secondCollision = dynamic_cast<SphereCollision*>(second);
+	CircleCollision* fistCollision = dynamic_cast<CircleCollision*>(first);
+	CircleCollision* secondCollision = dynamic_cast<CircleCollision*>(second);
 
 	if (!(fistCollision && secondCollision)) throw std::exception();
 

@@ -1,6 +1,8 @@
 #include "Misc/Path.h"
+#include <exception>
 
-WString Path::getLaunchDir()
+
+WString Path::GetLaunchDir()
 {
 	wchar_t path[MAX_PATH] = { 0 };
 	GetModuleFileName(NULL, path, MAX_PATH);
@@ -15,10 +17,34 @@ WString Path::getLaunchDir()
 	}
 
 
+	throw std::exception();
     return WString(path);
 }
 
-WString Path::getConfigDir()
+WString Path::GetProjectDir()
 {
-	return getLaunchDir() + WString(L"\\Config\\");
+
+	static WString ProjectDir;
+	if (ProjectDir.IsEmpty())
+	{
+		wchar_t fileDir[] = (TEXT(__FILE__));
+
+
+
+
+
+	}
+
+
+	return WString();
+}
+
+WString Path::GetConfigDir()
+{
+	return GetLaunchDir() + WString(L"\\Config\\");
+}
+
+WString Path::GetContentsDir()
+{
+	return GetLaunchDir() + WString(L"\\Contents\\");
 }

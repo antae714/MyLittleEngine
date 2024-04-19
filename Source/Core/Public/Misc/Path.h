@@ -5,7 +5,9 @@
 class COREMODULEAPI Path
 {
 public:
-	static WString getLaunchDir();
-	static WString getConfigDir();
+	static WString GetLaunchDir();
+	static WString GetProjectDir();
+	static WString GetConfigDir();
+	static WString GetContentsDir();
 };
 

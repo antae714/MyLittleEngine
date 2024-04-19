@@ -70,7 +70,7 @@ template<class T>
 inline bool Config::LoadConfig(IniSetting<T>* iniSetting)
 {
 	//직력화 구현후 구현
-	Path::getConfigDir();
+	Path::GetConfigDir();
 	return false;
 }
 

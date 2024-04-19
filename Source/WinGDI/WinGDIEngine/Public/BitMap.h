@@ -6,6 +6,7 @@
 class BitMap : public IResource
 {
 public:
+	BitMap(HBITMAP _bitmap) : bitmap(_bitmap), name() {}
 	virtual ~BitMap() = default;
 	
 public:
@@ -24,8 +25,11 @@ public:
 		return &name;
 	}
 
-public:
+	HBITMAP GetBitmap() { return bitmap; }
+
+private:
 	String name;
+	HBITMAP bitmap;
 };
 
 class BitMapLoader : public IResourceLoader
@@ -37,7 +41,9 @@ public:
 	[[nodiscard]]
 	virtual IResource* Load(void* loadKey) override 
 	{
-		BitMap* bitMap = new BitMap();
+		HBITMAP hBitmap = (HBITMAP)LoadImage(NULL, *(WString*)loadKey, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+
+		BitMap* bitMap = new BitMap(hBitmap);
 		bitMap->SetLoadKey(loadKey);
 		return bitMap;
 	}
@@ -45,6 +51,7 @@ public:
 	virtual void UnLoad(IResource* resource) override 
 	{
 		delete resource;
+		DeleteObject(dynamic_cast<BitMap*>(resource)->GetBitmap());
 	}
 };
 

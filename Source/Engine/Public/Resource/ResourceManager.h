@@ -22,7 +22,7 @@ public:
 	static ResourceManager* GetSingletonInstance()
 	{
 		static ResourceManager resourceManager;
-		return resourceManager;
+		return &resourceManager;
 	}
 
 	[[nodiscard]]

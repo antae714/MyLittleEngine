@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Application/WindowApplication.h"
 #include <cstdlib>
+#include "Misc/Path.h"
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,

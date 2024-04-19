@@ -1,7 +1,6 @@
 
 #include "Module/ModuleManager.h"
 #include "Module/ModuleBase.h"
-#include <Windows.h>
 #include <exception>
 
 ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)

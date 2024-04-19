@@ -2,6 +2,7 @@
 
 #include <type_traits>
 
+
 template <class T>
 class COREMODULEAPI StringBase
 {
@@ -15,16 +16,24 @@ public:
     StringBase(const T2& _string);
 
 public:
+    bool IsEmpty() const;
+    size_t Length() const;
+    size_t FindFirstDifference(const StringBase<T>& other) const;
+
+public:
     static void Concat(StringBase<T>& dest, const StringBase<T>& source);
     static bool Compare(const StringBase<T>& first, const StringBase<T>& second);
+    
     bool operator==(const StringBase<T>& other) const { return Compare(*this, other); }
     StringBase<T>& operator+=(const StringBase<T>& other) { Concat(*this, other); return *this; }
     StringBase<T> operator+(const StringBase<T>& other) const { StringBase<T> dest; Concat(dest, *this); Concat(dest, other); return std::move(dest); }
-
-    //unsigned int Length();
+    
+    operator T* ()
+    {
+        return string;
+    }
 private:
     T string[32];
-    unsigned int strSize = 32;
 };
 
 

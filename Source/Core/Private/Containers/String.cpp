@@ -48,7 +48,38 @@ inline WString::StringBase(const String& _string) : WString()
     size_t length;
     ::mbstowcs_s(&length, string, _string.string, 256);
 }
+template<class T>
+bool StringBase<T>::IsEmpty() const
+{
+    return string[0] == '\0';
+}
 
+template<>
+size_t String::Length() const
+{
+    return strlen(string);
+}
+
+template<>
+size_t WString::Length() const
+{
+    return lstrlenW(string);
+}
+
+template<class T>
+size_t StringBase<T>::FindFirstDifference(const StringBase<T>& other) const
+{
+    size_t length = (std::max)(Length(), other.Length());
+    for (size_t i = 0; i < length; i++)
+    {
+        if (string[i] != other.string[i])
+        {
+            return i;
+        }
+    }
+
+    return length;
+}
 
 template<>
 void String::Concat(String& dest, const String& source)
@@ -66,13 +97,13 @@ void WString::Concat(WString& dest, const WString& source)
 template <>
 inline bool String::Compare(const String& first, const String& second)
 {
-    return ::strcmp(first.string, second.string) == 0;
+    return 0 == ::strcmp(first.string, second.string);
 }
 
 template<>
 inline bool WString::Compare(const WString& first, const WString& second)
 {
-    return ::lstrcmpW(first.string, second.string) == 0;
+    return 0 == ::lstrcmpW(first.string, second.string);
 }
 
 

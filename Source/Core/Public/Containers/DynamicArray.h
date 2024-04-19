@@ -91,7 +91,7 @@ public:
 	 * @tparam Function 조건을 판별할 함수 객체 타입입니다.
 	 * @param function 조건을 판별하는 함수 객체입니다.
 	 */
-	template<class Function>
+	template<class Function = bool(*)(ElementType&)>
 	bool Remove(Function function);
 
 	/**
@@ -99,7 +99,7 @@ public:
 	 * @tparam Function 조건을 판별할 함수 객체 타입입니다.
 	 * @param function 조건을 판별하는 함수 객체입니다.
 	 */
-	template<class Function>
+	template<class Function = bool(*)(ElementType&)>
 	void RemoveAll(Function function);
 
 	/**
@@ -116,7 +116,7 @@ public:
 	 * @param predicate 조건을 판별하는 함수 객체입니다.
 	 * @return 조건을 만족하는 첫 번째 요소를 가리키는 반복자입니다.
 	 */
-	template<class Function>
+	template<class Function = bool(*)(ElementType&)>
 	Iterator Find(Function predicate);
 
 	/**

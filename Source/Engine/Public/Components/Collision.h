@@ -13,7 +13,7 @@ namespace ECollisonType
 	};
 }
 
-class WINGDIENGINEMODULEAPI Collision : public Component
+class ENGINEMODULEAPI Collision : public Component
 {
 public:
 	virtual int GetECollisonType() = 0;
