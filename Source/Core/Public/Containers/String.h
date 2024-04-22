@@ -11,9 +11,14 @@ class COREMODULEAPI StringBase
 
 public:
     StringBase();
+    StringBase(const StringBase<T>& other);
+    StringBase(StringBase<T>&& other);
     StringBase(const T* _string);
-    template <class T2>
-    StringBase(const T2& _string);
+    
+    //template <class T2>
+    //StringBase(const StringBase<T2>& _string);
+    
+    ~StringBase();
 
 public:
     bool IsEmpty() const;
@@ -26,14 +31,18 @@ public:
     
     bool operator==(const StringBase<T>& other) const { return Compare(*this, other); }
     StringBase<T>& operator+=(const StringBase<T>& other) { Concat(*this, other); return *this; }
-    StringBase<T> operator+(const StringBase<T>& other) const { StringBase<T> dest; Concat(dest, *this); Concat(dest, other); return std::move(dest); }
+    StringBase<T> operator+(const StringBase<T>& other) const { StringBase<T> dest; Concat(dest, *this); Concat(dest, other); return dest; }
     
-    operator T* ()
-    {
-        return string;
-    }
+    void operator=(const StringBase<T>& other);
+
+    operator T* () { return string; }
+
 private:
-    T string[32];
+    void SecureMemory(int _length);
+
+private:
+    T* string;
+    size_t length;
 };
 
 

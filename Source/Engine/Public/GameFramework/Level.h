@@ -52,7 +52,11 @@ public:
      */
 	void RemoveActor(class Actor* actor);
 
+public:
+	class World* ownedWorld;
+
 protected:
+
 	/** 레벨에 있는 액터 배열 */
 	DynamicArray<class Actor*> actors;
 

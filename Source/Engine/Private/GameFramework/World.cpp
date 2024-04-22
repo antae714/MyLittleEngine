@@ -19,7 +19,8 @@ void World::BeginPlay()
 {
 	if (!mainLevel)
 	{
-		mainLevel = LevelFactory::Get("Default");
+		SetMainLevel(LevelFactory::Get("Default"));
+
 	}
 	mainLevel->BeginPlay();
 }
@@ -40,11 +41,18 @@ void World::Update(float TickTime)
 
 void World::EndPlay()
 {
+	mainLevel->EndPlay();
+
+	for (auto& item : subLevels)
+	{
+		item->EndPlay();
+	}
 }
 
 void World::SetMainLevel(Level* _mainLevel)
 {
 	mainLevel = _mainLevel;
+	mainLevel->ownedWorld = this;
 }
 
 Level* World::GetMainLevel()
@@ -65,6 +73,7 @@ WorldSettings* World::getWorldSettings()
 void World::AddLevel(Level* level)
 {
 	subLevels.Add(level);
+	level->ownedWorld = this;
 }
 
 void World::RemoveLevel(Level* level)

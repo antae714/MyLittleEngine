@@ -120,8 +120,7 @@ inline void DynamicArray<ElementType>::ReSizeCapacity(unsigned int newCapacit, b
 {
 	PreResizeCapacity(newCapacit, fitToCapacit);
 
-	ElementType* tempdata = data;
-	tempdata = (ElementType*)realloc(data, capacity * GetTypeSize());
+	ElementType* tempdata = (ElementType*)realloc(data, capacity * GetTypeSize());
 	if (tempdata == nullptr && capacity)
 	{
 		tempdata = (ElementType*)malloc(capacity * GetTypeSize());

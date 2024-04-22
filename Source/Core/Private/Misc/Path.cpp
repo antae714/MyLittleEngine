@@ -17,20 +17,16 @@ WString Path::GetLaunchDir()
 	}
 
 
-	throw std::exception();
     return WString(path);
 }
 
 WString Path::GetProjectDir()
 {
+	throw std::exception();
 
 	static WString ProjectDir;
 	if (ProjectDir.IsEmpty())
 	{
-		wchar_t fileDir[] = (TEXT(__FILE__));
-
-
-
 
 
 	}

@@ -1,12 +1,12 @@
-#include "Components/Collision.h"
+#include "Components/CollisionComponent.h"
 #include "Math/Rect.h"
 #include "Math/Circle.h"
 #include <algorithm>
-#include "Components/RectCollision.h"
-#include "Components/CircleCollision.h"
+#include "Components/RectCollisionComponent.h"
+#include "Components/CircleCollisionComponent.h"
 
 
-Collision::CollisonIntersects Collision::InterSectsArray[ECollisonType::MAX][ECollisonType::MAX] =
+CollisionComponent::CollisonIntersects CollisionComponent::InterSectsArray[ECollisonType::MAX][ECollisonType::MAX] =
 {
 	{&checkBoxBoxIntersection, &checkBoxCircleIntersection},
 	{&checkBoxCircleIntersection, &checkCircleCircleIntersection}
@@ -14,7 +14,7 @@ Collision::CollisonIntersects Collision::InterSectsArray[ECollisonType::MAX][ECo
 
 
 
-void Collision::HandleCollision(Collision* other)
+void CollisionComponent::HandleCollision(CollisionComponent* other)
 {
 	if (CheckIntersects(other))
 	{
@@ -22,21 +22,21 @@ void Collision::HandleCollision(Collision* other)
 	}
 }
 
-void Collision::ProcessCollision(Collision* other)
+void CollisionComponent::ProcessCollision(CollisionComponent* other)
 {
 }
 
-bool Collision::CheckIntersects(Collision* other)
+bool CollisionComponent::CheckIntersects(CollisionComponent* other)
 {
 	CollisonIntersects IntersectsFunction = InterSectsArray[GetECollisonType()][other->GetECollisonType()];
 	
 	return IntersectsFunction(this, other);
 }
 
-bool Collision::checkBoxBoxIntersection(Collision* first, Collision* second)
+bool CollisionComponent::checkBoxBoxIntersection(CollisionComponent* first, CollisionComponent* second)
 {
-	RectCollision* fistCollision = dynamic_cast<RectCollision*>(first);
-	RectCollision* secondCollision = dynamic_cast<RectCollision*>(second);
+	RectCollisionComponent* fistCollision = dynamic_cast<RectCollisionComponent*>(first);
+	RectCollisionComponent* secondCollision = dynamic_cast<RectCollisionComponent*>(second);
 
 	if (!(fistCollision && secondCollision)) throw std::exception();
 	
@@ -52,15 +52,15 @@ bool Collision::checkBoxBoxIntersection(Collision* first, Collision* second)
 	return isIntersects1 && isIntersects2 && isIntersects3 && isIntersects4;
 }
 
-bool Collision::checkBoxCircleIntersection(Collision* first, Collision* second)
+bool CollisionComponent::checkBoxCircleIntersection(CollisionComponent* first, CollisionComponent* second)
 {
-	RectCollision* fistCollision = dynamic_cast<RectCollision*>(first);
-	CircleCollision* secondCollision = dynamic_cast<CircleCollision*>(second);
+	RectCollisionComponent* fistCollision = dynamic_cast<RectCollisionComponent*>(first);
+	CircleCollisionComponent* secondCollision = dynamic_cast<CircleCollisionComponent*>(second);
 
 	if (!(fistCollision && secondCollision))
 	{
-		fistCollision = dynamic_cast<RectCollision*>(second);
-		secondCollision = dynamic_cast<CircleCollision*>(first);
+		fistCollision = dynamic_cast<RectCollisionComponent*>(second);
+		secondCollision = dynamic_cast<CircleCollisionComponent*>(first);
 
 		if (!(fistCollision && secondCollision)) throw std::exception();
 	}
@@ -77,10 +77,10 @@ bool Collision::checkBoxCircleIntersection(Collision* first, Collision* second)
 	return isIntersects;
 }
 
-bool Collision::checkCircleCircleIntersection(Collision* first, Collision* second)
+bool CollisionComponent::checkCircleCircleIntersection(CollisionComponent* first, CollisionComponent* second)
 {
-	CircleCollision* fistCollision = dynamic_cast<CircleCollision*>(first);
-	CircleCollision* secondCollision = dynamic_cast<CircleCollision*>(second);
+	CircleCollisionComponent* fistCollision = dynamic_cast<CircleCollisionComponent*>(first);
+	CircleCollisionComponent* secondCollision = dynamic_cast<CircleCollisionComponent*>(second);
 
 	if (!(fistCollision && secondCollision)) throw std::exception();
 

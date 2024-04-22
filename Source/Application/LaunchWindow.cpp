@@ -4,6 +4,7 @@
 #include "Application/WindowApplication.h"
 #include <cstdlib>
 #include "Misc/Path.h"
+#include "Containers/String.h"
 
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -11,6 +12,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
+
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 

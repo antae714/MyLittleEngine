@@ -1,6 +1,14 @@
 #include "WinGDIGamePlayerCharacter.h"
 #include "GameFramework/Controller.h"
+#include "GameFramework/WinGDIRenderComponent.h"
 
+
+WinGDIGamePlayerCharacter::WinGDIGamePlayerCharacter()
+{
+	WinGDIRenderComponent* winGDIRenderComponent = AddComponent<WinGDIRenderComponent>();
+	winGDIRenderComponent->SetImageName(L"Test.bmp");
+	winGDIRenderComponent->SetRenderArea({ {1,1},{2,2} });
+}
 
 void WinGDIGamePlayerCharacter::BeginPlay()
 {

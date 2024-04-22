@@ -1,5 +1,9 @@
 #include "WinGDIRenderer.h"
 #include "Application/WindowApplication.h"
+#include "GameFramework/World.h"
+#include "GameFramework/Level.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/WinGDIRenderComponent.h"
 
 WinGDIRenderer::WinGDIRenderer() : hWindow(nullptr), frontBufferDC(nullptr), backBufferDC(nullptr), backBitmap(nullptr)
 {
@@ -37,6 +41,33 @@ void WinGDIRenderer::EndPlay()
 
 void WinGDIRenderer::Render(World* world)
 {
+
+	::PatBlt(backBufferDC, 0, 0, width, height, WHITENESS);
+	::SelectObject(backBufferDC, backBitmap);
+
+	for (auto& item : world->GetMainLevel()->GetActorArray())
+	{
+		WinGDIRenderComponent* winGDIRenderComponent = item->GetComponent<WinGDIRenderComponent>();
+
+		if (!winGDIRenderComponent) continue;
+
+		Rect renderArea = winGDIRenderComponent->GetRenderArea();
+
+		HDC bitmapMemDC = CreateCompatibleDC(frontBufferDC);
+		HBITMAP hBitmap = winGDIRenderComponent->GetHBITMAP();
+		HBITMAP hOldBitmap = (HBITMAP)SelectObject(bitmapMemDC, hBitmap);
+
+		BITMAP bm;
+		GetObject(hBitmap, sizeof(BITMAP), &bm);
+
+		::BitBlt(backBufferDC, renderArea.Min.x, renderArea.Min.y, bm.bmWidth, bm.bmHeight, bitmapMemDC, 0, 0, SRCCOPY);
+
+		hOldBitmap = (HBITMAP)SelectObject(bitmapMemDC, hOldBitmap);
+		DeleteDC(bitmapMemDC);
+	} 
+
+	::BitBlt(frontBufferDC, 0, 0, width, height, backBufferDC, 0, 0, SRCCOPY);
+
 }
 
 void WinGDIRenderer::OnResizedScreen(ScreenSize screenSize)

@@ -1,5 +1,6 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/Component.h"
+#include "GameFramework/Level.h"
 
 Actor::Actor()
 {
@@ -46,4 +47,9 @@ void Actor::AddComponent(Component* component)
 void Actor::RemoveComponent(Component* component)
 {
 	components.Remove(component);
+}
+
+World* Actor::GetWorld()
+{
+	return ownedLevel->ownedWorld;
 }

@@ -8,10 +8,14 @@
 class WINGDIGAMEMODULEAPI WinGDIGamePlayerCharacter : public Character
 {
 	GENERATED_BODY(WinGDIGamePlayerCharacter, Character)
+
+public:
+	WinGDIGamePlayerCharacter();
+
 public:
 	// Begin Actor Implement
 	virtual void BeginPlay() override;
-	virtual void Update(float deltaTime);
+	virtual void Update(float deltaTime) override;
 	virtual void EndPlay() override;
 	// ~End Actor Implement
 

@@ -22,7 +22,9 @@ public:
 	void Initialize();
 
 	class InputSettings* GetInputSetting();
-	
+
+
+	class IRenderer* GetRenderer() { return renderer; }
 	void Terminate();
 private:
 	/** 엔진 메인 루프 */

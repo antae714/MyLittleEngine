@@ -29,11 +29,21 @@ public:
 	void RemoveComponent(Component* component);
 
 	Vector GetPosition() { return position; }
+
+
+	class World* GetWorld();
+
+public:
+	class Level* ownedLevel;
+
 protected:
+
 	DynamicArray<Component*> components;
+	
 	String name;
 
 	Vector position;
+
 };
 
 template<class T>

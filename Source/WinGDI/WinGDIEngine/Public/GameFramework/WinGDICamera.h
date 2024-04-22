@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "GameFramework/Camera.h"
 
-class WINGDIENGINEMODULEAPI WinGDICamera : public Actor
+class WINGDIENGINEMODULEAPI WinGDICamera : public Camera
 {
 
 };

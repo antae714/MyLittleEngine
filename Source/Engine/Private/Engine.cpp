@@ -137,5 +137,6 @@ void Engine::Render()
 
 void Engine::EndPlay()
 {
+	mainWorld->EndPlay();
 	renderer->EndPlay();
 }

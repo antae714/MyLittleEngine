@@ -14,10 +14,16 @@ public:
 	virtual void EndPlay() override;
 	// ~End Component Implement
 
+	HBITMAP GetHBITMAP() { return bitmap->GetBitmap(); }
+
+	Rect GetRenderArea() { return renderArea; }
+
+	void SetImageName(const WString& _imageName) { imageName = _imageName; }
+	void SetRenderArea(Rect area) { renderArea = area; }
 
 private:
 	Rect renderArea;
-	String imageName;
+	WString imageName;
 	BitMap* bitmap;
 };
 

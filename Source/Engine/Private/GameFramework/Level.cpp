@@ -65,6 +65,7 @@ DynamicArray<class Actor*>& Level::GetActorArray()
 void Level::AddActor(Actor* gameObject)
 {
 	actors.Add(gameObject);
+	gameObject->ownedLevel = this;
 }
 
 void Level::RemoveActor(Actor* gameobject)
