@@ -8,6 +8,9 @@ class WINGDIGAMEMODULEAPI WinGDIGameLevel : public Level
 {
 	GENERATED_BODY(WinGDIGameLevel, Level)
 public:
+	WinGDIGameLevel();
+
+public:
 	// Begin Level Implement
 	virtual void BeginPlay() override;
 	virtual void EndPlay() override;

@@ -7,7 +7,7 @@ WinGDIGamePlayerCharacter::WinGDIGamePlayerCharacter()
 {
 	WinGDIRenderComponent* winGDIRenderComponent = AddComponent<WinGDIRenderComponent>();
 	winGDIRenderComponent->SetImageName(L"Test.bmp");
-	winGDIRenderComponent->SetRenderArea({ {1,1},{2,2} });
+	winGDIRenderComponent->SetRenderArea({ {-1,-1},{1,1} });
 }
 
 void WinGDIGamePlayerCharacter::BeginPlay()

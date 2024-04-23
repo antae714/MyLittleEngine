@@ -2,7 +2,7 @@
 
 #include "Math/Vector.h"
 
-class Rect
+class COREMODULEAPI Rect
 {
 public:
 	Vector Min;

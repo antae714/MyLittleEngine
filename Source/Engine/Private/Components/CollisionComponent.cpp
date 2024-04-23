@@ -4,6 +4,8 @@
 #include <algorithm>
 #include "Components/RectCollisionComponent.h"
 #include "Components/CircleCollisionComponent.h"
+#include "GameFramework/Actor.h"
+#include "GameFramework/World.h"
 
 
 CollisionComponent::CollisonIntersects CollisionComponent::InterSectsArray[ECollisonType::MAX][ECollisonType::MAX] =
@@ -13,6 +15,14 @@ CollisionComponent::CollisonIntersects CollisionComponent::InterSectsArray[EColl
 };
 
 
+
+void CollisionComponent::CheckAndHandleCollisionsInAllObjects()
+{
+	owner->GetWorld();
+	{
+
+	}
+}
 
 void CollisionComponent::HandleCollision(CollisionComponent* other)
 {

@@ -2,24 +2,28 @@
 #include "WinGDIGamePlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/WorldSettings.h"
+#include "GameFramework/WinGDICamera.h"
 
 
-void WinGDIGameLevel::BeginPlay()
+WinGDIGameLevel::WinGDIGameLevel()
 {
 	WinGDIGamePlayerCharacter* PCharater = new WinGDIGamePlayerCharacter();
-
-
 	PlayerController* playerController = new PlayerController();
 
 	AddActor(PCharater);
 	AddActor(playerController);
 
-	Base::BeginPlay();
-	
+	worldSettings = new WorldSettings();
 	worldSettings->playerController = playerController;
-	playerController->Possess(PCharater);
-	
+	worldSettings->playerCharacter = PCharater;
 
+	AddActor(new WinGDICamera());
+}
+
+void WinGDIGameLevel::BeginPlay()
+{
+	Base::BeginPlay();
+	worldSettings->playerController->Possess(worldSettings->playerCharacter);
 }
 
 void WinGDIGameLevel::EndPlay()

@@ -29,6 +29,7 @@ public:
 	void RemoveComponent(Component* component);
 
 	Vector GetPosition() { return position; }
+	void SetPosition(Vector _position) { position = _position; }
 
 
 	class World* GetWorld();

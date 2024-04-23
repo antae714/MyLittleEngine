@@ -27,9 +27,11 @@ public:
 	float Length();
 
 	TVector operator *(float scalar) const;
-
-	TVector operator +(const TVector& other) const;
 	
+	TVector operator +(const TVector& other) const;
+
+	TVector operator -() const;
+
 	TVector operator -(const TVector& other) const;
 	
 	bool operator ==(const TVector& other) const;

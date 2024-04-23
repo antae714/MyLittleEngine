@@ -29,6 +29,16 @@ inline TVector<T> TVector<T>::operator+(const TVector& other) const
 }
 
 template<typename T>
+inline TVector<T> TVector<T>::operator-() const
+{
+	TVector returnVec = *this;
+	returnVec.x = -returnVec.x;
+	returnVec.y = -returnVec.y;
+	returnVec.z = -returnVec.z;
+	return returnVec;
+}
+
+template<typename T>
 inline TVector<T> TVector<T>::operator-(const TVector& other) const
 {
 	TVector returnVec = *this;

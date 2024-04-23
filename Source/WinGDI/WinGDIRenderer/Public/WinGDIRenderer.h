@@ -25,6 +25,10 @@ public:
 	void OnResizedScreen(struct ScreenSize screenSize);
 	void PlaceInCenterOfScreen();
 
+	Vector ViewPortToScreen(Vector viewportPosition);
+	Vector ScreenToViewPort(Vector screenPosition);
+
+
 private:
 	HWND hWindow;
 	HDC frontBufferDC;
@@ -34,5 +38,8 @@ private:
 
 	unsigned int width;
 	unsigned int height;
+
+	float invWidth;
+	float invHeight;
 };
 

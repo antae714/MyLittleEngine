@@ -18,6 +18,10 @@ class ENGINEMODULEAPI CollisionComponent : public Component
 public:
 	virtual int GetECollisonType() = 0;
 
+
+	void CheckAndHandleCollisionsInAllObjects();
+
+private:
 	void HandleCollision(CollisionComponent* other);
 	void ProcessCollision(CollisionComponent* other);
 	bool CheckIntersects(CollisionComponent* other);

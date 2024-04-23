@@ -21,10 +21,6 @@ Level::~Level()
 
 void Level::BeginPlay()
 {
-	if (!worldSettings)
-	{
-		worldSettings = new WorldSettings();
-	}
 	for (auto& item : actors)
 	{
 		item->BeginPlay();

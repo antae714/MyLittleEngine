@@ -75,14 +75,20 @@ public:
 	 * @param LevelName 제거할 레벨의 이름
 	 */
 	void RemoveLevelByName(String LevelName);
-	
+
+	void SetMainCamera(class Camera* _camera) { mainCamera = _camera; };
+	class Camera* GetMainCamera() { return mainCamera; };
+
 private:
+	/** 월드 이름 */
+	String name;
+
 	/** 메인 레벨 객체 포인터 */
 	Level* mainLevel;
 
 	/** 서브 레벨 배열 */
 	DynamicArray<Level*> subLevels;
 
-	/** 월드 이름 */
-	String name;
+
+	class Camera* mainCamera;
 };

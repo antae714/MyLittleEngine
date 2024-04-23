@@ -1,9 +1,14 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Math/ScreenSize.h"
+#include "CoreMinimal.h"
 
 class ENGINEMODULEAPI Camera : public Actor
 {
+	GENERATED_BODY(Camera, Actor)
+public:
+	Camera();
 
 public:
 	// Begin Actor Implement
@@ -14,19 +19,17 @@ public:
 
 
 public:
+	void SetRenderBoxExtents(Vector _renderBoxExtents);
 
-	Vector ScreenToWorld();
-	Vector WorldToScreen();
 
-	Vector ViewPortToWorld();
-	Vector WorldToViewPort();
+	Vector ViewPortToWorld(Vector viewportPosition);
+	Vector WorldToViewPort(Vector worldPosition);
 	
-	Vector ViewPortToScreen();
-	Vector ScreenToViewPort();
 
 private:
-	unsigned int width;
-	unsigned int height;
+	Vector renderBoxExtents;
 
+	Vector viewportSize;
+	Vector viewportScale;
 };
 

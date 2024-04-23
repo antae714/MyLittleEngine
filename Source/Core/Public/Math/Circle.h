@@ -2,7 +2,7 @@
 
 #include "Math/Vector.h"
 
-class Circle
+class COREMODULEAPI Circle
 {
 public:
 	Vector Center;

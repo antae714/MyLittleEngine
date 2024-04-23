@@ -2,12 +2,7 @@
 
 #include "Containers/Delegate.h"
 #include "Template/Function.h"
-
-struct COREMODULEAPI ScreenSize
-{
-	unsigned int width;
-	unsigned int height;
-};
+#include "Math/ScreenSize.h"
 
 class COREMODULEAPI IApplication
 {
