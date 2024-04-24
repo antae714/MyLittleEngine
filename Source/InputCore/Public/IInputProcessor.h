@@ -12,7 +12,11 @@
 class INPUTCOREMODULEAPI IInputProcessor
 {
 public:
+	virtual ~IInputProcessor() = default;
+
+public:
 	virtual void Init() = 0;
+	virtual void EndPlay() = 0;
 	/** os의 인풋을 처리합니다. */
 	virtual void ProcessInput() = 0;
 

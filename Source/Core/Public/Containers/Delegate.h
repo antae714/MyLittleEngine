@@ -1,5 +1,6 @@
 #pragma once
 
+#include <type_traits>
 #include "DynamicArray.h"
 #include "Template/Function.h"
 
@@ -16,6 +17,7 @@ public:
 			item((args)...);
 		}
 	}
+	
 
 	template<class FN, class Object>
 	void Bind(FN _function, Object* object)

@@ -12,14 +12,21 @@ Controller::~Controller()
 
 void Controller::ProcessInput(InputSettings* inputs)
 {
-	DynamicArray<InputData>& inputDataArray = inputs->getInputData();
-	for (size_t i = 0; i < inputDataArray.GetCount(); i++)
+	DynamicArray<InputAxisData>& inputAxisArray = inputs->GetInputAxisData();
+	for (auto& item : Axisinput)
 	{
-		if (inputDataArray[i].IsKeyPressed)
+		item.Call(inputAxisArray[item.keyCode].KeyValue);
+	}
+
+	DynamicArray<InputActionData>& inputActionArray = inputs->GetInputActionData();
+	for (auto& item : input)
+	{
+		if (inputActionArray[item.keyCode].IsKeyPressed)
 		{
-			Exec(i, 1.0f);
+			item.Call();
 		}
 	}
+
 }
 
 void Controller::Possess(Pawn* _pawn)
@@ -40,18 +47,5 @@ Pawn* Controller::GetPawn()
 
 void Controller::Exec(int execKeyCode, float value)
 {
-	for (auto& i : input)
-	{
-		if (i.keyCode == execKeyCode)
-		{
-			i.Call();
-		}
-	}
-	for (auto& i : Axisinput)
-	{
-		if (i.keyCode == execKeyCode)
-		{
-			i.Call(value);
-		}
-	}
+
 }

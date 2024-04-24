@@ -54,8 +54,9 @@ public:
 	{
 		auto temp = [_fuction, args...]() { std::invoke(_fuction, args...); };
 		input.Add(temp);
-		DynamicArray<InputData>& inputs = Engine::GEngine->GetInputSetting()->getInputData();
-		InputData* iter = inputs.Find([inputName](InputData& data) { return data.KeyName == inputName; });
+		DynamicArray<InputActionData>& inputs = Engine::GEngine->GetInputSetting()->GetInputActionData();
+		InputActionData* iter = inputs.Find([inputName](InputActionData& data) { return data.KeyName == inputName; });
+		if (!iter) return;
 
 		int index = iter - inputs.begin();
 
@@ -68,9 +69,9 @@ public:
 	{
 		auto temp = [_fuction, args...](float axis) { std::invoke(_fuction, args..., axis); };
 		Axisinput.Add(temp);
-		DynamicArray<InputData>& inputs = Engine::GEngine->GetInputSetting()->getInputData();
-		InputData* iter = inputs.Find([inputName](InputData& data) { return data.KeyName == inputName; });
-		
+		DynamicArray<InputAxisData>& inputs = Engine::GEngine->GetInputSetting()->GetInputAxisData();
+		InputAxisData* iter = inputs.Find([inputName](InputAxisData& data) { return data.KeyName == inputName; });
+		if (!iter) return;
 		int index = iter - inputs.begin();
 
 

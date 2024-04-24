@@ -1,7 +1,6 @@
 #pragma once
 
 #include <type_traits>
-
 /**
  * 함수 겍체의 기본 클래스입니다.
  * 이 클래스는 함수 개체에 대한 인터페이스를 정의합니다.

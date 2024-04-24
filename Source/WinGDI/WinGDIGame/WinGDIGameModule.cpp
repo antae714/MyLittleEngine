@@ -27,5 +27,5 @@ void WinGDIGameModule::StartUpModule()
 
 void WinGDIGameModule::ShotDownModule()
 {
-
+	LevelFactory::Remove("Default");
 }

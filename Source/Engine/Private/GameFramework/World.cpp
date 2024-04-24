@@ -7,11 +7,11 @@ World::World() : mainLevel(nullptr)
 
 World::~World()
 {
-	if (mainLevel) delete mainLevel;
-	for (auto& i : subLevels)
-	{
-		delete i;
-	}
+	//if (mainLevel) delete mainLevel;
+	//for (auto& i : subLevels)
+	//{
+	//	delete i;
+	//}
 	subLevels.Clear();
 }
 

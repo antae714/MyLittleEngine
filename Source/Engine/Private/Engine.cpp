@@ -30,8 +30,8 @@ Engine::~Engine()
 {
 	if (timer) delete timer;
 	if (mainWorld) delete mainWorld;
-	if (renderer) delete renderer;
-	if (inputProcessor) delete inputProcessor;
+	//if (renderer) delete renderer;
+	//if (inputProcessor) delete inputProcessor;
 
 
 }
@@ -139,4 +139,5 @@ void Engine::EndPlay()
 {
 	mainWorld->EndPlay();
 	renderer->EndPlay();
+	inputProcessor->EndPlay();
 }

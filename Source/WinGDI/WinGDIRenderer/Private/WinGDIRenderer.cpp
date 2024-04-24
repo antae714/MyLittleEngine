@@ -10,6 +10,7 @@ WinGDIRenderer::WinGDIRenderer() : hWindow(nullptr), frontBufferDC(nullptr), bac
 {
 }
 
+
 void WinGDIRenderer::Init()
 {
 	WindowApplication* windowApplication = IApplication::GetSingletonInstance<WindowApplication>();
@@ -80,7 +81,7 @@ void WinGDIRenderer::Render(World* world)
 			SRCCOPY
 		);
 
-		hOldBitmap = (HBITMAP)SelectObject(bitmapMemDC, hOldBitmap);
+		//hOldBitmap = (HBITMAP)SelectObject(bitmapMemDC, hOldBitmap);
 		DeleteDC(bitmapMemDC);
 	} 
 
@@ -113,10 +114,10 @@ void WinGDIRenderer::PlaceInCenterOfScreen()
 
 Vector WinGDIRenderer::ViewPortToScreen(Vector viewportPosition)
 {
-	return Vector(viewportPosition.x * width, viewportPosition.y * height);
+	return Vector(viewportPosition.x * width, (1 - viewportPosition.y) * height);
 }
 
 Vector WinGDIRenderer::ScreenToViewPort(Vector screenPosition)
 {
-	return Vector(screenPosition.x * invWidth, screenPosition.y * invHeight);
+	return Vector(screenPosition.x * invWidth, (1 - screenPosition.y) * invHeight);
 }

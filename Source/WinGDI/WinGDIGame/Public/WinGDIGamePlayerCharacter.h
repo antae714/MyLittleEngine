@@ -19,20 +19,20 @@ public:
 	virtual void EndPlay() override;
 	// ~End Actor Implement
 
-	// Begin Actor Implement
+	// Begin Pawn Implement
 	virtual void BindInput(class Controller* controller);
-	// ~End Actor Implement
+	// ~End Pawn Implement
 
 
 
+	void Move(float axis);
 	void MoveUP();
 	void MoveDown();
 	void MoveLeft();
 	void MoveRight();
 	
 private:
-	Vector direction;
 
-	float speed;	
+	class MovementComponent* movementComponent;
 };
 

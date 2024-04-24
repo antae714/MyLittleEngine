@@ -3,7 +3,7 @@
 #include "Containers/DynamicArray.h"
 #include "Containers/String.h"
 
-struct INPUTCOREMODULEAPI InputData
+struct INPUTCOREMODULEAPI InputActionData
 {
 	/** 입력에 해당하는 이름 */
 	String KeyName;
@@ -11,16 +11,26 @@ struct INPUTCOREMODULEAPI InputData
 	bool IsKeyPressed;
 };
 
-class InputSettings
+struct INPUTCOREMODULEAPI InputAxisData
+{
+	/** 입력에 해당하는 이름 */
+	String KeyName;
+	/** 인풋 여부 */
+	float KeyValue;
+};
+
+class INPUTCOREMODULEAPI InputSettings
 {
 public:
-	INPUTCOREMODULEAPI InputSettings();
+	InputSettings();
 
 public:
-	INPUTCOREMODULEAPI DynamicArray<InputData>& getInputData();
+	DynamicArray<InputActionData>& GetInputActionData() { return inputActionArray; }
+	DynamicArray<InputAxisData>& GetInputAxisData() { return inputAxisArray; }
 
 private:
-	DynamicArray<InputData> inputArray;
+	DynamicArray<InputActionData> inputActionArray;
+	DynamicArray<InputAxisData> inputAxisArray;
 };
 
 

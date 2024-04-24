@@ -32,7 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		engine.Run();
 	}
 
-	//ModuleManager::UnLoadModule(ContentsModule);
+	ModuleManager::UnLoadModule(ContentsModule);
 	ModuleManager::UnLoadModule(RendererModule);
 
 	ModuleManager::UnLoadModule(InputCoreModule);

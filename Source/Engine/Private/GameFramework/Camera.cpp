@@ -4,7 +4,7 @@
 
 Camera::Camera()
 {
-	SetRenderBoxExtents({ 40, 30 });
+	SetRenderBoxExtents({ 800, 600 });
 }
 
 void Camera::BeginPlay()

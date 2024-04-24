@@ -1,16 +1,33 @@
 #include "WindowInputProcessor.h"
 #include "Misc/Config.h"
 #include "InputSettings.h"
+#include <cassert>
+
+WindowInputProcessor::WindowInputProcessor() : inputSettings(nullptr)
+{
+}
+
+WindowInputProcessor::~WindowInputProcessor()
+{
+	if (inputSettings) assert(0);
+}
 
 void WindowInputProcessor::Init()
 {
 	inputSettings = new InputSettings();
 		//직렬화 구현시 변경 Config사용 
-	windowInputArray.Add(VK_UP, "Up");
-	windowInputArray.Add(VK_DOWN, "Down");
-	windowInputArray.Add(VK_LEFT, "Left");
-	windowInputArray.Add(VK_RIGHT, "Right");
+	windowInputActionArray.Add(VK_UP, "Up");
+	windowInputActionArray.Add(VK_DOWN, "Down");
+	windowInputActionArray.Add(VK_LEFT, "Left");
+	windowInputActionArray.Add(VK_RIGHT, "Right");
 
+	windowInputAxisArray.Add(VK_RIGHT, VK_LEFT, "Left/Right");
+}
+
+void WindowInputProcessor::EndPlay()
+{
+	delete inputSettings;
+	inputSettings = nullptr;
 }
 
 void WindowInputProcessor::ProcessInput()
@@ -21,10 +38,19 @@ void WindowInputProcessor::ProcessInput()
 		DispatchMessage(&msg);
 	}
 
-	for (size_t i = 0; i < windowInputArray.GetCount(); i++)
+	for (size_t i = 0; i < windowInputActionArray.GetCount(); i++)
 	{
-		inputSettings->getInputData()[i].IsKeyPressed = GetAsyncKeyState(windowInputArray[i].VKeyCode) & 0x8000;
+		inputSettings->GetInputActionData()[i].IsKeyPressed = GetAsyncKeyState(windowInputActionArray[i].VKeyCode) & 0x8000;
 	}
+
+	for (size_t i = 0; i < windowInputAxisArray.GetCount(); i++)
+	{
+		InputAxisData& inputAxisData = inputSettings->GetInputAxisData()[i];
+		inputAxisData.KeyValue = (GetAsyncKeyState(windowInputAxisArray[i].positiveVKeyCode) & 0x8000) ? 1.0f : 0.0f;
+		inputAxisData.KeyValue += (GetAsyncKeyState(windowInputAxisArray[i].negativeVKeyCode) & 0x8000) ? -1.0f : 0.0f;
+
+	}
+
 }
 
 InputSettings* WindowInputProcessor::getEngineInputArray()

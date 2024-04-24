@@ -59,7 +59,11 @@ public:
 	 */
 	static bool Remove(Key key)
 	{
-		return GetElementArray()->Remove([key](TypeElement& element) { return element.key == key; });
+		Type* temp = Get(key);
+		if (!temp) return false;
+		delete temp;
+		GetElementArray()->Remove([key](TypeElement& element) { return element.key == key; });
+		return true;
 	}
 
 	/**

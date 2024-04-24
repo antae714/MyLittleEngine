@@ -4,14 +4,10 @@ InputSettings::InputSettings()
 {
 	//직렬화 구현시 변경 Config사용 
 
-	inputArray.Add("UP", 0);
-	inputArray.Add("Down", 0);
-	inputArray.Add("Left", 0);
-	inputArray.Add("Right", 0);
-}
+	inputActionArray.Add("UP", 0);
+	inputActionArray.Add("Down", 0);
+	inputActionArray.Add("Left", 0);
+	inputActionArray.Add("Right", 0);
 
-
-DynamicArray<InputData>& InputSettings::getInputData()
-{
-	return inputArray;
+	inputAxisArray.Add("Left/Right", 0.f);
 }
