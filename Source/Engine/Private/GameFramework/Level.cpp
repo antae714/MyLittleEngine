@@ -2,7 +2,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/WorldSettings.h"
 
-Level::Level() : worldSettings(nullptr)
+Level::Level() : worldSettings(nullptr), ownedWorld(nullptr)
 {
 }
 
@@ -12,16 +12,16 @@ Level::~Level()
 	{
 		delete worldSettings;
 	}
-	for (auto& i : actors)
+	for (auto& i : actorList)
 	{
 		delete i;
 	}
-	actors.Clear();
+	actorList.Clear();
 }
 
 void Level::BeginPlay()
 {
-	for (auto& item : actors)
+	for (auto& item : actorList)
 	{
 		item->BeginPlay();
 	}
@@ -29,7 +29,7 @@ void Level::BeginPlay()
 
 void Level::UpdateLevel(float TickTime)
 {
-	for (auto& item : actors)
+	for (auto& item : actorList)
 	{
 		item->Update(TickTime);
 	}
@@ -37,7 +37,7 @@ void Level::UpdateLevel(float TickTime)
 
 void Level::EndPlay()
 {
-	for (auto& item : actors)
+	for (auto& item : actorList)
 	{
 		item->EndPlay();
 	}
@@ -53,21 +53,21 @@ void Level::SetWorldSettings(WorldSettings* _worldSetting)
 	worldSettings = _worldSetting;
 }
 
-DynamicArray<class Actor*>& Level::GetActorArray()
+List<Actor*>& Level::GetActorList()
 {
-	return actors;
+	return actorList;
 }
 
 void Level::AddActor(Actor* gameObject)
 {
-	actors.Add(gameObject);
+	actorList.AddBack(gameObject);
 	gameObject->ownedLevel = this;
 }
 
 void Level::RemoveActor(Actor* gameobject)
 {
-	DynamicArray<class Actor*>::Iterator foundIter = actors.Find(gameobject);
+	auto foundIter = actorList.Find(gameobject);
 	Actor* foundGameObject = *foundIter;
-	actors.Remove(foundIter);
+	actorList.Remove(foundIter);
 	delete foundGameObject;
 }

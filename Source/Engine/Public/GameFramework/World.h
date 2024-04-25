@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Containers/DynamicArray.h"
+#include "Containers/List.h"
 #include "Containers/String.h"
 
 class Level;
@@ -78,6 +79,8 @@ public:
 
 	void SetMainCamera(class Camera* _camera) { mainCamera = _camera; };
 	class Camera* GetMainCamera() { return mainCamera; };
+
+	DynamicArray<List<class Actor*>*> GetAllActor();
 
 private:
 	/** 월드 이름 */

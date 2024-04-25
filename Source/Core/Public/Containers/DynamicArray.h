@@ -25,8 +25,9 @@ public:
 	static constexpr bool IsElementClassType = std::is_class<ElementType>::value;
 
 public:
-	DynamicArray() : data(nullptr), count(0), capacity(0)
+	DynamicArray(size_t _capacity = 0) : data(nullptr), count(0), capacity(0)
 	{
+		ReSizeCapacity(_capacity);
 	}
 
 	DynamicArray(std::initializer_list<ElementType>&& list) : data(nullptr), count(0), capacity(0)

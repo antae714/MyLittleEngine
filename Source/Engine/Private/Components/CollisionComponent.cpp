@@ -6,6 +6,7 @@
 #include "Components/CircleCollisionComponent.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/World.h"
+#include "CollisionAlgorithm.h"
 
 
 CollisionComponent::CollisonIntersects CollisionComponent::InterSectsArray[ECollisonType::MAX][ECollisonType::MAX] =
@@ -15,18 +16,9 @@ CollisionComponent::CollisonIntersects CollisionComponent::InterSectsArray[EColl
 };
 
 
-
-void CollisionComponent::CheckAndHandleCollisionsInAllObjects()
+void CollisionComponent::HandleSweepCollision(CollisionComponent* other, Vector startPosition, Vector endPosition)
 {
-	owner->GetWorld();
-	{
-
-	}
-}
-
-void CollisionComponent::HandleCollision(CollisionComponent* other)
-{
-	if (CheckIntersects(other))
+	if (CheckIntersects(other, endPosition - startPosition, other->owner->GetPosition()))
 	{
 		ProcessCollision(other);
 	}
@@ -34,71 +26,43 @@ void CollisionComponent::HandleCollision(CollisionComponent* other)
 
 void CollisionComponent::ProcessCollision(CollisionComponent* other)
 {
+
+
 }
 
-bool CollisionComponent::CheckIntersects(CollisionComponent* other)
+bool CollisionComponent::CheckIntersects(CollisionComponent* other, Vector Position, Vector otherPosition)
 {
 	CollisonIntersects IntersectsFunction = InterSectsArray[GetECollisonType()][other->GetECollisonType()];
 	
-	return IntersectsFunction(this, other);
+	return IntersectsFunction(this, other, Position, otherPosition);
 }
 
-bool CollisionComponent::checkBoxBoxIntersection(CollisionComponent* first, CollisionComponent* second)
+bool CollisionComponent::checkBoxBoxIntersection(CollisionComponent* first, CollisionComponent* second, Vector firstPos, Vector secondPos)
 {
-	RectCollisionComponent* fistCollision = dynamic_cast<RectCollisionComponent*>(first);
-	RectCollisionComponent* secondCollision = dynamic_cast<RectCollisionComponent*>(second);
-
-	if (!(fistCollision && secondCollision)) throw std::exception();
-	
-	const Rect& rect1 = fistCollision->box;
-	const Rect& rect2 = secondCollision->box;
-
-	bool isIntersects1 = rect1.Min.x < rect2.Max.x;
-	bool isIntersects2 = rect1.Max.x > rect2.Min.x;
-
-	bool isIntersects3 = rect1.Min.y < rect2.Max.y;
-	bool isIntersects4 = rect1.Min.y < rect2.Max.y;
-
-	return isIntersects1 && isIntersects2 && isIntersects3 && isIntersects4;
+	return CollisonAlgoritm::checkBoxBoxIntersection(
+		*(Rect*)first->GetCollison() + firstPos, 
+		*(Rect*)second->GetCollison() + secondPos
+	);
 }
 
-bool CollisionComponent::checkBoxCircleIntersection(CollisionComponent* first, CollisionComponent* second)
+bool CollisionComponent::checkBoxCircleIntersection(CollisionComponent* first, CollisionComponent* second, Vector firstPos, Vector secondPos)
 {
-	RectCollisionComponent* fistCollision = dynamic_cast<RectCollisionComponent*>(first);
-	CircleCollisionComponent* secondCollision = dynamic_cast<CircleCollisionComponent*>(second);
-
-	if (!(fistCollision && secondCollision))
+	if (!dynamic_cast<RectCollisionComponent*>(first))
 	{
-		fistCollision = dynamic_cast<RectCollisionComponent*>(second);
-		secondCollision = dynamic_cast<CircleCollisionComponent*>(first);
-
-		if (!(fistCollision && secondCollision)) throw std::exception();
+		std::swap(first, second);
 	}
 
-	const Rect& rect = fistCollision->box;
-	const Circle& circle = secondCollision->sphare;
-	
-	float closeX = std::clamp(circle.Center.x, rect.Min.x, rect.Max.x);
-	float closeY = std::clamp(circle.Center.y, rect.Min.y, rect.Max.y);
+	return CollisonAlgoritm::checkBoxCircleIntersection(
+		*(Rect*)first->GetCollison() + firstPos,
+		*(Circle*)second->GetCollison() + secondPos
+	);
 
-	Vector closePoint = Vector(closeX, closeY);
-
-	bool isIntersects = (circle.Center - closePoint).LengthSquared() <= powf(circle.Radius, 2.0f);
-	return isIntersects;
 }
 
-bool CollisionComponent::checkCircleCircleIntersection(CollisionComponent* first, CollisionComponent* second)
+bool CollisionComponent::checkCircleCircleIntersection(CollisionComponent* first, CollisionComponent* second, Vector firstPos, Vector secondPos)
 {
-	CircleCollisionComponent* fistCollision = dynamic_cast<CircleCollisionComponent*>(first);
-	CircleCollisionComponent* secondCollision = dynamic_cast<CircleCollisionComponent*>(second);
-
-	if (!(fistCollision && secondCollision)) throw std::exception();
-
-	const Circle& circle1 = fistCollision->sphare;
-	const Circle& circle2 = secondCollision->sphare;
-
-	float lengthSquared = (circle1.Center - circle2.Center).LengthSquared();
-	
-	bool isIntersects = lengthSquared <= powf(circle1.Radius + circle2.Radius, 2.0f);
-	return isIntersects;
+	return CollisonAlgoritm::checkCircleCircleIntersection(
+		*(Circle*)second->GetCollison() + firstPos,
+		*(Circle*)first->GetCollison() + secondPos
+	);
 }

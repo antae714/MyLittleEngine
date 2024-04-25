@@ -29,8 +29,7 @@ public:
 	void RemoveComponent(Component* component);
 
 	Vector GetPosition() { return position; }
-	void SetPosition(Vector _position) { position = _position; }
-
+	Vector SetPosition(Vector targetPosition, bool isSweep = false);
 
 	class World* GetWorld();
 

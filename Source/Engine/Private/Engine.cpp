@@ -20,7 +20,9 @@ Engine::Engine() :
 	mainWorld(nullptr),
 	renderer(nullptr), 
 	inputProcessor(nullptr),
-	isEngineRunning(false)
+	isEngineRunning(false),
+	accumulatedFixedTime(0.0),
+	fixedTimeStep(0.0)
 {
 	_ASSERT(!GEngine);
 	GEngine = this;
@@ -56,7 +58,6 @@ void Engine::Initialize()
 	inputProcessor = InputProcessorFactory::Get("window");
 
 
-	engineStartTime = timer->_GetCurrentTime();
 	fixedTimeStep = 1.0 / 60.0 * 1000.0;
 }
 

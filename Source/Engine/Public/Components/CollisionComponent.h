@@ -1,8 +1,9 @@
 #pragma once
 
 #include "GameFramework/Component.h"
+#include "Math/Vector.h"
 
-namespace ECollisonType
+struct ECollisonType
 {
 	enum
 	{
@@ -11,33 +12,30 @@ namespace ECollisonType
 
 		MAX
 	};
-}
+};
 
 class ENGINEMODULEAPI CollisionComponent : public Component
 {
 public:
 	virtual int GetECollisonType() = 0;
+	virtual void* GetCollison() = 0;
 
-
-	void CheckAndHandleCollisionsInAllObjects();
+public:
+	void HandleSweepCollision(CollisionComponent* other, Vector startPosition, Vector endPosition);
+	bool CheckIntersects(CollisionComponent* other, Vector Position, Vector otherPosition);
 
 private:
-	void HandleCollision(CollisionComponent* other);
 	void ProcessCollision(CollisionComponent* other);
-	bool CheckIntersects(CollisionComponent* other);
-
-	
-
 
 
 
 
 
 private:
-	static bool checkBoxBoxIntersection(CollisionComponent* first, CollisionComponent* second);
-	static bool checkBoxCircleIntersection(CollisionComponent* first, CollisionComponent* second);
-	static bool checkCircleCircleIntersection(CollisionComponent* first, CollisionComponent* second);
+	static bool checkBoxBoxIntersection(CollisionComponent* first, CollisionComponent* second, Vector firstPos, Vector secondPos);
+	static bool checkBoxCircleIntersection(CollisionComponent* first, CollisionComponent* second, Vector firstPos, Vector secondPos);
+	static bool checkCircleCircleIntersection(CollisionComponent* first, CollisionComponent* second, Vector firstPos, Vector secondPos);
 
-	using CollisonIntersects = bool (*)(CollisionComponent*, CollisionComponent*);
+	using CollisonIntersects = bool (*)(CollisionComponent*, CollisionComponent*, Vector, Vector);
 	static CollisonIntersects InterSectsArray[ECollisonType::MAX][ECollisonType::MAX];
 };

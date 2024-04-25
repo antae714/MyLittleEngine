@@ -16,5 +16,8 @@ public:
 	{
 		return Max - GetCenter();
 	}
+
+	Rect operator+(Vector vector) const;
+
 };
 

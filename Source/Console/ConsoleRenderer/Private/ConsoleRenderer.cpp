@@ -80,7 +80,7 @@ void ConsoleRenderer::Render(World* world)
 		}
 	}
 
-	for (Actor* item : world->GetMainLevel()->GetActorArray())
+	for (Actor* item : world->GetMainLevel()->GetActorList())
 	{
 		ConsoleRenderComponent* renderComponent = item->GetComponent<ConsoleRenderComponent>();
 		if (renderComponent)

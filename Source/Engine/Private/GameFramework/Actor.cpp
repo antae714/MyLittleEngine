@@ -49,6 +49,20 @@ void Actor::RemoveComponent(Component* component)
 	components.Remove(component);
 }
 
+Vector Actor::SetPosition(Vector targetPosition, bool isSweep)
+{
+	if (!isSweep)
+	{
+		position = targetPosition;
+		return Vector();
+	}
+	else
+	{
+
+	}
+
+}
+
 World* Actor::GetWorld()
 {
 	return ownedLevel->ownedWorld;

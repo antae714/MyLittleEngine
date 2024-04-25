@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Containers/DynamicArray.h"
+#include "Containers/List.h"
 #include "Containers/String.h"
 #include "Template/Factory.h"
 
@@ -39,7 +39,7 @@ public:
 	class WorldSettings* GetWorldSettings();
 	void SetWorldSettings(class WorldSettings* _worldSetting);
 
-	DynamicArray<class Actor*>& GetActorArray();
+	List<class Actor*>& GetActorList();
 	/**
 	 * 액터를 추가합니다.
 	 * @param actor 추가할 액터 객체
@@ -58,7 +58,7 @@ public:
 protected:
 
 	/** 레벨에 있는 액터 배열 */
-	DynamicArray<class Actor*> actors;
+	List<class Actor*> actorList;
 
 	/** 월드 설정 객체 포인터 */
 	class WorldSettings* worldSettings;

@@ -1,7 +1,9 @@
 #include "GameFramework/World.h"
 #include "GameFramework/Level.h"
+#include "GameFramework/Component.h"
 
-World::World() : mainLevel(nullptr)
+
+World::World() : mainLevel(nullptr), mainCamera(nullptr)
 {
 }
 
@@ -78,7 +80,7 @@ void World::AddLevel(Level* level)
 
 void World::RemoveLevel(Level* level)
 {
-	DynamicArray<class Level*>::Iterator findIter = subLevels.Find(level);
+	DynamicArray<Level*>::Iterator findIter = subLevels.Find(level);
 	Level* findLevel = *findIter;
 	subLevels.Remove(findIter);
 	delete findLevel;
@@ -96,3 +98,19 @@ void World::RemoveLevelByName(String LevelName)
 	subLevels.Remove(findIter);
 	delete findLevel;
 }
+
+DynamicArray<List<Actor*>*> World::GetAllActor()
+{
+	DynamicArray<List<Actor*>*> allActor(subLevels.GetCount() + 1);
+
+	allActor.Add(&mainLevel->GetActorList());
+	for (auto& item : subLevels)
+	{
+		allActor.Add(&item->GetActorList());
+	}
+
+
+	return allActor;
+}
+
+

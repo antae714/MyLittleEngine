@@ -46,10 +46,10 @@ void WinGDIRenderer::Render(World* world)
 	Camera* camera = world->GetMainCamera();
 	if (!camera) return;
 
-	::PatBlt(backBufferDC, 0, 0, width, height, WHITENESS);
+	::PatBlt(backBufferDC, 0, 0, width, height, BLACKNESS);
 	::SelectObject(backBufferDC, backBitmap);
 
-	for (auto& item : world->GetMainLevel()->GetActorArray())
+	for (auto& item : world->GetMainLevel()->GetActorList())
 	{
 		// 렌더링 컴포넌트가 존재하면 그립니다.
 		WinGDIRenderComponent* winGDIRenderComponent = item->GetComponent<WinGDIRenderComponent>();
@@ -59,6 +59,9 @@ void WinGDIRenderer::Render(World* world)
 		Rect renderArea = winGDIRenderComponent->GetRenderArea();
 		renderArea.Min = ViewPortToScreen(camera->WorldToViewPort(renderArea.Min + item->GetPosition()));
 		renderArea.Max = ViewPortToScreen(camera->WorldToViewPort(renderArea.Max + item->GetPosition()));
+
+		std::swap(renderArea.Min.y, renderArea.Max.y);
+
 
 		// 그리기 세팅을 합니다
 		HDC bitmapMemDC = CreateCompatibleDC(frontBufferDC);

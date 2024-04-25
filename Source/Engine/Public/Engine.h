@@ -58,9 +58,6 @@ private:
 	/** 게임 시간 측정 클래스 */
 	class Timer* timer;
 
-	/** 엔진 시작시간 */
-	double engineStartTime;
-
 	/** 고정된 시간 간격 */
 	double fixedTimeStep;
 
