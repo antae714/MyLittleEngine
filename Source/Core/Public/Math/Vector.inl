@@ -9,6 +9,16 @@ inline float TVector<T>::Length()
 }
 
 template<typename T>
+inline TVector<T> TVector<T>::CrossProduct(const TVector& other)
+{
+	TVector result;
+	result.x = y * other.z - z * other.y;
+	result.y = z * other.x - x * other.z;
+	result.z = x * other.y - y * other.x;
+	return result;
+}
+
+template<typename T>
 inline TVector<T> TVector<T>::operator*(float scalar) const
 {
 	TVector returnVec;

@@ -109,7 +109,8 @@ public:
 	 */
 	void Remove(ElementType& element);
 
-	Iterator Find(ElementType& element);
+	bool Contains(ElementType& element) const;
+	Iterator Find(ElementType& element) const;
 
 	/**
 	 * @brief 배열에서 특정 조건을 만족하는 첫 번째 요소를 찾습니다.
@@ -118,7 +119,8 @@ public:
 	 * @return 조건을 만족하는 첫 번째 요소를 가리키는 반복자입니다.
 	 */
 	template<class Function = bool(*)(ElementType&)>
-	Iterator Find(Function predicate);
+	Iterator Find(Function predicate) const;
+
 
 	/**
 	 * @brief 배열에서 특정 조건을 만족하는 모든 요소를 찾아 동적 배열로 반환합니다.
@@ -193,9 +195,9 @@ public:
 	unsigned int GetCapacity() { return capacity; }
 
 	/** 배열의 시작점을 가리키는 이터레이터를 반환합니다. */
-	Iterator begin() { return data; }
+	Iterator begin() const { return data; }
 	/** 배열의 끝점을 가리키는 이터레이터를 반환합니다. */
-	Iterator end() { return data + count; }
+	Iterator end() const { return data + count; }
 	/** 배열의 마지막 요소를 반환합니다. */
 	Iterator Back() { return data + GetLastIndex(); }
 

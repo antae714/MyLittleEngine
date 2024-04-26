@@ -2,13 +2,18 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/WinGDIRenderComponent.h"
 #include "Components/MovementComponent.h"
+#include "Components/CollisionComponent.h"
 
 WinGDIGamePlayerCharacter::WinGDIGamePlayerCharacter()
 {
+	Rect size{ {-20,-20},{20,20} };
+	name = "PlayerCharacter";
 	WinGDIRenderComponent* winGDIRenderComponent = AddComponent<WinGDIRenderComponent>();
 	winGDIRenderComponent->SetImageName(L"Test.bmp");
-	winGDIRenderComponent->SetRenderArea({ {-20,-20},{20,20} });
+	winGDIRenderComponent->SetRenderArea(size);
 
+	CollisionComponent* collisionComponent = AddComponent<CollisionComponent>();
+	collisionComponent->SetCollisonShape(CollisonShape::CreateRect(size));
 
 	movementComponent = AddComponent<MovementComponent>();
 }

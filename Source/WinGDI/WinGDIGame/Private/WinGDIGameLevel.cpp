@@ -4,15 +4,20 @@
 #include "GameFramework/WorldSettings.h"
 #include "GameFramework/WinGDICamera.h"
 #include "GameFramework/WinGDIRenderComponent.h"
+#include "Components/CollisionComponent.h"
 
 Actor* CreateWall(Vector pos, Rect size)
 {
 	Actor* wall = new Actor();
 	wall->SetPosition(pos);
 
+	wall->SetName("Wall");
 	WinGDIRenderComponent* winGDIRenderComponent = wall->AddComponent<WinGDIRenderComponent>();
 	winGDIRenderComponent->SetImageName(L"Wall.bmp");
 	winGDIRenderComponent->SetRenderArea(size);
+
+	CollisionComponent* collisionComponent = wall->AddComponent<CollisionComponent>();
+	collisionComponent->SetCollisonShape(CollisonShape::CreateRect(size));
 	return wall;
 }
 

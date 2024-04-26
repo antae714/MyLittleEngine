@@ -7,6 +7,7 @@ IApplication* IApplication::singletonInstance = nullptr;
 
 
 
+bool bUseConsole = true;
 constexpr int SCREEN_START_LEFT = 10;
 
 constexpr int SCREEN_START_TOP = 10;
@@ -23,6 +24,10 @@ WindowApplication::WindowApplication(HINSTANCE _hInstance) : hInstance(_hInstanc
 WindowApplication::~WindowApplication()
 {
 	SetSingletonInstance(nullptr);
+	if (bUseConsole)
+	{
+		FreeConsole();
+	}
 }
 
 void WindowApplication::Launch()
@@ -61,6 +66,13 @@ void WindowApplication::Launch()
 
 	ShowWindow(hWindow, SW_SHOWNORMAL);
 	UpdateWindow(hWindow);
+
+	if (bUseConsole)
+	{
+		AllocConsole();
+		FILE* _tempFile;
+		freopen_s(&_tempFile, "CONOUT$", "w", stdout);
+	}
 }
 
 bool WindowApplication::IsTerminated()
@@ -92,6 +104,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
+	case WM_KEYDOWN:
+		if (wParam == VK_ESCAPE)
+		{
+			PostQuitMessage(0);
+			IApplication::GetSingletonInstance<WindowApplication>()->Terminate();
+		}
+		break;
 	case WM_CREATE:
 	
 		break;

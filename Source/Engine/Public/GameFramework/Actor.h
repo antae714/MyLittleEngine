@@ -28,8 +28,12 @@ public:
 	void AddComponent(Component* component);
 	void RemoveComponent(Component* component);
 
+	String GetName() { return name; }
+	void SetName(String _name) { name = _name; }
+
 	Vector GetPosition() { return position; }
-	Vector SetPosition(Vector targetPosition, bool isSweep = false);
+	void SetPosition(Vector targetPosition);
+	Vector MovePosition(Vector targetPosition);
 
 	class World* GetWorld();
 

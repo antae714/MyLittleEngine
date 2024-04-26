@@ -2,6 +2,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/World.h"
 #include "Components/CollisionComponent.h"
+#include <iostream>     
 
 MovementComponent::MovementComponent() :
 	gravityDirection(0.0f, -1.0f),
@@ -19,7 +20,7 @@ float LinearInterp(float a, float b, float t)
 
 void MovementComponent::BeginPlay()
 {
-	gravityScale = 0.001;
+	gravityScale = 0.01f;
 }
 
 void MovementComponent::Update(float deltaTime)
@@ -35,36 +36,7 @@ void MovementComponent::Move(float deltaTime)
 
 	velocity.x = inputVelocity;
 	Vector remainingVelocity = velocity;
-
-	while (remainingVelocity.LengthSquared() > 0)
-	{
-		Vector targetPosition = owner->GetPosition() + remainingVelocity;
-		remainingVelocity = owner->SetPosition(targetPosition, true);
-	}
-
 	
-
-
-}
-
-void MovementComponent::CheckCollison()
-{
-	// 아아아아아아악
-	// 다시
-	// 
-	// 서로가 알고있는게 아니라 
-	// 콜리전은 사각형, 원 제공만
-	// 그러면 셋 포지션이 콜리전 타입과
-	// 트레이스를 구현하여 해결!
-	// 
-	// 
-	//CollisionComponent* myCollisionComponent = owner->GetComponent<CollisionComponent>();
-	//for (auto& actorList : owner->GetWorld()->GetAllActor())
-	//{
-	//	for (auto& actor : *actorList)
-	//	{
-	//		CollisionComponent* collisionComponent = actor->GetComponent<CollisionComponent>();
-	//		myCollisionComponent->HandleSweepCollision(collisionComponent, )
-	//	}
-	//}
+	Vector targetPosition = owner->GetPosition() + remainingVelocity;
+	velocity += owner->MovePosition(targetPosition);
 }

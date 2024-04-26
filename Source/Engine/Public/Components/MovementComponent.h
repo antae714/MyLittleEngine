@@ -20,7 +20,6 @@ public:
 
 public:
 	void Move(float deltaTime);
-	void CheckCollison();
 	void SetInput(Vector _input) { input = _input; }
 	
 

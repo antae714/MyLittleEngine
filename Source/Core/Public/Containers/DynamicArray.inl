@@ -73,14 +73,20 @@ inline void DynamicArray<ElementType>::Remove(ElementType& element)
 }
 
 template<class ElementType>
-inline DynamicArray<ElementType>::Iterator DynamicArray<ElementType>::Find(ElementType& element)
+inline bool DynamicArray<ElementType>::Contains(ElementType& element) const
+{
+	return !!Find(element);
+}
+
+template<class ElementType>
+inline DynamicArray<ElementType>::Iterator DynamicArray<ElementType>::Find(ElementType& element) const
 {
 	return Find([element](ElementType& _element) { return element == _element; });
 }
 
 template<class ElementType>
 template<class Function>
-inline DynamicArray<ElementType>::Iterator DynamicArray<ElementType>::Find(Function predicate)
+inline DynamicArray<ElementType>::Iterator DynamicArray<ElementType>::Find(Function predicate) const
 {
 	static_assert(std::is_invocable<Function, ElementType&>::value, "함수 시그니처가 다릅니다.");
 	static_assert(!std::is_void<std::invoke_result<Function, ElementType&>::type>::value, "반환값이 없습니다.");
