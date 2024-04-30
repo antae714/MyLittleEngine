@@ -23,16 +23,14 @@ public:
 	virtual void BindInput(class Controller* controller);
 	// ~End Pawn Implement
 
-
+	void OnCollision(struct HitResult result);
 
 	void Move(float axis);
-	void MoveUP();
-	void MoveDown();
-	void MoveLeft();
-	void MoveRight();
 	
 private:
 
 	class MovementComponent* movementComponent;
+	class Camera* camera;
+	String currentLevelName;
 };
 

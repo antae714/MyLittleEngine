@@ -39,6 +39,11 @@ public:
 		functionArray.Remove(function);
 	}
 
+	void Clear()
+	{
+		functionArray.Clear();
+	}
+
 	void operator+=(const FunctionType& function)
 	{
 		Bind(function);

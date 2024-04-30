@@ -2,7 +2,6 @@
 
 #include "GameFramework/Component.h"
 #include "Math/Vector.h"
-#include "Containers/Delegate.h"
 #include "CoreMinimal.h"
 
 class ENGINEMODULEAPI MovementComponent : public Component
@@ -24,8 +23,6 @@ public:
 	
 
 
-	Delegate<> OnCollision;
-	Delegate<> OnTriger;
 
 	Vector input;
 	Vector velocity;

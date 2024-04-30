@@ -36,27 +36,37 @@ WinGDIGameLevel::WinGDIGameLevel()
 
 	AddActor(new WinGDICamera());
 
-
-
-
 	AddActor(CreateWall({ 0, -200 }, { {-50,-50},{50,50} }));
 	AddActor(CreateWall({ 100, -200 }, { {-50,-50},{50,50} }));
 	AddActor(CreateWall({ 200, -200 }, { {-50,-50},{50,50} }));
 	AddActor(CreateWall({ 300, -200 }, { {-50,-50},{50,50} }));
-	AddActor(CreateWall({ 400, -200 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ 200, 100 }, { {-50,-50},{50,50} }));
+	//AddActor(CreateWall({ 400, -200 }, { {-50,-50},{50,50} }));
 	AddActor(CreateWall({ 500, -200 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ 500, -100 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ 500, -00 }, { {-50,-50},{50,50} }));
 	AddActor(CreateWall({ 600, -200 }, { {-50,-50},{50,50} }));
 	AddActor(CreateWall({ 700, -200 }, { {-50,-50},{50,50} }));
 
+	AddActor(CreateWall({ -100, -200 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ -200, -200 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ -300, -200 }, { {-50,-50},{50,50} }));
+	//AddActor(CreateWall({ -300, 100 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ -400, -200 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ -500, -200 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ -600, -200 }, { {-50,-50},{50,50} }));
+	AddActor(CreateWall({ -700, -200 }, { {-50,-50},{50,50} }));
 }
 
 void WinGDIGameLevel::BeginPlay()
 {
 	Base::BeginPlay();
 	worldSettings->playerController->Possess(worldSettings->playerCharacter);
+	worldSettings->playerCharacter->SetPosition({ 0, 0 });
 }
 
 void WinGDIGameLevel::EndPlay()
 {
 	Base::EndPlay();
+	worldSettings->playerController->UnPossess();
 }

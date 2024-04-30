@@ -38,14 +38,11 @@ void Controller::Possess(Pawn* _pawn)
 void Controller::UnPossess()
 {
 	pawn = nullptr;
+	input.Clear();
+	Axisinput.Clear();
 }
 
 Pawn* Controller::GetPawn()
 {
 	return pawn;
-}
-
-void Controller::Exec(int execKeyCode, float value)
-{
-
 }

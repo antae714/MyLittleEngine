@@ -78,10 +78,6 @@ public:
 		Axisinput.Back()->keyCode = index;
 	}
 
-	void Exec(int execKeyCode, float value);
-
-
-
 protected:
 	Pawn* pawn;
 	DynamicArray<InputDelegate<void()>> input;

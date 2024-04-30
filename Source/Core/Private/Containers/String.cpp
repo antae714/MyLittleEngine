@@ -16,6 +16,7 @@ template class StringBase<wchar_t>;
 template<class T>
 inline StringBase<T>::StringBase() : string{ nullptr }, length(0)
 {
+
 }
 
 template<class T>
@@ -37,15 +38,21 @@ StringBase<T>::StringBase(StringBase<T>&& other) : StringBase<T>()
 template<>
 inline String::StringBase(const char* _string) : String()
 {
-    SecureMemory(strlen(_string));
-    ::strcpy_s(string, length + 1, _string);
+    if (_string)
+    {
+        SecureMemory(strlen(_string));
+        ::strcpy_s(string, length + 1, _string);
+    }
 }
 
 template<>
 inline WString::StringBase(const wchar_t* _string) : WString()
 {
-    SecureMemory(lstrlenW(_string));
-    StringCchCopyW(string, length + 1, _string);
+    if (_string)
+    {
+        SecureMemory(lstrlenW(_string));
+        StringCchCopyW(string, length + 1, _string);
+    }
 }
 
 //template<>
@@ -109,15 +116,19 @@ size_t StringBase<T>::FindFirstDifference(const StringBase<T>& other) const
 template<class T>
 void StringBase<T>::operator=(const StringBase<T>& other)
 {
-    SecureMemory(other.length);
+    if (other.length > 0)
+    {
+        SecureMemory(other.length);
 
-    if constexpr (sizeof(T) == 1)
-    {
-        ::strcpy_s(string, length + 1, other.string);
-    }
-    else if constexpr(sizeof(T) == 2)
-    {
-        ::StringCchCopyW(string, length + 1, other.string);
+        if constexpr (sizeof(T) == 1)
+        {
+            ::strcpy_s(string, length + 1, other.string);
+        }
+        else if constexpr (sizeof(T) == 2)
+        {
+            ::StringCchCopyW(string, length + 1, other.string);
+        }
+
     }
 
 }
@@ -178,12 +189,16 @@ void WString::Concat(WString& dest, const WString& source)
 template <>
 inline bool String::Compare(const String& first, const String& second)
 {
+    if (first.string == nullptr || second.string == nullptr)
+        return first.string == second.string;
     return 0 == ::strcmp(first.string, second.string);
 }
 
 template<>
 inline bool WString::Compare(const WString& first, const WString& second)
 {
+    if (first.string == nullptr || second.string == nullptr)
+        return first.string == second.string;
     return 0 == ::lstrcmpW(first.string, second.string);
 }
 

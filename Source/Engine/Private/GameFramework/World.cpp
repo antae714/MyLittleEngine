@@ -1,6 +1,7 @@
 #include "GameFramework/World.h"
 #include "GameFramework/Level.h"
 #include "GameFramework/Component.h"
+#include "GameFramework/Actor.h"
 
 
 World::World() : mainLevel(nullptr), mainCamera(nullptr)
@@ -111,6 +112,18 @@ DynamicArray<List<Actor*>*> World::GetAllActor()
 
 
 	return allActor;
+}
+
+Actor* World::FindActor(String _name)
+{
+	for (auto& actorList : GetAllActor())
+	{
+		for (auto& actor : *actorList)
+		{
+			if (actor->GetName() == _name) return actor;
+		}
+	}
+	return nullptr;
 }
 
 

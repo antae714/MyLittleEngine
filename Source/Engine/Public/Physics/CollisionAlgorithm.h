@@ -13,6 +13,7 @@ struct HitResult
 	bool isHit;
 	class Actor* hitActor;
 	Vector hitPosition;
+	Vector hitNormal;
 };
 
 
@@ -28,7 +29,8 @@ struct ENGINEMODULEAPI CollisonAlgorithm
 	);
 	
 	static bool checkLineLineIntersection(const CollisonShape& shape1, const CollisonShape& shape2);
-	
+
+	static float SweepBoxBox(const CollisonShape& shape1, const CollisonShape& shape2, const Vector& velocity, Vector& normal);
 	static bool checkBoxBoxIntersection(const CollisonShape& shape1, const CollisonShape& shape2);
 	static bool checkBoxCircleIntersection(const CollisonShape& shape1, const CollisonShape& shape2);
 	static bool checkCircleCircleIntersection(const CollisonShape& shape1, const CollisonShape& shape2);

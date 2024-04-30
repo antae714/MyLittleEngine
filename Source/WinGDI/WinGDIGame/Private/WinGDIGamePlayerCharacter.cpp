@@ -3,6 +3,11 @@
 #include "GameFramework/WinGDIRenderComponent.h"
 #include "Components/MovementComponent.h"
 #include "Components/CollisionComponent.h"
+#include "GameFramework/World.h"
+#include "GameFramework/Camera.h"
+#include "GameFramework/Level.h"
+#include "Physics/CollisionAlgorithm.h"
+
 
 WinGDIGamePlayerCharacter::WinGDIGamePlayerCharacter()
 {
@@ -16,21 +21,37 @@ WinGDIGamePlayerCharacter::WinGDIGamePlayerCharacter()
 	collisionComponent->SetCollisonShape(CollisonShape::CreateRect(size));
 
 	movementComponent = AddComponent<MovementComponent>();
+
 }
 
 void WinGDIGamePlayerCharacter::BeginPlay()
 {
 	Base::BeginPlay();
+
+	camera = dynamic_cast<Camera*>(GetWorld()->FindActor("Camera"));
+	currentLevelName = GetWorld()->GetMainLevel()->GetName();
+
+	onCollision.Bind(&WinGDIGamePlayerCharacter::OnCollision, this);
 }
 
 void WinGDIGamePlayerCharacter::Update(float deltaTime)
 {
 	Base::Update(deltaTime);
+
+	if (camera->WorldToViewPort(GetPosition()).y < 0)
+	{
+		GetWorld()->GetMainLevel()->EndPlay();
+		GetWorld()->GetMainLevel()->BeginPlay();
+	}
+
+
 }
 
 void WinGDIGamePlayerCharacter::EndPlay()
 {
 	Base::EndPlay();
+	onCollision.UnBind(&WinGDIGamePlayerCharacter::OnCollision, this);
+
 }
 
 void WinGDIGamePlayerCharacter::BindInput(Controller* controller)
@@ -39,10 +60,19 @@ void WinGDIGamePlayerCharacter::BindInput(Controller* controller)
 
 	controller->BindAxisInput("Left/Right", &WinGDIGamePlayerCharacter::Move, this);
 
-	//controller->BindInput("UP", &WinGDIGamePlayerCharacter::MoveUP, this);
-	//controller->BindInput("Down", &WinGDIGamePlayerCharacter::MoveDown, this);
-	//controller->BindInput("Left", &WinGDIGamePlayerCharacter::MoveLeft, this);
-	//controller->BindInput("Right", &WinGDIGamePlayerCharacter::MoveRight, this);
+}
+
+
+void WinGDIGamePlayerCharacter::OnCollision(HitResult result)
+{
+	if (result.hitNormal.y != 0.0f)
+	{
+		movementComponent->velocity.y = result.hitNormal.y * 2.0f;
+	}
+	if (result.hitNormal.x != 0.0f)
+	{
+		movementComponent->velocity.x *= -1.0f;
+	}
 }
 
 
@@ -51,22 +81,3 @@ void WinGDIGamePlayerCharacter::Move(float axis)
 	movementComponent->input.x = axis;
 }
 
-void WinGDIGamePlayerCharacter::MoveUP()
-{
-	movementComponent->input.y = -1.0f;
-}
-
-void WinGDIGamePlayerCharacter::MoveDown()
-{
-	movementComponent->input.y = 1.0f;
-}
-
-void WinGDIGamePlayerCharacter::MoveLeft()
-{
-	movementComponent->input.x = -1.0f;
-}
-
-void WinGDIGamePlayerCharacter::MoveRight()
-{
-	movementComponent->input.x = 1.0f;
-}

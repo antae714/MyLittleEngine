@@ -40,6 +40,7 @@ void Actor::EndPlay()
 	{
 		item->EndPlay();
 	}
+	onCollision.Clear();
 }
 
 void Actor::AddComponent(Component* component)
@@ -57,33 +58,32 @@ void Actor::SetPosition(Vector targetPosition)
 	position = targetPosition;
 }
 
-Vector Actor::MovePosition(Vector targetPosition)
+void Actor::MovePosition(Vector targetPosition)
 {
 	HitResult result;
-	CollisonAlgorithm::Sweep(
-		GetWorld(),
-		result,
-		GetPosition(),
-		targetPosition,
-		GetComponent<CollisionComponent>()->GetCollisonShape(),
-		{ this }
-	);
+
+	CollisionComponent* collisionComponent = GetComponent<CollisionComponent>();
+	if (collisionComponent)
+	{
+		CollisonAlgorithm::Sweep(
+			GetWorld(),
+			result,
+			GetPosition(),
+			targetPosition,
+			collisionComponent->GetCollisonShape(),
+			{ this }
+		);
+
+	}
 
 	if (result.isHit)
 	{
-		Vector resultVector = targetPosition - GetPosition();
-		std::cout << "boudnce" << (targetPosition - GetPosition()).y << std::endl;
-		resultVector.y *= -1.0f;
-		resultVector.y += 3.0f;
-		resultVector.x = 0;
-		return resultVector;
+		SetPosition(result.hitPosition);
+		onCollision.Excute(result);
 	}
 	else
 	{
-		std::cout << (targetPosition - GetPosition()).y << std::endl;
-		position = targetPosition;
-
-		return targetPosition - GetPosition();
+		SetPosition(targetPosition);
 	}
 }
 

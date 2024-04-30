@@ -4,6 +4,7 @@
 #include "Containers/DynamicArray.h"
 #include "Math/Vector.h"
 #include <type_traits>
+#include "Containers/Delegate.h"
 
 class Component;
 
@@ -33,7 +34,7 @@ public:
 
 	Vector GetPosition() { return position; }
 	void SetPosition(Vector targetPosition);
-	Vector MovePosition(Vector targetPosition);
+	void MovePosition(Vector targetPosition);
 
 	class World* GetWorld();
 
@@ -48,6 +49,8 @@ protected:
 
 	Vector position;
 
+	Delegate<struct HitResult> onCollision;
+	//Delegate<> onTriger;
 };
 
 template<class T>

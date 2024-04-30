@@ -2,6 +2,7 @@
 #include "Math/Rect.h"
 #include "Math/Circle.h"
 #include <algorithm>
+#include <limits>
 #include "GameFramework/World.h"
 #include "GameFramework/Actor.h"
 #include "Components/CollisionComponent.h"
@@ -49,14 +50,26 @@ bool CollisonAlgorithm::Sweep (
 			if (ignoreActors.Contains(actor)) continue;
 
 			CollisionComponent* collisionComponent = actor->GetComponent<CollisionComponent>();
-			if (!collisionComponent) continue;
-				bool isHit = CollisonIntersectsFunction::Excute(
-				shape + end,
-				collisionComponent->GetCollisonShape() + actor->GetPosition()
-			);
+			if (!collisionComponent) continue;	
+			//	bool isHit = CollisonIntersectsFunction::Excute(
+			//	shape + end,
+			//	collisionComponent->GetCollisonShape() + actor->GetPosition()
+			//);
 
-			if (!isHit) continue;
+			//if (!isHit) continue;
+
+			float SweppTime = SweepBoxBox(shape + start, 
+										  collisionComponent->GetCollisonShape() + actor->GetPosition(),
+										  end - start,
+										  outResult.hitNormal);
+			if(SweppTime > 1.0f || SweppTime < 0.0f)  continue;
+			
+
+			outResult.hitPosition = start + (end - start) * SweppTime;
+
+			outResult.hitActor = actor;
 			outResult.isHit = true;
+
 
 			return true;
 		}
@@ -84,6 +97,88 @@ bool CollisonAlgorithm::checkLineLineIntersection(const CollisonShape& shape1, c
 
 
 	return isline1Intersect && isline2Intersect;
+}
+
+float CollisonAlgorithm::SweepBoxBox(const CollisonShape& shape1, const CollisonShape& shape2, const Vector& velocity, Vector& normal)
+{
+	//https://www.gamedev.net/tutorials/programming/general-and-gameplay-programming/swept-aabb-collision-detection-and-response-r3084/
+	//참고 하였습니다.
+
+	Rect rect1 = shape1.GetRect();
+	Rect rect2 = shape2.GetRect();
+
+	Vector CollideEnterPosition;
+	Vector CollideExitPosition;
+	Vector deltaEnter;
+	Vector deltaExit;
+
+	if (velocity.x > 0.0f)
+	{
+		CollideEnterPosition.x = rect2.Min.x - rect1.Max.x;
+		CollideExitPosition.x = rect2.Max.x - rect1.Min.x;
+	}
+	else
+	{
+		CollideEnterPosition.x = rect2.Max.x - rect1.Min.x;
+		CollideExitPosition.x = rect2.Min.x - rect1.Max.x;
+	}
+	if (velocity.y > 0.0f)
+	{
+		CollideEnterPosition.y = rect2.Min.y - rect1.Max.y;
+		CollideExitPosition.y = rect2.Max.y - rect1.Min.y;
+	}
+	else
+	{
+		CollideEnterPosition.y = rect2.Max.y - rect1.Min.y;
+		CollideExitPosition.y = rect2.Min.y - rect1.Max.y;
+	}
+
+	if (velocity.x == 0.0f) 
+	{
+		bool isIntersects = rect1.Min.x < rect2.Max.x && rect1.Max.x > rect2.Min.x;
+		deltaEnter.x = std::numeric_limits<float>::infinity() * (isIntersects ? -1.0f : 1.0f);
+		deltaExit.x = std::numeric_limits<float>::infinity() * (isIntersects ? 1.0f : -1.0f);
+	}
+	else
+	{
+		deltaEnter.x = CollideEnterPosition.x / velocity.x;
+		deltaExit.x = CollideExitPosition.x / velocity.x;
+	}
+	if (velocity.y == 0.0f)
+	{
+		bool isIntersects = rect1.Min.y < rect2.Max.y && rect1.Max.y > rect2.Min.y;
+		deltaEnter.y = std::numeric_limits<float>::infinity() * (isIntersects ? -1.0f : 1.0f);
+		deltaExit.y = std::numeric_limits<float>::infinity() * (isIntersects ? 1.0f : -1.0f);
+	}
+	else
+	{
+		deltaEnter.y = CollideEnterPosition.y / velocity.y;
+		deltaExit.y = CollideExitPosition.y / velocity.y;
+	}
+
+	float sweepEntreyTime = (std::max)(deltaEnter.x, deltaEnter.y);
+	float sweepExitTime = (std::min)(deltaExit.x, deltaExit.y);
+
+
+
+	bool isEnter = sweepEntreyTime < 1.0f && sweepEntreyTime > 0.0f 
+					&& sweepExitTime > 0.0f;
+	if (!isEnter)
+	{
+		return FLT_MAX;
+	}
+
+
+	if (deltaEnter.x < deltaEnter.y)
+	{
+		normal.y = CollideEnterPosition.y < 0 ? 1.0f : -1.0f;
+	}
+	else
+	{
+		normal.x = CollideEnterPosition.x > 0 ? 1.0f : -1.0f;
+	}
+
+	return sweepEntreyTime;
 }
 
 bool CollisonAlgorithm::checkBoxBoxIntersection(const CollisonShape& shape1, const CollisonShape& shape2)

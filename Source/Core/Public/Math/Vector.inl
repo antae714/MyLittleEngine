@@ -29,6 +29,16 @@ inline TVector<T> TVector<T>::operator*(float scalar) const
 }
 
 template<typename T>
+inline TVector<T> TVector<T>::operator/(float scalar) const
+{
+	TVector returnVec;
+	returnVec.x = this->x / scalar;
+	returnVec.y = this->y / scalar;
+	returnVec.z = this->z / scalar;
+	return returnVec;
+}
+
+template<typename T>
 inline TVector<T> TVector<T>::operator+(const TVector& other) const
 {
 	TVector returnVec = *this;

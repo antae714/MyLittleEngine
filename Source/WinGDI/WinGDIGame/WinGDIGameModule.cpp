@@ -19,10 +19,10 @@ void WinGDIGameModule::StartUpModule()
 	if (LevelFactory::Get(swapLevelName))
 	{
 		LevelFactory::Remove(swapLevelName);
-
-		WinGDIGameLevel* winGDIGameLevel = new WinGDIGameLevel();
-		LevelFactory::Add(swapLevelName, winGDIGameLevel);
 	}
+
+	WinGDIGameLevel* winGDIGameLevel = new WinGDIGameLevel();
+	LevelFactory::Add(swapLevelName, winGDIGameLevel);
 }
 
 void WinGDIGameModule::ShotDownModule()

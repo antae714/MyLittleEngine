@@ -29,6 +29,8 @@ public:
 	TVector<T> CrossProduct(const TVector& other);
 
 	TVector<T> operator *(float scalar) const;
+
+	TVector<T> operator /(float scalar) const;
 	
 	TVector<T> operator +(const TVector<T>& other) const;
 

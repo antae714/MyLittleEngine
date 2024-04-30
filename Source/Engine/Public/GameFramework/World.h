@@ -81,6 +81,8 @@ public:
 	class Camera* GetMainCamera() { return mainCamera; };
 
 	DynamicArray<List<class Actor*>*> GetAllActor();
+	class Actor* FindActor(String _name);
+
 
 private:
 	/** 월드 이름 */
