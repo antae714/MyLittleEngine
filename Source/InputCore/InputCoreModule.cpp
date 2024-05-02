@@ -8,7 +8,7 @@ DEFINE_MODULE(InputCore);
 
 void InputCoreModule::StartUpModule()
 {
-	InputProcessorFactory::Add("window", new WindowInputProcessor());
+	InputProcessorFactory::Add<WindowInputProcessor>("window");
 }
 
 void InputCoreModule::ShotDownModule()

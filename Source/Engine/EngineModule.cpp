@@ -11,7 +11,7 @@ DEFINE_MODULE(Engine);
 
 void EngineModule::StartUpModule()
 {
-	LevelFactory::Add("Default", new Level());
+	LevelFactory::Add<Level>("Default");
 }
 
 void EngineModule::ShotDownModule()

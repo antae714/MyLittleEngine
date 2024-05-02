@@ -17,7 +17,7 @@ DEFINE_MODULE(ConsoleRenderer);
 
 void ConsoleRendererModule::StartUpModule()
 {
-	RendererFactory::Add("Console", new ConsoleRenderer());
+	RendererFactory::Add<ConsoleRenderer>("Console");
 }
 
 void ConsoleRendererModule::ShotDownModule()

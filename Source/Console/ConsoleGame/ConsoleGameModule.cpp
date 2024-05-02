@@ -19,11 +19,11 @@ void ConsoleGameModule::StartUpModule()
 	String swapLevelName = "Default";
 	if (LevelFactory::Get(swapLevelName))
 	{
-		LevelFactory::Remove(swapLevelName);
+		//LevelFactory::Remove(swapLevelName);
 
-		ConsoleGameLevel* consoleDefaultLevel = new ConsoleGameLevel();
-		consoleDefaultLevel->SetWorldSettings(new ConsoleWorldSetting());
-		LevelFactory::Add(swapLevelName, consoleDefaultLevel);
+		//ConsoleGameLevel* consoleDefaultLevel = new ConsoleGameLevel();
+		//consoleDefaultLevel->SetWorldSettings(new ConsoleWorldSetting());
+		//LevelFactory::Add(swapLevelName, consoleDefaultLevel);
 	}
 }
 

@@ -40,8 +40,7 @@ void WinGDIGamePlayerCharacter::Update(float deltaTime)
 
 	if (camera->WorldToViewPort(GetPosition()).y < 0)
 	{
-		GetWorld()->GetMainLevel()->EndPlay();
-		GetWorld()->GetMainLevel()->BeginPlay();
+		GetWorld()->SetMainLevelByName(GetWorld()->GetMainLevel()->GetName());
 	}
 
 

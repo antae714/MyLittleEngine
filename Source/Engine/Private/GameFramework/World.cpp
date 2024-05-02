@@ -4,17 +4,14 @@
 #include "GameFramework/Actor.h"
 
 
-World::World() : mainLevel(nullptr), mainCamera(nullptr)
+World::World() : mainLevel(nullptr), mainCamera(nullptr), willChageMainLevel(nullptr)
 {
 }
 
 World::~World()
 {
-	//if (mainLevel) delete mainLevel;
-	//for (auto& i : subLevels)
-	//{
-	//	delete i;
-	//}
+	if (mainLevel) delete mainLevel;
+	
 	subLevels.Clear();
 }
 
@@ -23,17 +20,19 @@ void World::BeginPlay()
 	if (!mainLevel)
 	{
 		SetMainLevel(LevelFactory::Get("Default"));
-
+		ChangeMainLevel();
 	}
 	mainLevel->BeginPlay();
 }
 
 void World::FixedUpdate(float fixedTickTime)
 {
+
 }
 
 void World::Update(float TickTime)
 {
+	ChangeMainLevel();
 	mainLevel->UpdateLevel(TickTime);
 
 	for (auto& item : subLevels)
@@ -45,7 +44,6 @@ void World::Update(float TickTime)
 void World::EndPlay()
 {
 	mainLevel->EndPlay();
-
 	for (auto& item : subLevels)
 	{
 		item->EndPlay();
@@ -54,8 +52,13 @@ void World::EndPlay()
 
 void World::SetMainLevel(Level* _mainLevel)
 {
-	mainLevel = _mainLevel;
-	mainLevel->ownedWorld = this;
+	willChageMainLevel = _mainLevel;
+	willChageMainLevel->ownedWorld = this;
+}
+
+void World::SetMainLevelByName(String LevelName)
+{
+	SetMainLevel(LevelFactory::Get(LevelName));
 }
 
 Level* World::GetMainLevel()
@@ -124,6 +127,17 @@ Actor* World::FindActor(String _name)
 		}
 	}
 	return nullptr;
+}
+
+void World::ChangeMainLevel()
+{
+	if (willChageMainLevel)
+	{
+		delete mainLevel;
+		mainLevel = willChageMainLevel;
+		willChageMainLevel = nullptr;
+		mainLevel->BeginPlay();
+	}
 }
 
 

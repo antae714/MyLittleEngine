@@ -6,6 +6,22 @@
 //class MODULEAPI NameFactory : public Factory<Name, String> {};
 //권장 사용방법 ^^^
 
+struct ObjectCreator
+{
+	ObjectCreator(const type_info& key) : key(key) {}
+	virtual  void* NewFunction() = 0;
+
+	const type_info& key;
+};
+
+template <class T>
+struct TypedObjectCreator : public ObjectCreator
+{
+	TypedObjectCreator(const type_info& key) : ObjectCreator(key) {}
+	virtual void* NewFunction() { return new T(); }
+};
+
+
 /**
  * @brief 싱글톤 팩토리 클래스
  * 
@@ -23,7 +39,9 @@ public:
 	/** 배열에 저장된 요소를 담는 구조체 */
 	struct TypeElement
 	{
-		Type* value;
+		TypeElement() : value(nullptr), key() {}
+		~TypeElement() { if (value) delete value; }
+		ObjectCreator* value;
 		Key key;
 	};
 
@@ -48,9 +66,16 @@ public:
 	static Type* Get(Key key)
 	{
 		TypeElement* iter = GetElementArray()->Find([key](TypeElement& element) { return element.key == key; });
-		return iter ? iter->value : nullptr;
+		return iter ? (Type*)iter->value->NewFunction() : nullptr;
 	}
 	
+	static bool Has(Key key)
+	{
+		TypeElement* iter = GetElementArray()->Find([key](TypeElement& element) { return element.key == key; });
+		return !!iter;
+	}
+
+
 	/**
 	 * @brief 배열에서 특정 키를 가진 요소를 제거합니다.
 	 *
@@ -59,9 +84,8 @@ public:
 	 */
 	static bool Remove(Key key)
 	{
-		Type* temp = Get(key);
-		if (!temp) return false;
-		delete temp;
+		if (!Has(key)) return false;
+
 		GetElementArray()->Remove([key](TypeElement& element) { return element.key == key; });
 		return true;
 	}
@@ -72,11 +96,62 @@ public:
 	 * @param key 추가할 요소의 키
 	 * @param value 추가할 요소의 값
 	 */
-	static void Add(Key key, Type* value)
+	template<class T>
+	static void Add(Key key)
 	{
 		TypeElement& element = GetElementArray()->Add();
 		element.key = key;
-		element.value = value;
+		element.value = new TypedObjectCreator<T>(typeid(T));
 	}
 };
 
+
+
+
+/*
+
+
+struct ObjectCreator
+{
+	template <class T>
+	static T* CreateObject(T* original = nullptr);
+
+protected:
+	ObjectCreator(const type_info& key) : key(key) {}
+	virtual  void* NewFunction() = 0;
+
+	static DynamicArray<ObjectCreator*> ObjectCreatorArray;
+
+	const type_info& key;
+
+};
+
+template <class T>
+struct TypedObjectCreator : public ObjectCreator
+{
+public:
+	TypedObjectCreator(const type_info& key) : ObjectCreator(key) {}
+	virtual void* NewFunction() { return new T(); }
+};
+
+DynamicArray<ObjectCreator*> ObjectCreator::ObjectCreatorArray;
+
+template<class T>
+T* ObjectCreator::CreateObject(T* original)
+{
+	const type_info& typeKey = original ? typeid(*original) : typeid(T);
+	ObjectCreator** iter = ObjectCreatorArray.Find(
+		[&typeKey](ObjectCreator*& element) { return element->key == typeKey; }
+	);
+
+	if (iter)
+	{
+		return (T*)(*iter)->NewFunction();
+	}
+	else
+	{
+		return (T*)ObjectCreatorArray.Add(new TypedObjectCreator<T>(typeKey))->NewFunction();
+	}
+}
+
+*/

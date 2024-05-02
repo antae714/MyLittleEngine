@@ -17,7 +17,7 @@ DEFINE_MODULE(WinGDIRenderer);
 
 void WinGDIRendererModule::StartUpModule()
 {
-	RendererFactory::Add("WinGDIRenderer", new WinGDIRenderer());
+	RendererFactory::Add< WinGDIRenderer>("WinGDIRenderer");
 }
 
 void WinGDIRendererModule::ShotDownModule()

@@ -24,6 +24,8 @@ Actor* CreateWall(Vector pos, Rect size)
 
 WinGDIGameLevel::WinGDIGameLevel()
 {
+	name = "Default";
+
 	WinGDIGamePlayerCharacter* PCharater = new WinGDIGamePlayerCharacter();
 	PlayerController* playerController = new PlayerController();
 
@@ -62,7 +64,6 @@ void WinGDIGameLevel::BeginPlay()
 {
 	Base::BeginPlay();
 	worldSettings->playerController->Possess(worldSettings->playerCharacter);
-	worldSettings->playerCharacter->SetPosition({ 0, 0 });
 }
 
 void WinGDIGameLevel::EndPlay()
