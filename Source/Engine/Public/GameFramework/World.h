@@ -40,7 +40,6 @@ public:
 	 * @param mainLevel 메인 레벨 객체
 	 */
 	void SetMainLevel(Level* mainLevel);
-	void SetMainLevelByName(String LevelName);
 	
 	/**
 	 * 메인 레벨을 가져옵니다.
@@ -86,9 +85,6 @@ public:
 
 
 private:
-
-	void ChangeMainLevel();
-private:
 	/** 월드 이름 */
 	String name;
 
@@ -100,10 +96,4 @@ private:
 
 
 	class Camera* mainCamera;
-
-
-
-	/** 메인 레벨 객체 포인터 */
-	Level* willChageMainLevel;
-
 };

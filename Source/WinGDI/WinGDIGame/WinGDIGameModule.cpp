@@ -14,13 +14,15 @@ DEFINE_MODULE(WinGDIGame);
 
 void WinGDIGameModule::StartUpModule()
 {
+	//많이 부족한 프레임 워크라 사용자가 바꿔치기 합니다.
 	String swapLevelName = "Default";
-	if (LevelFactory::Has(swapLevelName))
+	if (LevelFactory::Get(swapLevelName))
 	{
 		LevelFactory::Remove(swapLevelName);
 	}
 
-	LevelFactory::Add<WinGDIGameLevel>(swapLevelName);
+	WinGDIGameLevel* winGDIGameLevel = new WinGDIGameLevel();
+	LevelFactory::Add(swapLevelName, winGDIGameLevel);
 }
 
 void WinGDIGameModule::ShotDownModule()
