@@ -4,6 +4,18 @@
 #include "Math/Vector.h"
 #include "CoreMinimal.h"
 
+namespace EMoveMentMode 
+{
+	enum Type
+	{
+		Walk,
+		Fly
+	};
+}
+
+
+
+
 class ENGINEMODULEAPI MovementComponent : public Component
 {
 	GENERATED_BODY(MovementComponent, Component)
@@ -18,13 +30,15 @@ public:
 	// ~End Actor Implement
 
 public:
-	void Move(float deltaTime);
-	void SetInput(Vector _input) { input = _input; }
+	virtual void Move(float deltaTime);
+	virtual void MoveWalk(float deltaTime);
+	virtual void MoveFly(float deltaTime);
 	
 
 
 
-	Vector input;
+	EMoveMentMode::Type movementMode;
+
 	Vector velocity;
 	Vector gravityDirection;
 	float gravityScale;

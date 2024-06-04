@@ -52,6 +52,10 @@ bool Engine::IsEngineRun()
 
 void Engine::Initialize()
 {
+
+
+
+
 	timer = new Timer();
 	mainWorld = new World();
 	renderer = RendererFactory::Get("WinGDIRenderer");
@@ -63,7 +67,7 @@ void Engine::Initialize()
 
 InputSettings* Engine::GetInputSetting()
 {
-	return inputProcessor->getEngineInputArray();
+	return inputProcessor->GetEngineInputArray();
 }
 
 void Engine::Terminate()
@@ -106,8 +110,8 @@ void Engine::UpdateTime()
 void Engine::ProcessInput()
 {
 	inputProcessor->ProcessInput();
-	WorldSettings* worldSetting = mainWorld->getWorldSettings();
-	worldSetting->playerController->ProcessInput(inputProcessor->getEngineInputArray());
+	WorldSettings* worldSetting = mainWorld->GetWorldSettings();
+	worldSetting->playerController->ProcessInput(inputProcessor->GetEngineInputArray());
 }
 
 void Engine::FixedUpdate()

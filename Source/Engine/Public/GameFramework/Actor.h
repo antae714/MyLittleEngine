@@ -50,7 +50,6 @@ protected:
 	Vector position;
 
 	Delegate<struct HitResult> onCollision;
-	//Delegate<> onTriger;
 };
 
 template<class T>

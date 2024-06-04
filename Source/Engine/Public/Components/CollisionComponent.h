@@ -3,26 +3,43 @@
 #include "GameFramework/Component.h"
 #include "Math/Vector.h"
 #include "Physics/CollisonShape.h"
+#include "Containers/Delegate.h"
+
+
+namespace ECollisionChannel
+{
+	enum Type
+	{
+		Default,
+		MAX
+	};
+}
+
+enum class ECollisionReaction
+{
+	Ignore,
+	Overlap,
+	Block
+};
+
+struct CollisionReactionArray
+{
+	ECollisionReaction reactions[ECollisionChannel::MAX];
+};
 
 
 
 class ENGINEMODULEAPI CollisionComponent : public Component
 {
 public:
-	CollisonShape GetCollisonShape() { return shape; }
-	void SetCollisonShape(CollisonShape _shape) { shape = _shape; }
-
-public:
-	void HandleSweepCollision(CollisionComponent* other, Vector startPosition, Vector endPosition);
-
-
-private:
-	void ProcessCollision(CollisionComponent* other);
-
 	CollisonShape shape;
 
-
+	ECollisionChannel::Type collisionType;
+	CollisionReactionArray collisionReactionArray;
 
 public:
+	Delegate<struct HitResult> onCollision;
+
 
 };
+

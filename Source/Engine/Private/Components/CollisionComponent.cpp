@@ -10,18 +10,3 @@
 
 
 
-
-void CollisionComponent::HandleSweepCollision(CollisionComponent* other, Vector startPosition, Vector endPosition)
-{
-	//if (CheckIntersects(other, endPosition - startPosition, other->owner->GetPosition()))
-	//{
-	//	ProcessCollision(other);
-	//}
-}
-
-void CollisionComponent::ProcessCollision(CollisionComponent* other)
-{
-
-
-}
-

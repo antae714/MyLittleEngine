@@ -9,7 +9,7 @@ WindowInputProcessor::WindowInputProcessor() : inputSettings(nullptr)
 
 WindowInputProcessor::~WindowInputProcessor()
 {
-	if (inputSettings) assert(0);
+	assert(!inputSettings);
 }
 
 void WindowInputProcessor::Init()
@@ -33,7 +33,8 @@ void WindowInputProcessor::EndPlay()
 void WindowInputProcessor::ProcessInput()
 {
 	MSG msg;
-	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
 		DispatchMessage(&msg);
 	}
@@ -53,7 +54,7 @@ void WindowInputProcessor::ProcessInput()
 
 }
 
-InputSettings* WindowInputProcessor::getEngineInputArray()
+InputSettings* WindowInputProcessor::GetEngineInputArray()
 {
 	return inputSettings;
 }

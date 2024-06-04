@@ -33,7 +33,7 @@ public:
 	virtual void Init() override;
 	virtual void EndPlay() override;
 	virtual void ProcessInput() override;
-	virtual class InputSettings* getEngineInputArray() override;
+	virtual class InputSettings* GetEngineInputArray() override;
 	// ~End IInputProcessor Interface
 
 private:
@@ -43,5 +43,7 @@ private:
 
 	/** 엔진에서 사용할 데이터 배열 */
 	class InputSettings* inputSettings;
+
+	
 };
 

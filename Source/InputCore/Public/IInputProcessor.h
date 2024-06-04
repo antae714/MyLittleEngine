@@ -24,7 +24,7 @@ public:
      * @brief 처리된 인풋을 반환합니다.
      * @return 처리된 인풋을 담고 있는 동적 배열
      */
-	virtual class InputSettings* getEngineInputArray() = 0;
+	virtual class InputSettings* GetEngineInputArray() = 0;
 };
 
 class INPUTCOREMODULEAPI InputProcessorFactory : public Factory<IInputProcessor, String> { };

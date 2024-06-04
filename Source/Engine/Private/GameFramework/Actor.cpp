@@ -56,35 +56,63 @@ void Actor::RemoveComponent(Component* component)
 void Actor::SetPosition(Vector targetPosition)
 {
 	position = targetPosition;
+
+	HitResult result;
+	memset(&result, 0, sizeof(result));
+
+	CollisionComponent* collisionComponent = GetComponent<CollisionComponent>();
+
+	if (collisionComponent)
+	{
+		CollisonAlgorithm::Overlap(
+			result,
+			GetWorld(),
+			GetPosition(),
+			collisionComponent->shape,
+			{ this }
+		);
+
+		if (collisionComponent && result.isHit)
+		{
+
+		}
+	}
+
 }
 
 void Actor::MovePosition(Vector targetPosition)
 {
 	HitResult result;
+	memset(&result, 0, sizeof(result));
 
 	CollisionComponent* collisionComponent = GetComponent<CollisionComponent>();
 	if (collisionComponent)
 	{
 		CollisonAlgorithm::Sweep(
-			GetWorld(),
 			result,
+			GetWorld(),
 			GetPosition(),
 			targetPosition,
-			collisionComponent->GetCollisonShape(),
-			{ this }
+			collisionComponent->shape,
+			{ this },
+			collisionComponent->collisionType,
+			collisionComponent->collisionReactionArray
 		);
 
 	}
 
-	if (result.isHit)
+	if (collisionComponent && result.isHit)
 	{
+
+		collisionComponent->onCollision.Excute(result);
 		SetPosition(result.hitPosition);
-		onCollision.Excute(result);
 	}
 	else
 	{
 		SetPosition(targetPosition);
 	}
+
+
 }
 
 World* Actor::GetWorld()

@@ -5,6 +5,7 @@
 #include <iostream>     
 
 MovementComponent::MovementComponent() :
+	movementMode(EMoveMentMode::Walk),
 	gravityDirection(0.0f, -1.0f),
 	gravityScale(1.0f),
 	moveSpeed(1.0f),
@@ -33,21 +34,31 @@ void MovementComponent::Update(float deltaTime)
 
 void MovementComponent::Move(float deltaTime)
 {
+	switch (movementMode)
+	{
+	case EMoveMentMode::Walk:
+	{
+		MoveWalk(deltaTime);
+	}
+		break;
+	case EMoveMentMode::Fly:
+	{
+		MoveFly(deltaTime);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+void MovementComponent::MoveWalk(float deltaTime)
+{
 	velocity += gravityDirection * gravityScale * deltaTime;
-	Vector inputVelocity = velocity;
 
-	if (input.x == 0.0f)
-	{
-		inputVelocity.x = LinearInterp(velocity.x, 0.0f, 0.002f);
-	}
-	else
-	{
-		inputVelocity.x = LinearInterp(velocity.x, input.x * moveSpeed * deltaTime, 0.005f);
-	}
+	owner->MovePosition(owner->GetPosition() + velocity * deltaTime);
+}
 
-	velocity = inputVelocity;
-	//velocity += input * moveSpeed * deltaTime;
-	Vector targetPosition = owner->GetPosition() + velocity * deltaTime;
-	owner->MovePosition(targetPosition);
-
+void MovementComponent::MoveFly(float deltaTime)
+{
+	owner->MovePosition(owner->GetPosition() + velocity * deltaTime);
 }

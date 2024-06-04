@@ -34,15 +34,19 @@ bool CollisonIntersectsFunction::Excute(const CollisonShape& first, const Collis
 }
 
 bool CollisonAlgorithm::Sweep (
-	class World* world,
 	HitResult& outResult,
+	class World* world,
 	const Vector& start,
 	const Vector& end,
 	CollisonShape shape,
-	const DynamicArray<Actor*>& ignoreActors
+	const DynamicArray<Actor*>& ignoreActors,
+	ECollisionChannel::Type collisionChannel,
+	CollisionReactionArray collisionReactionArray
 )
 {	
 	outResult = HitResult();
+	memset(&outResult, 0, sizeof(outResult));
+
 	for (auto& actorList : world->GetAllActor())
 	{
 		for (auto& actor : *actorList)
@@ -50,7 +54,12 @@ bool CollisonAlgorithm::Sweep (
 			if (ignoreActors.Contains(actor)) continue;
 
 			CollisionComponent* collisionComponent = actor->GetComponent<CollisionComponent>();
-			if (!collisionComponent) continue;	
+			if (!collisionComponent) continue;
+
+
+
+
+
 			//	bool isHit = CollisonIntersectsFunction::Excute(
 			//	shape + end,
 			//	collisionComponent->GetCollisonShape() + actor->GetPosition()
@@ -59,7 +68,7 @@ bool CollisonAlgorithm::Sweep (
 			//if (!isHit) continue;
 
 			float SweppTime = SweepBoxBox(shape + start, 
-										  collisionComponent->GetCollisonShape() + actor->GetPosition(),
+										  collisionComponent->shape + actor->GetPosition(),
 										  end - start,
 										  outResult.hitNormal);
 			if(SweppTime > 1.0f || SweppTime < 0.0f)  continue;
@@ -76,6 +85,11 @@ bool CollisonAlgorithm::Sweep (
 	}
 
 	return outResult.isHit;
+}
+
+bool CollisonAlgorithm::Overlap(HitResult& outResult, World* world, const Vector& point, CollisonShape shape, const DynamicArray<class Actor*>& ignoreActors)
+{
+	return false;
 }
 
 bool CollisonAlgorithm::checkLineLineIntersection(const CollisonShape& shape1, const CollisonShape& shape2)

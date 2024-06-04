@@ -24,16 +24,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ModuleBase* InputCoreModule = ModuleManager::LoadModule((L"InputCore.dll"));
 	ModuleBase* EngineModule = ModuleManager::LoadModule((L"Engine.dll"));
 
-	ModuleBase* RendererModule = ModuleManager::LoadModule((L"WinGDIRenderer.dll"));
-	ModuleBase* ContentsModule = ModuleManager::LoadModule((L"WinGDIGame.dll"));
+	//ModuleBase* RendererModule = ModuleManager::LoadModule((L"WinGDIRenderer.dll"));
+	//ModuleBase* ContentsModule = ModuleManager::LoadModule((L"WinGDIGame.dll"));
 	
 	{
 		Engine engine;
 		engine.Run();
 	}
 
-	ModuleManager::UnLoadModule(ContentsModule);
-	ModuleManager::UnLoadModule(RendererModule);
 
 	ModuleManager::UnLoadModule(InputCoreModule);
 	ModuleManager::UnLoadModule(EngineModule);

@@ -1,9 +1,0 @@
-{
-	"BuildOutput": "Library",
-	"LinkModuleName":[
-		"Core",
-		"Engine",
-		"InputCore",
-		"ConsoleEngine"
-		]
-}
