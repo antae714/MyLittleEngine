@@ -1,7 +1,7 @@
 
 #include "Module/ModuleManager.h"
 #include "Module/ModuleBase.h"
-#include <exception>
+#include <cassert>
 
 ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 {
@@ -19,7 +19,7 @@ ModuleBase* ModuleManager::LoadModule(const wchar_t* ModuleName)
 		}
 
 	}
-	throw std::exception();
+	assert(0);
 	return nullptr;
 }
 

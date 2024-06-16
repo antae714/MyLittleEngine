@@ -137,7 +137,8 @@ void Engine::Update()
 
 void Engine::Render()
 {
-	renderer->Render(mainWorld);
+	renderer->BeginRender();
+	renderer->EndRender();
 }
 
 void Engine::EndPlay()

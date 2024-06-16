@@ -1,4 +1,5 @@
 
+
 #include "Module/ModuleManager.h"
 #include "Engine.h"
 #include "Application/WindowApplication.h"
@@ -6,13 +7,11 @@
 #include "Misc/Path.h"
 #include "Containers/String.h"
 
-
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
-
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -44,6 +43,3 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-
-
-#pragma warning(pop)
